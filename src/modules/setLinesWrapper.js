@@ -1,4 +1,4 @@
-export function setLinesWrapper(lines) {
+export function setLinesWrapper(lines, callback) {
   // Wrap each line in a .line-wrapper span
   lines.forEach(line => {
     const wrapper = document.createElement('span');
@@ -6,4 +6,8 @@ export function setLinesWrapper(lines) {
     line.parentNode.insertBefore(wrapper, line);
     wrapper.appendChild(line);
   });
+
+  if (typeof callback === 'function') {
+    callback();
+  }
 }

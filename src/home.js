@@ -7,12 +7,6 @@ initHeroSection();
 // Brand Core section
 setBrandCoreText();
 
-gsap.set(".hero-line._02, .hero-line._03", { height: 0 });
-gsap.set(".header", { y: "-100%" });
-gsap.set(".hero-subheadline .line", { y: "100%" });
-gsap.set(".hero-video-bg", { opacity: 0 });
-gsap.set(".reels-video-container", { y: "12rem" });
-gsap.set(".brand-core-text .word", { yPercent: 100 });
 gsap.set(".case-study-item-inner", { clipPath: "inset(50%)" });
 
 // Case Studies animations ======================================== //
