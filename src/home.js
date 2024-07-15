@@ -2,8 +2,6 @@ import { setLinesWrapper } from "./modules/setLinesWrapper";
 import { setBrandCoreText } from "./home/brandCoreText";
 import { initHeroSection } from "./home/heroSequence";
 
-gsap.registerPlugin(ScrollTrigger);
-
 // set hero sequence
 initHeroSection();
 // Brand Core section
