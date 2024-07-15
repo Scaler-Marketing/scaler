@@ -16,6 +16,9 @@
     },
     "split-type": {
       "global": "SplitType"
+    },
+    "lenis": {
+      "global": "lenis"
     }
   }
 }
