@@ -1,6 +1,3 @@
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import SplitType from "split-type";
 import { setLinesWrapper } from "./modules/setLinesWrapper";
 import { setBrandCoreText } from "./home/brandCoreText";
 import { initHeroSection } from "./home/heroSequence";
