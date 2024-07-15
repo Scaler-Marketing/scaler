@@ -37,8 +37,6 @@ export function setBrandCoreText() {
   });
 
   setLinesWrapper(brandCoreText.lines, () => {
-    console.log(document.querySelectorAll(".brand-core-text"));
-    console.log(document.querySelectorAll(".brand-core-text .word"));
     gsap.set(".brand-core-text .word", { yPercent: 100 });
   });
 

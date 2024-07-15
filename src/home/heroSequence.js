@@ -7,12 +7,12 @@ export function initHeroSection() {
   });
 
   setLinesWrapper(heroSubheadline.lines, () => {
-    gsap.set(".hero-subheadline .line", { yPercent: "100%" });
   });
 
   gsap.set(".hero-line._02, .hero-line._03", { height: 0 });
   gsap.set(".header", { yPercent: "-100%" });
   gsap.set(".hero-video-bg", { opacity: 0 });
+  gsap.set(".hero-subheadline .line", { yPercent: "100%" });
   gsap.set(".reels-video-container", { y: "12rem" });
 
   const tl = gsap.timeline();
