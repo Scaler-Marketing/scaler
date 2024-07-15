@@ -1,6 +1,7 @@
 import { setLinesWrapper } from "./modules/setLinesWrapper";
 import { setBrandCoreText } from "./home/brandCoreText";
 import { initHeroSection } from "./home/heroSequence";
+import { initTestimonials } from "./home/testimonials";
 
 // set hero sequence
 initHeroSection();
@@ -40,57 +41,80 @@ document.querySelectorAll(".case-study-item").forEach((trigger) => {
 });
 
 // Services ================================== //
-const servicesItems = document.querySelectorAll('.services.list-item');
+const servicesItems = document.querySelectorAll(".services-list-item");
 
 servicesItems.forEach((item) => {
-  const tl = gsap.timeline();
-  const line = item.querySelector('.services-list-item-line'),
-    heading = item.querySelector('h3'),
-    description = item.querySelector('.services-list-item-description > p'),
-    button = item.querySelector('.button');
-  
-    const headingLines = new SplitType(heading, {
-      types: "lines, words",
-      tagName: "span",
-    });
+  const line = item.querySelector(".services-list-item-line"),
+    heading = item.querySelector("h3"),
+    description = item.querySelector(".services-list-item-description > p"),
+    button = item.querySelector(".button");
 
-    const descriptionLines = new SplitType(description, {
-      types: "lines",
-      tagName: "span",
-    });
-  
+  const headingLines = new SplitType(heading, {
+    types: "lines, words",
+    tagName: "span",
+  });
+
+  const descriptionLines = new SplitType(description, {
+    types: "lines",
+    tagName: "span",
+  });
+
   let headingEls, descriptionEls;
-  
+
   setLinesWrapper(headingLines.lines, () => {
-    headingEls = heading.querySelectorAll('.word');
-    gsap.set(headingEls, {yPercent: 100});
+    headingEls = heading.querySelectorAll(".word");
+    gsap.set(headingEls, { yPercent: 100 });
   });
   setLinesWrapper(descriptionLines.lines, () => {
     descriptionEls = description.querySelectorAll(".line");
     gsap.set(descriptionEls, { yPercent: 100 });
   });
 
-  gsap.set(line, { xScale: 0 });
+  gsap.set(line, { scaleX: 0 });
   gsap.set(button, { yPercent: 100 });
 
-  tl.to(line, {
-    xPercent: 100,
-    duration: 0.5,
-    ease: "power4.Out",
-  }).to(headingEls, {
-    yPercent: 100,
-    stagger: 0.1,
-    duration: 1,
-    ease: "power4.Out",
-  }).to(descriptionEls, {
-    yPercent: 100,
-    stagger: 0.1,
-    duration: 1,
-    ease: "power4.Out",
-  }).to(button, {
-    yPercent: 100,
-    duration: 0.5,
-    ease: "power4.Out",
+  gsap.timeline({
+    scrollTrigger: {
+      trigger: item,
+      start: "top bottom-=20%",
+      onEnter: () => {
+        const tl = gsap.timeline();
+        tl.to(line, {
+          scaleX: 1,
+          duration: 0.5,
+          ease: "expo.out",
+        })
+          .to(
+            headingEls,
+            {
+              yPercent: 0,
+              stagger: 0.1,
+              duration: 0.5,
+              ease: "expo.out",
+            },
+            "-=0.3"
+          )
+          .to(
+            descriptionEls,
+            {
+              yPercent: 0,
+              stagger: 0.02,
+              ease: "expo.out",
+            },
+            "-=0.3"
+          )
+          .to(
+            button,
+            {
+              yPercent: 0,
+              duration: 0.3,
+              ease: "expo.out",
+            },
+            "-=0.3"
+          );
+      },
+    },
   });
-  
 });
+
+initTestimonials();

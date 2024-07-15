@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "start": "parcel src/*.js",
+    "start": "rm -rf .parcel-cache && parcel src/*.js --hmr-port 50619",
     "build": "parcel build src/*.js"
   },
   "devDependencies": {
