@@ -1,32 +1,47 @@
 import { setLinesWrapper } from "../modules/setLinesWrapper";
 
 // Link timelines to scroll position
-function createBrandCoreTrigger(triggerElement, words) {
-  // Reset tl when scroll out of view past bottom of screen
-  gsap
-    .timeline({
+function createBrandCoreTrigger(triggerElement, words, isLast) {
+  gsap.fromTo(
+    words,
+    {
+      yPercent: 100,
+    },
+    {
+      yPercent: 0,
+      stagger: 0.1,
       scrollTrigger: {
         trigger: triggerElement,
         scrub: true,
         start: "top top",
-        end: "bottom center",
+        end: "40% top",
         markers: false,
         pin: false,
       },
-    })
-    .to(words, {
-      yPercent: 0,
-      stagger: 0.2,
-      duration: 2,
-      ease: "none",
-    })
-    .addPause(4)
-    .to(words, {
-      yPercent: -100,
-      stagger: 0.2,
-      duration: 2,
-      ease: "none",
-    });
+    }
+  );
+
+  if (!isLast) {
+    gsap.fromTo(
+      words,
+      {
+        yPercent: 0,
+      },
+      {
+        yPercent: -100,
+        stagger: 0.1,
+        immediateRender: false,
+        scrollTrigger: {
+          trigger: triggerElement,
+          scrub: true,
+          start: "60% top",
+          end: "bottom top",
+          markers: false,
+          pin: false,
+        },
+      }
+    );  
+  }
 }
 
 export function setBrandCoreText() {
@@ -42,9 +57,9 @@ export function setBrandCoreText() {
 
   const sections = document.querySelectorAll(".brand-core-inner");
 
-  sections.forEach((section) => {
+  sections.forEach((section, i) => {
     const words = section.querySelectorAll(".word");
-    let tl = gsap.timeline({ paused: true });
-    createBrandCoreTrigger(section, words);
+    const isLast = i === sections.length - 1;
+    createBrandCoreTrigger(section, words, isLast);
   });
 }

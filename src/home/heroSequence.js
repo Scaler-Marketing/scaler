@@ -10,9 +10,9 @@ export function initHeroSection() {
   });
 
   gsap.set(".hero-line._02, .hero-line._03", { height: 0 });
-  gsap.set(".header", { yPercent: "-100%" });
+  gsap.set(".header", { yPercent: -100 });
   gsap.set(".hero-video-bg", { opacity: 0 });
-  gsap.set(".hero-subheadline .line", { yPercent: "100%" });
+  gsap.set(".hero-subheadline .line", { yPercent: 100 });
   gsap.set(".reels-video-container", { y: "12rem" });
 
   const tl = gsap.timeline();
@@ -49,7 +49,7 @@ export function initHeroSection() {
     .to(
       ".header",
       {
-        y: "0%",
+        yPercent: 0,
         duration: 1,
         ease: "power4.inOut",
       },
@@ -58,7 +58,7 @@ export function initHeroSection() {
     .to(
       ".hero-subheadline .line",
       {
-        y: "0%",
+        yPercent: 0,
         duration: 0.5,
         ease: "power4.Out",
         stagger: 0.05,
