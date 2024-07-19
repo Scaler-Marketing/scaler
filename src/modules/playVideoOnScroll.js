@@ -9,6 +9,12 @@ export default function playVideoOnScroll() {
     const start = video.dataset.start || 'top bottom';
     const pauseOutside = video.dataset.pauseOutside || false;
     const rewind = video.dataset.rewind || false;
+    const loop = video.dataset.loop || false;
+
+    if (loop) {
+      video.loop = true;
+    }
+    
     let settings = {
       trigger: video,
       start: start,

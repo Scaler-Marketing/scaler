@@ -1,4 +1,4 @@
-import { setLinesWrapper } from "./modules/setLinesWrapper";
+import { setLinesWrapper } from "./setLinesWrapper";
 
 // Link timelines to scroll position
 function createScrollTrigger(triggerElement, elements, start, end, withScroll) {
