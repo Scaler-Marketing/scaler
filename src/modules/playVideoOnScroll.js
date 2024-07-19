@@ -1,5 +1,5 @@
 export default function playVideoOnScroll() {
-  const videos = document.querySelectorAll('video[scroll-play]');
+  const videos = document.querySelectorAll('video.bg-video');
 
   if (!videos) {
     return;
@@ -7,9 +7,11 @@ export default function playVideoOnScroll() {
 
   videos.forEach((video) => {
     const start = video.dataset.start || 'top bottom';
-    const pauseOutside = video.dataset.pauseOutside || false;
-    const rewind = video.dataset.rewind || false;
-    const loop = video.dataset.loop || false;
+    const pauseOutside = video.dataset.pauseOutside === 'true';
+    const rewind = video.dataset.rewind === 'true';
+    const loop = video.dataset.loop === 'true';
+
+    console.log('video set: ', start, pauseOutside, rewind, loop);
 
     if (loop) {
       video.loop = true;
@@ -19,6 +21,7 @@ export default function playVideoOnScroll() {
       trigger: video,
       start: start,
       onEnter: () => {
+        console.log('play video');
         video.play();
       }
     };
@@ -26,7 +29,7 @@ export default function playVideoOnScroll() {
     if (pauseOutside) {
       settings.onLeave = () => { pauseOrRewind(video, rewind) };
       settings.onLeaveBack = () => { pauseOrRewind(video, rewind) };
-      settings.onEnterBack = () => { video.play() };
+      settings.onEnterBack = () => { console.log("play video"); video.play() };
     }
 
     ScrollTrigger.create(settings);

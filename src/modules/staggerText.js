@@ -2,7 +2,7 @@ import { setLinesWrapper } from "./setLinesWrapper";
 
 // Link timelines to scroll position
 function createScrollTrigger(triggerElement, elements, start, end, withScroll) {
-  const scrollTrigger = {
+  const trigger = {
     trigger: triggerElement,
     scrub: true,
     start,
@@ -12,8 +12,7 @@ function createScrollTrigger(triggerElement, elements, start, end, withScroll) {
     trigger.onEnter = () => {
       gsap.to(elements, {
         yPercent: 0,
-        stagger: 0.2,
-        duration: 2,
+        stagger: 0.02,
         ease: "power4.Out",
       });
     };
@@ -27,8 +26,7 @@ function createScrollTrigger(triggerElement, elements, start, end, withScroll) {
       })
       .to(words, {
         yPercent: 0,
-        stagger: 0.2,
-        duration: 2,
+        stagger: 0.02,
         ease: "none",
       });
   }
