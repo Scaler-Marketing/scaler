@@ -1,4 +1,4 @@
-export default function playVideoOnScroll() {
+export function playVideoOnScroll() {
   const videos = document.querySelectorAll('video.bg-video');
 
   if (!videos) {
