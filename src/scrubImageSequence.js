@@ -47,7 +47,7 @@ function updateImageSequenceCount(file) {
   var updatedPercent = 100 - Math.round((allImagesCount * 100) / totalCount);
   //$loadingNum.text(updatedPercent + '%');
   //$loadingProgress.css('transform', 'translate3d(' + updatedPercent +'%, 0,0)');
-  console.log(updatedPercent);
+  // console.log(updatedPercent);
 
   if (allImagesCount === 0) {
     //$('.loading-disable').click();

@@ -11,8 +11,6 @@ export function playVideoOnScroll() {
     const rewind = video.dataset.rewind === 'true';
     const loop = video.dataset.loop === 'true';
 
-    console.log('video set: ', start, pauseOutside, rewind, loop);
-
     if (loop) {
       video.loop = true;
     }
@@ -21,7 +19,6 @@ export function playVideoOnScroll() {
       trigger: video,
       start: start,
       onEnter: () => {
-        console.log('play video');
         video.play();
       }
     };
@@ -30,6 +27,8 @@ export function playVideoOnScroll() {
       settings.onLeave = () => { pauseOrRewind(video, rewind) };
       settings.onLeaveBack = () => { pauseOrRewind(video, rewind) };
       settings.onEnterBack = () => { console.log("play video"); video.play() };
+    } else {
+      settings.once = true;
     }
 
     ScrollTrigger.create(settings);
