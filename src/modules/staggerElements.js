@@ -16,6 +16,7 @@ function createScrollList(
       trigger: triggerElement,
       scrub: true,
       start,
+      once: true,
       onEnter: () => {
         gsap.to(elements, {
           yPercent: 0,
