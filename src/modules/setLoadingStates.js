@@ -4,17 +4,22 @@ export function setLoadingStates() {
     return;
   }
 
-  const elements = loading.querySelectorAll(".mask");
+  const outElements = loading.querySelectorAll(".loading_inner.out");
+  const inElements = loading.querySelectorAll(".loading_inner.in");
 
-  gsap.to(elements, {
-    yPercent: 0,
-    duration: 0.5,
-    stagger: 0.1,
+  gsap.set(inElements, { yPercent: 0 });
+  gsap.set(outElements, { yPercent: 100 });
+
+  gsap.to(inElements, {
+    yPercent: -100,
+    duration: 1,
+    stagger: 0.2,
     ease: "expo.out",
     immediateRender: true,
     onComplete: () => {
       loading.style.display = "none";
-    }
+      gsap.set(inElements, { yPercent: 100 });
+    },
   });
 
   // Loading animation
@@ -33,14 +38,14 @@ export function setLoadingStates() {
         e.preventDefault();
 
         loading.style.display = "block";
-        gsap.to(elements, {
-          yPercent: -100,
+        gsap.to(outElements, {
+          yPercent: 0,
           duration: 0.5,
           stagger: 0.1,
           ease: "expo.out",
           immediateRender: true,
           onComplete: () => {
-            loading.style.display = "none";
+            // loading.style.display = "none";
           },
         });
 
