@@ -142,14 +142,14 @@
       this[globalName] = mainExports;
     }
   }
-})({"axRbR":[function(require,module,exports) {
+})({"97OSg":[function(require,module,exports) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = 50619;
 var HMR_SECURE = false;
 var HMR_ENV_HASH = "d6ea1d42532a7575";
 var HMR_USE_SSE = false;
-module.bundle.HMR_BUNDLE_ID = "a67a923866a8a8ee";
+module.bundle.HMR_BUNDLE_ID = "38ac66f39a1586fc";
 "use strict";
 /* global HMR_HOST, HMR_PORT, HMR_ENV_HASH, HMR_SECURE, HMR_USE_SSE, chrome, browser, __parcel__import__, __parcel__importScripts__, ServiceWorkerGlobalScope */ /*::
 import type {
@@ -583,8 +583,103 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
     });
 }
 
-},{}],"k1cWz":[function(require,module,exports) {
+},{}],"jybPZ":[function(require,module,exports) {
+var _setLinesWrapper = require("./modules/setLinesWrapper");
+function initIntroAnimation() {
+    const els = new SplitType(document.querySelectorAll(".section.hero-internal .heading-span"), {
+        types: "lines, words",
+        tagName: "span"
+    });
+    // setLinesWrapper(els.lines, () => {
+    gsap.set(els.words, {
+        yPercent: 100
+    });
+    // });
+    gsap.to(els.words, {
+        yPercent: 0,
+        stagger: 0.05,
+        ease: "power4.out"
+    });
+}
+function initClientsCarousel() {
+    const carousel = document.querySelector(".client-logos_wrapper");
+    if (!carousel) return;
+    const items = carousel.querySelectorAll(".client-logos"), allLogos = carousel.querySelectorAll(".client-logos_item");
+    if (!items || !allLogos) return;
+    const logosAmount = items[0].querySelectorAll(".client-logos_item").length;
+    const duration = logosAmount * 5;
+    const tl = gsap.timeline({
+        paused: true,
+        repeat: -1
+    });
+    gsap.set(items, {
+        xPercent: 0
+    });
+    tl.to(items, {
+        xPercent: -100,
+        duration,
+        ease: "none"
+    });
+    allLogos.forEach((logo)=>{
+        logo.addEventListener("mouseenter", ()=>{
+            tl.pause();
+        });
+        logo.addEventListener("mouseout", ()=>{
+            tl.play();
+        });
+    });
+    tl.play();
+}
+initClientsCarousel();
+document.fonts.ready.then(()=>{
+    initIntroAnimation();
+});
 
-},{}]},["axRbR","k1cWz"], "k1cWz", "parcelRequire5d03")
+},{"./modules/setLinesWrapper":"hPUmk"}],"hPUmk":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "setLinesWrapper", ()=>setLinesWrapper);
+function setLinesWrapper(lines, callback) {
+    // Wrap each line in a .line-wrapper span
+    lines.forEach((line)=>{
+        const wrapper = document.createElement("span");
+        wrapper.classList.add("line-wrapper");
+        line.parentNode.insertBefore(wrapper, line);
+        wrapper.appendChild(line);
+    });
+    if (typeof callback === "function") callback();
+}
 
-//# sourceMappingURL=services.js.map
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, "__esModule", {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === "default" || key === "__esModule" || Object.prototype.hasOwnProperty.call(dest, key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
+
+},{}]},["97OSg","jybPZ"], "jybPZ", "parcelRequire5d03")
+
+//# sourceMappingURL=about.js.map
