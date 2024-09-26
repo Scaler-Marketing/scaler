@@ -13,6 +13,7 @@ function initIntroAnimation() {
   gsap.to(els.words, {
     yPercent: 0,
     stagger: 0.05,
+    delay: 0.5,
     ease: "power4.out"
   });
 }
