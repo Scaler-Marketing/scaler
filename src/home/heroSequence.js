@@ -25,6 +25,7 @@ export function initHeroSection() {
   tl.to(".hero-words-wrapper", {
     y: "-33.33%",
     duration: 1,
+    delay: 0.5,
     ease: "expo.inOut",
   })
     .to(".hero-words-wrapper", {
