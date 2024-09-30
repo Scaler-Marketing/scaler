@@ -17,9 +17,6 @@ export function initServiceHeroSlider() {
   imagesWrapper.append(lastImg);
 
   images = imagesWrapper.querySelectorAll(".service-slider_item");
-  // images.reverse();
-
-  console.log(images);
 
   images.forEach((img, i) => {
     if (i === 0) {
