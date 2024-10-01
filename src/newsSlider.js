@@ -1,4 +1,4 @@
-export function initNewsSlider() {
+function initNewsSlider() {
   if (!document.querySelector(".news-slider")) {
     return;
   }
@@ -58,3 +58,7 @@ export function initNewsSlider() {
     });
   });
 }
+
+document.fonts.ready.then(() => {
+  initNewsSlider();
+});

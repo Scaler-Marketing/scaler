@@ -1,7 +1,5 @@
 import { setBrandCoreText } from "./home/brandCoreText";
 import { initHeroSection } from "./home/heroSequence";
-import { initTestimonialsGradients } from "./home/testimonialsGradients";
-import { initNewsSlider } from "./home/newsSlider";
 import { initCaseStudies } from "./home/caseStudies";
 import { initServicesList } from "./home/servicesList";
 import { initCaseStudiesProgress } from "./home/caseStudiesProgress";
@@ -14,7 +12,5 @@ document.fonts.ready.then(() => {
   // Set case studies logic
   initCaseStudies();
   initCaseStudiesProgress();
-  initTestimonialsGradients();
-  initNewsSlider();
   initServicesList();
 });

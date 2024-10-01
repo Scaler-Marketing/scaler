@@ -1,6 +1,9 @@
-export function initTestimonialsGradients() {
+function initTestimonialsGradients() {
   // Variables
   let sliderContent = document.querySelectorAll(".testimonial-item");
+  if (!sliderContent) {
+    return;
+  }
   let nextButton = document.querySelector(".button.next");
   let prevButton = document.querySelector(".button.prev");
   let currentIndex = 0;
@@ -15,37 +18,41 @@ export function initTestimonialsGradients() {
       "radial-gradient(circle at 50% 50%, black 0%, rgba(0, 0, 0, 0) 0%)",
   });
 
-  // Next button click
-  nextButton.addEventListener("click", function () {
-    let currentSlide = sliderContent[currentIndex];
-    if (currentIndex < sliderContent.length - 1) {
-      let nextSlide = sliderContent[currentIndex + 1];
+  if (nextButton) {
+    // Next button click
+    nextButton.addEventListener("click", function () {
+      let currentSlide = sliderContent[currentIndex];
+      if (currentIndex < sliderContent.length - 1) {
+        let nextSlide = sliderContent[currentIndex + 1];
+  
+        transitionSlides(currentSlide, nextSlide);
+        currentIndex++;
+      } else {
+        let nextSlide = sliderContent[0];
+  
+        transitionSlides(currentSlide, nextSlide);
+        currentIndex = 0;
+      }
+    });
+  }
 
-      transitionSlides(currentSlide, nextSlide);
-      currentIndex++;
-    } else {
-      let nextSlide = sliderContent[0];
-
-      transitionSlides(currentSlide, nextSlide);
-      currentIndex = 0;
-    }
-  });
-
-  // Prev button click
-  prevButton.addEventListener("click", function () {
-    let currentSlide = sliderContent[currentIndex];
-    if (currentIndex > 0) {
-      let prevSlide = sliderContent[currentIndex - 1];
-
-      transitionSlides(currentSlide, prevSlide);
-      currentIndex--;
-    } else {
-      let prevSlide = sliderContent[sliderContent.length - 1];
-
-      transitionSlides(currentSlide, prevSlide);
-      currentIndex = sliderContent.length - 1;
-    }
-  });
+  if (prevButton) {
+    // Prev button click
+    prevButton.addEventListener("click", function () {
+      let currentSlide = sliderContent[currentIndex];
+      if (currentIndex > 0) {
+        let prevSlide = sliderContent[currentIndex - 1];
+  
+        transitionSlides(currentSlide, prevSlide);
+        currentIndex--;
+      } else {
+        let prevSlide = sliderContent[sliderContent.length - 1];
+  
+        transitionSlides(currentSlide, prevSlide);
+        currentIndex = sliderContent.length - 1;
+      }
+    });
+  }
 }
 
 function transitionSlides(current, next) {
@@ -106,3 +113,6 @@ function transitionSlides(current, next) {
     "-=1"
   );
 }
+document.fonts.ready.then(() => {
+  initTestimonialsGradients();
+});
