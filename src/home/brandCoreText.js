@@ -5,14 +5,18 @@ function createBrandCoreTrigger(
   triggerElement,
   words,
   isLast,
-  isDelayedStagger
+  isDelayedStagger,
+  index
 ) {
   if (isDelayedStagger) {
+    const height = (triggerElement.getBoundingClientRect().height / window.outerHeight);
     words.forEach((word, i) => {
+      const start = i * 20;
+      const end = start + 5;
       gsap.fromTo(
         word,
         {
-          yPercent: 100,
+          yPercent: 105,
         },
         {
           yPercent: 0,
@@ -20,8 +24,8 @@ function createBrandCoreTrigger(
           scrollTrigger: {
             trigger: triggerElement,
             scrub: true,
-            start: `${10 * i}% top`,
-            end: `${(10 * i) + 10}% top`,
+            start: `${start}% top`,
+            end: `${end}% top`,
             markers: false,
             pin: false,
           },
@@ -32,7 +36,7 @@ function createBrandCoreTrigger(
     gsap.fromTo(
       words,
       {
-        yPercent: 100,
+        yPercent: 105,
       },
       {
         yPercent: 0,
@@ -42,7 +46,7 @@ function createBrandCoreTrigger(
           trigger: triggerElement,
           scrub: true,
           start: "top top",
-          end: "30% top",
+          end: "25% top",
           markers: false,
           pin: false,
         },
@@ -51,21 +55,31 @@ function createBrandCoreTrigger(
   }
 
   if (!isLast) {
+    let start, end;
+    if (isDelayedStagger) {
+      const height =
+      triggerElement.getBoundingClientRect().height / window.outerHeight;
+      start = "70% top";
+      end = "75% top";
+    } else {
+      start = "40% top";
+      end = "50% top";
+    }
     gsap.fromTo(
       words,
       {
         yPercent: 0,
       },
       {
-        yPercent: -100,
+        yPercent: -105,
         stagger: 0.1,
         ease: "none",
         immediateRender: false,
         scrollTrigger: {
           trigger: triggerElement,
           scrub: true,
-          start: "70% top",
-          end: "bottom top",
+          start,
+          end,
           markers: false,
           pin: false,
         },
@@ -85,13 +99,12 @@ export function setBrandCoreText() {
     gsap.set(".brand-core-text .word", { yPercent: 100 });
   });
 
-  const sections = document.querySelectorAll(".brand-core-inner");
+  const sections = document.querySelectorAll(".brand-core-step");
 
   sections.forEach((section, i) => {
     const isDelayedStagger = section.classList.contains("_03");
-    console.log(section, isDelayedStagger);
     const words = section.querySelectorAll(".word");
     const isLast = i === sections.length - 1;
-    createBrandCoreTrigger(section, words, isLast, isDelayedStagger);
+    createBrandCoreTrigger(section, words, isLast, isDelayedStagger, i);
   });
 }

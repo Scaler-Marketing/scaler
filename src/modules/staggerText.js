@@ -55,7 +55,7 @@ export function setStaggerText() {
         }
       );
       setLinesWrapper(staggerTextEls.lines, () => {
-        gsap.set(staggerTextEls.lines, { yPercent: 100 });
+        gsap.set(staggerTextEls.lines, { yPercent: 105 });
       });
     } else {
       const staggerTextEls = new SplitType(el, {
@@ -63,7 +63,7 @@ export function setStaggerText() {
         tagName: "span",
       });
       setLinesWrapper(staggerTextEls.lines, () => {
-        gsap.set(staggerTextEls.lines, { yPercent: 100 });
+        gsap.set(staggerTextEls.lines, { yPercent: 105 });
       });
     }
   });

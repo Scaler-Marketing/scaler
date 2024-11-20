@@ -8,6 +8,7 @@ import { initCaseStudiesProgress } from "./home/caseStudiesProgress";
 initHeroSection();
 document.fonts.ready.then(() => {
   // Brand Core section
+  ScrollTrigger.refresh();
   setBrandCoreText();
   // Set case studies logic
   initCaseStudies();

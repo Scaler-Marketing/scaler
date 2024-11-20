@@ -61,7 +61,6 @@ export function initMenu() {
     );
 
   menuTrigger.addEventListener("click", () => {
-    console.log("click");
     if (menuTrigger.classList.contains("active")) {
       tl.reverse();
       buttonTl.reverse();
