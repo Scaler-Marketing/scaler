@@ -13,14 +13,15 @@ export function initHeroSection() {
   gsap.set(".header", { yPercent: -100 });
   gsap.set(".hero-video-bg", { opacity: 0 });
   gsap.set(".hero-subheadline .line", { yPercent: 100 });
-  gsap.set(".reels-video-container", { y: "12rem" });
+  gsap.set(".section-reels", { y: "0rem" });
+  // gsap.set(".reels-video-container", { y: "12rem" });
 
   const tl = gsap.timeline();
   const heroVideo = document.querySelector(".hero-video-bg video");
-  const reelsThumb = document.querySelector(".reels-video-thumb");
-  reelsThumb.muted = true;
-  reelsThumb.loop = true;
-  reelsThumb.playsinline = true;
+  // const reelsThumb = document.querySelector(".reels-video-thumb");
+  // reelsThumb.muted = true;
+  // reelsThumb.loop = true;
+  // reelsThumb.playsinline = true;
 
   tl.to(".hero-words-wrapper", {
     y: "-33.33%",
@@ -79,13 +80,13 @@ export function initHeroSection() {
       "-=1.5"
     )
     .to(
-      ".reels-video-container",
+      ".section-reels",
       {
-        y: "0rem",
+        y: "-12rem",
         duration: 0.5,
         ease: "power4.Out",
         onStart: () => {
-          reelsThumb.play();
+          // reelsThumb.play();
         },
       },
       "-=0.5"

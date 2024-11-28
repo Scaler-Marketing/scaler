@@ -1,93 +1,192 @@
 export function initCaseStudies() {
-gsap.set(".case-study-item-inner", {
-  maskImage:
-    "radial-gradient(circle at 50% 50%, black 50%, rgba(0, 0, 0, 0) 65%)",
-  maskRepeat: "no-repeat",
-  maskPosition: "center",
-  maskSize: "0vw 0vw",
-});
+  // Case Studies animations ======================================== //
+  document.querySelectorAll(".case-study-item").forEach((el, i) => {
+    const tl = gsap.timeline();
+    const projectId = el.dataset.project;
+    const trigger = document.querySelector(
+      `.case-study-spacer[data-project="${projectId}"]`
+    );
+    const mask = el.querySelector(".case-study-item-inner");
+    const img = el.querySelector(".case-study-item-img");
+    
+    if (i === 0) {
+      const wrapper = document.querySelector('.portfolio-sticky-wrapper');
+      gsap.set(wrapper, { y: "0rem", width: "30%" });
+      gsap.set(document.querySelector(".case-studies-overlay"), {
+        opacity: 1,
+      });
+      gsap.set(document.querySelector(".hero-video-bg-wrapper"), {
+        opacity: 1,
+      });
+      gsap.set(document.querySelector(".case-studies-overlay-text"), {
+        y: "0rem",
+      });
+      gsap.set(document.querySelectorAll(".case-study-item-footer"), {opacity: 0});
+  
+      tl.to(wrapper, {
+        ease: "none",
+        y: "12rem",
+        width: "100%",
+        scrollTrigger: {
+          trigger: trigger,
+          scrub: true,
+          start: "top bottom",
+          end: "top top",
+          // onEnter: () => {
+          //   el.style.pointerEvents = "auto";
+          // },
+          // onEnterBack: () => {
+          //   el.style.pointerEvents = "auto";
+          // },
+          // onLeave: () => {
+          //   el.style.pointerEvents = "auto";
+          // },
+          // onLeaveBack: () => {
+          //   el.style.pointerEvents = "auto";
+          // },
+        },
+      });
 
-// Case Studies animations ======================================== //
-document.querySelectorAll(".case-study-item").forEach((trigger) => {
-  const tl = gsap.timeline();
-  const mask = trigger.querySelector(".case-study-item-inner");
-  const img = trigger.querySelector(".case-study-item-img");
+      gsap.to(document.querySelectorAll(".case-study-item-footer"), {
+        ease: "none",
+        opacity: 1,
+        scrollTrigger: {
+          trigger: trigger,
+          scrub: true,
+          start: "top bottom",
+          end: "top top",
+        },
+      });
 
-  tl.to(mask, {
-    ease: "none",
-    maskSize: "200vw 200vw",
-    scrollTrigger: {
-      trigger: trigger,
-      scrub: true,
-      start: "top top",
-      end: "bottom bottom",
-      onEnter: () => {
-        trigger.style.pointerEvents = "auto";
-      },
-      onEnterBack: () => {
-        trigger.style.pointerEvents = "auto";
-      },
-      onLeave: () => {
-        trigger.style.pointerEvents = "auto";
-      },
-      onLeaveBack: () => {
-        trigger.style.pointerEvents = "auto";
-      },
-    },
-  });
+      gsap.to(document.querySelector(".case-studies-overlay"), {
+        ease: "none",
+        opacity: 0,
+        scrollTrigger: {
+          trigger: trigger,
+          scrub: true,
+          start: "top bottom",
+          end: "top center",
+        },
+      });
 
-  tl.from(img, {
-    scale: 1.2,
-    opacity: 0.5,
-    ease: "none",
-    scrollTrigger: {
-      trigger: trigger,
-      scrub: true,
-      start: "top top",
-      end: "center center",
-    },
-  });
-});
+      gsap.to(document.querySelector(".case-studies-overlay-text"), {
+        ease: "none",
+        y: "-10rem",
+        scrollTrigger: {
+          trigger: trigger,
+          scrub: true,
+          start: "top bottom",
+          end: "top center",
+        },
+      });
+      gsap.to(document.querySelector(".hero-video-bg-wrapper"), {
+        ease: "none",
+        opacity: 0,
+        scrollTrigger: {
+          trigger: document.querySelector(".section-hero"),
+          scrub: true,
+          start: "top top",
+          end: "bottom top",
+        },
+      });
 
-document.querySelectorAll(".case-study-title").forEach((trigger) => {
-  const el = trigger.querySelector(".case-study-item-marquee");
-  gsap.fromTo(
-    el,
-    {
-      yPercent: 100,
-    },
-    {
+      return;
+    }
+
+    gsap.set(mask, {
+      maskImage:
+        "radial-gradient(circle at 50% 50%, black 50%, rgba(0, 0, 0, 0) 65%)",
+      maskRepeat: "no-repeat",
+      maskPosition: "center",
+      maskSize: "0vw 0vw",
+    });
+
+    gsap.set(mask, { display: "none" });
+
+    tl.to(mask, {
       ease: "none",
-      yPercent: 0,
-      // duration: 1,
+      maskSize: "200vw 200vw",
       scrollTrigger: {
         trigger: trigger,
         scrub: true,
-        start: "10% top",
-        end: "20% top",
-        // markers: true,
+        start: "top bottom",
+        end: "bottom center",
       },
-    }
-  );
+    });
 
-  gsap.fromTo(
-    el,
-    {
-      yPercent: 0,
-    },
-    {
-      yPercent: -100,
-      ease: "none",
-      immediateRender: false,
-      // duration: 1,
+    gsap.to(mask, {
       scrollTrigger: {
         trigger: trigger,
         scrub: true,
-        start: "110% top",
-        end: "120% top",
-        // markers: true,
+        start: "top bottom",
+        end: "bottom top",
+        onEnter: () => {
+          gsap.set(mask, { display: "block" });
+        },
+        onEnterBack: () => {
+          gsap.set(mask, { display: "block" });
+        },
+        onLeave: () => {
+          gsap.set(mask, { display: "none" });
+        },
+        onLeaveBack: () => {
+          gsap.set(mask, { display: "none" });
+        },
       },
-    }
-  );
-});  
+    });
+
+    tl.from(img, {
+      scale: 1.2,
+      opacity: 0.5,
+      ease: "none",
+      scrollTrigger: {
+        trigger: trigger,
+        scrub: true,
+        start: "top bottom",
+        end: "bottom center",
+      },
+    });
+  });
+
+  // document.querySelectorAll(".case-study-title").forEach((trigger) => {
+  //   const el = trigger.querySelector(".case-study-item-marquee");
+  //   gsap.fromTo(
+  //     el,
+  //     {
+  //       yPercent: 100,
+  //     },
+  //     {
+  //       ease: "none",
+  //       yPercent: 0,
+  //       // duration: 1,
+  //       scrollTrigger: {
+  //         trigger: trigger,
+  //         scrub: true,
+  //         start: "10% top",
+  //         end: "20% top",
+  //         // markers: true,
+  //       },
+  //     }
+  //   );
+
+  //   gsap.fromTo(
+  //     el,
+  //     {
+  //       yPercent: 0,
+  //     },
+  //     {
+  //       yPercent: -100,
+  //       ease: "none",
+  //       immediateRender: false,
+  //       // duration: 1,
+  //       scrollTrigger: {
+  //         trigger: trigger,
+  //         scrub: true,
+  //         start: "110% top",
+  //         end: "120% top",
+  //         // markers: true,
+  //       },
+  //     }
+  //   );
+  // });
 }
