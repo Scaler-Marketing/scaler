@@ -1,6 +1,7 @@
 export function initCaseStudies() {
+  const caseStudies = document.querySelectorAll(".case-study-item");
   // Case Studies animations ======================================== //
-  document.querySelectorAll(".case-study-item").forEach((el, i) => {
+  caseStudies.forEach((el, i) => {
     const tl = gsap.timeline();
     const projectId = el.dataset.project;
     const trigger = document.querySelector(
@@ -66,6 +67,12 @@ export function initCaseStudies() {
           scrub: true,
           start: "top bottom",
           end: "top center",
+          onLeave: () => {
+            gsap.set(document.querySelector(".case-studies-overlay"), { display: "none" });
+          },
+          onEnterBack: () => {
+            gsap.set(document.querySelector(".case-studies-overlay"), { display: "block" });
+          },
         },
       });
 
@@ -110,7 +117,7 @@ export function initCaseStudies() {
         trigger: trigger,
         scrub: true,
         start: "top bottom",
-        end: "bottom center",
+        end: "center center",
       },
     });
 
@@ -147,46 +154,4 @@ export function initCaseStudies() {
       },
     });
   });
-
-  // document.querySelectorAll(".case-study-title").forEach((trigger) => {
-  //   const el = trigger.querySelector(".case-study-item-marquee");
-  //   gsap.fromTo(
-  //     el,
-  //     {
-  //       yPercent: 100,
-  //     },
-  //     {
-  //       ease: "none",
-  //       yPercent: 0,
-  //       // duration: 1,
-  //       scrollTrigger: {
-  //         trigger: trigger,
-  //         scrub: true,
-  //         start: "10% top",
-  //         end: "20% top",
-  //         // markers: true,
-  //       },
-  //     }
-  //   );
-
-  //   gsap.fromTo(
-  //     el,
-  //     {
-  //       yPercent: 0,
-  //     },
-  //     {
-  //       yPercent: -100,
-  //       ease: "none",
-  //       immediateRender: false,
-  //       // duration: 1,
-  //       scrollTrigger: {
-  //         trigger: trigger,
-  //         scrub: true,
-  //         start: "110% top",
-  //         end: "120% top",
-  //         // markers: true,
-  //       },
-  //     }
-  //   );
-  // });
 }

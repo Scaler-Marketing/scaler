@@ -86,6 +86,27 @@ function createBrandCoreTrigger(
       }
     );
   }
+
+  if (isLast) {
+    const button = triggerElement.querySelector(".button");
+    gsap.set(button, { yPercent: 101 });
+    gsap.to(
+      button,
+      {
+        yPercent: 0,
+        ease: "none",
+        immediateRender: false,
+        scrollTrigger: {
+          trigger: triggerElement,
+          scrub: true,
+          start: "top top",
+          end: "25% top",
+          markers: false,
+          pin: false,
+        },
+      }
+    );    
+  }
 }
 
 export function setBrandCoreText() {
