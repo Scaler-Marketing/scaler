@@ -3,11 +3,21 @@ function initNewsSlider() {
     return;
   }
 
-  const sliders = document.querySelectorAll(".news-slider");
+  const sliders = document.querySelectorAll(".news-slider_wrapper");
 
   sliders.forEach((s) => {
-    const slider = new Swiper(s, {
+    const sliderEl = s.querySelector('.news-slider');
+
+    if (!sliderEl) {
+      return
+    }
+
+    const slider = new Swiper(sliderEl, {
       slidesPerView: "auto",
+      navigation: {
+        nextEl: s.querySelector(".news-section_arrows .button.next"),
+        prevEl: s.querySelector(".news-section_arrows .button.prev"),
+      },
       // spaceBetween: 30,
     });
 

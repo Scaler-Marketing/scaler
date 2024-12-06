@@ -117,7 +117,7 @@ export function initCaseStudies() {
         trigger: trigger,
         scrub: true,
         start: "top bottom",
-        end: "center center",
+        end: "100vh top",
       },
     });
 
