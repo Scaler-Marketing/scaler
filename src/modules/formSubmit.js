@@ -46,8 +46,9 @@ export function initContactFormUi() {
     closeBtn = formWrapper.querySelector('.button.is-modal-close');
 
   gsap.set(formWrapper, { display: "none" });
-  gsap.set(formEl, { clipPath: "inset(0% 0% 100% 0%)" });
-  gsap.set(imgEl, { clipPath: "inset(100% 0% 0% 0%)" });
+  gsap.set(imgEl, { clipPath: "inset(0% 0% 100% 0%)" });
+  gsap.set(formEl, { clipPath: "inset(100% 0% 0% 0%)" });
+  gsap.set(closeBtn, { yPercent: -200 });
 
   const tl = gsap.timeline({ paused: true });
 
@@ -56,16 +57,21 @@ export function initContactFormUi() {
       clipPath: "inset(0% 0% 0% 0%)",
       ease: "power4.out",
       duration: 0.75,
-    })
+    }, 0)
     .to(
       imgEl,
       {
         clipPath: "inset(0% 0% 0% 0%)",
         ease: "power4.out",
         duration: 0.75,
-      },
-      "-=.75"
-    )
+      }, 0)
+    .to(
+      closeBtn,
+      {
+        yPercent: 0,
+        ease: "power4.out",
+        duration: .5,
+      }, .5);
 
   closeBtn.addEventListener("click", () => {
     tl.reverse();
