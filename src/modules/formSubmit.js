@@ -34,12 +34,10 @@ export function initFormSubmit() {
 export function initContactFormUi() {
   const formWrapper = document.querySelector(".contact-component");
   const formTriggers = document.querySelectorAll("[data-contact-trigger]");
-  console.log("initContactFormUi", formTriggers, formWrapper);
 
   if (!formWrapper || !formTriggers) {
     return;
   }
-
 
   const formEl = formWrapper.querySelector(".contact-form"),
     imgEl = formWrapper.querySelector(".contact-img_wrapper"),
@@ -78,9 +76,7 @@ export function initContactFormUi() {
   });
 
   formTriggers.forEach((trigger) => {
-    console.log(trigger);
     trigger.addEventListener("click", () => {
-      console.log('trigger click');
       tl.play();
     });
   });

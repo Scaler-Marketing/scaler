@@ -8,10 +8,24 @@ function initTestimonialsGradients() {
   let prevButton = document.querySelector(".button.prev");
   let currentIndex = 0;
 
+  const mm = gsap.matchMedia();
+  let maskSize = "100vw 100vw";
+
+  mm.add("(min-width: 768px)", () => {
+    // desktop
+    maskSize = "100vw 100vw";
+  });
+
+  mm.add("(max-width: 767px)", () => {
+    // mobile
+    maskSize = "100vh 100vh";
+  });
+
+
   gsap.set(".testimonial-item", {
     maskRepeat: "no-repeat",
     maskPosition: "center",
-    maskSize: "100vw 100vw",
+    maskSize,
   });
   gsap.set(".testimonial-item:not(:first-child)", {
     maskImage:
@@ -67,6 +81,9 @@ function transitionSlides(current, next) {
       // ease: "expo.out",
       maskImage:
         "radial-gradient(circle at 50% 50%, black 100%, rgba(0, 0, 0, 0) 100%)",
+      onComplete: () => {
+        gsap.set(next, { maskImage: "none" });
+      }
     }
   );
 
