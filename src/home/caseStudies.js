@@ -49,7 +49,7 @@ export function initCaseStudies() {
 
         tl.to(wrapper, {
         ease: "none",
-          y: "12rem",
+          y: "0rem",
           width: "100%",
           scrollTrigger: {
             trigger: trigger,
