@@ -1,5 +1,26 @@
 export function initCaseStudies() {
   const caseStudies = document.querySelectorAll(".case-study-item");
+
+  if (!caseStudies) {
+    return;
+  }
+
+  const mm = gsap.matchMedia();
+  let maskSizeStart = "0vw 0vw";
+  let maskSizeEnd = "200vw 200vw";
+
+  mm.add("(min-width: 768px)", () => {
+    // desktop
+    maskSizeStart = "0vw 0vw";
+    maskSizeEnd = "200vw 200vw";
+  });
+
+  mm.add("(max-width: 767px)", () => {
+    // mobile
+    maskSizeStart = "0vh 0vh";
+    maskSizeEnd = "200vh 200vh";
+  });
+
   // Case Studies animations ======================================== //
   caseStudies.forEach((el, i) => {
     const tl = gsap.timeline();
@@ -11,8 +32,6 @@ export function initCaseStudies() {
     const img = el.querySelector(".case-study-item-img");
     
     if (i === 0) {
-      const wrapper = document.querySelector('.portfolio-sticky-wrapper');
-      gsap.set(wrapper, { y: "0rem", width: "30%" });
       gsap.set(document.querySelector(".case-studies-overlay"), {
         opacity: 1,
       });
@@ -23,31 +42,24 @@ export function initCaseStudies() {
         y: "0rem",
       });
       gsap.set(document.querySelectorAll(".case-study-item-footer"), {opacity: 0});
-  
-      tl.to(wrapper, {
-        ease: "none",
-        y: "12rem",
-        width: "100%",
-        scrollTrigger: {
-          trigger: trigger,
-          scrub: true,
-          start: "top bottom",
-          end: "top top",
-          // onEnter: () => {
-          //   el.style.pointerEvents = "auto";
-          // },
-          // onEnterBack: () => {
-          //   el.style.pointerEvents = "auto";
-          // },
-          // onLeave: () => {
-          //   el.style.pointerEvents = "auto";
-          // },
-          // onLeaveBack: () => {
-          //   el.style.pointerEvents = "auto";
-          // },
-        },
-      });
 
+      if (window.outerWidth > 767) {
+        const wrapper = document.querySelector('.portfolio-sticky-wrapper');
+        gsap.set(wrapper, { y: "0rem", width: "30%" });
+
+        tl.to(wrapper, {
+        ease: "none",
+          y: "12rem",
+          width: "100%",
+          scrollTrigger: {
+            trigger: trigger,
+            scrub: true,
+            start: "top bottom",
+            end: "top top",
+          },
+        });
+      }
+  
       gsap.to(document.querySelectorAll(".case-study-item-footer"), {
         ease: "none",
         opacity: 1,
@@ -105,14 +117,14 @@ export function initCaseStudies() {
         "radial-gradient(circle at 50% 50%, black 50%, rgba(0, 0, 0, 0) 65%)",
       maskRepeat: "no-repeat",
       maskPosition: "center",
-      maskSize: "0vw 0vw",
+      maskSize: maskSizeStart,
     });
 
     gsap.set(mask, { display: "none" });
 
     tl.to(mask, {
       ease: "none",
-      maskSize: "200vw 200vw",
+      maskSize: maskSizeEnd,
       scrollTrigger: {
         trigger: trigger,
         scrub: true,
