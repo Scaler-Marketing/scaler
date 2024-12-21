@@ -45,11 +45,11 @@ export function initCaseStudies() {
 
       if (window.outerWidth > 767) {
         const wrapper = document.querySelector('.portfolio-sticky-wrapper');
-        gsap.set(wrapper, { y: "-12rem", width: "30%" });
+        gsap.set(wrapper, { y: "0rem", width: "30%" });
 
         tl.to(wrapper, {
         ease: "none",
-          y: "0rem",
+          y: "12rem",
           width: "100%",
           scrollTrigger: {
             trigger: trigger,
