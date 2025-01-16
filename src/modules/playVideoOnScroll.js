@@ -26,7 +26,7 @@ export function playVideoOnScroll() {
     if (pauseOutside) {
       settings.onLeave = () => { pauseOrRewind(video, rewind) };
       settings.onLeaveBack = () => { pauseOrRewind(video, rewind) };
-      settings.onEnterBack = () => { console.log("play video"); video.play() };
+      settings.onEnterBack = () => { video.play() };
     } else {
       settings.once = true;
     }

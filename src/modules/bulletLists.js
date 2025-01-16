@@ -3,8 +3,6 @@ import { wrapTextWithElement } from "./wrapWithElement";
 export function initBulletLists() {
   const lists = document.querySelectorAll('.text-rich-text.is-services-list ul');
 
-  console.log(lists);
-
   if (!lists) {
     return;
   }

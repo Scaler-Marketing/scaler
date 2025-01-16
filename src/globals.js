@@ -6,14 +6,17 @@ import { initMenu } from "./modules/menu";
 import { setImageMasks } from "./modules/setImageMasks";
 import { initFormSubmit, initContactFormUi } from "./modules/formSubmit";
 
-initMenu();
-playVideoOnScroll();
-setStaggerElements();
-setLoadingStates();
-setImageMasks();
+
+document.addEventListener("DOMContentLoaded", function () {
+  initMenu();
+  playVideoOnScroll();
+  setStaggerElements();
+  setImageMasks();
+});
 
 document.fonts.ready.then(() => {
   setStaggerText();
   initFormSubmit();
   initContactFormUi();
+  setLoadingStates();
 });

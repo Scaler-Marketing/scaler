@@ -3,22 +3,12 @@ function initCaseStudyHeroSection() {
     return;
   }
 
-  const titleWrapper = document.querySelector('.case-study_title'),
-    marquee = titleWrapper.querySelector('.marquee'),
-    dataItems = document.querySelectorAll('.case-study_info'); 
+  const dataItems = document.querySelectorAll('.case-study_info'); 
   
-  gsap.set(marquee, { yPercent: 100 }); 
   gsap.set(document.querySelectorAll('.case-study_info-label'), { yPercent: 100 }); 
   gsap.set(document.querySelectorAll('.case-study_info-data'), { yPercent: 100 }); 
   
   const tl = gsap.timeline();
-
-  tl.to(marquee, {
-    yPercent: 0,
-    duration: 0.5,
-    delay: 0.5,
-    ease: "expo.out",
-  });
 
   dataItems.forEach((item) => {
     tl.to(item.querySelector(".case-study_info-label"), {
@@ -37,57 +27,65 @@ function initCaseStudyHeroSection() {
 
 initCaseStudyHeroSection();
 
-function initCaseStudiesList() {
-  if (!document.querySelector(".case-studies-list")) {
+// Function to initialize GSAP animations and bind event listeners
+function initCaseStudiesItems(newItems) {
+  if (!newItems) {
     return;
   }
 
-  const items = document.querySelectorAll(".case-studies-list_link");
+  newItems.forEach((item) => {
+    // Check if the item is already initialized
+    if (item.dataset.gsapInitialized) return;
 
-  if (!items) {
-    return;
-  }
+    const c01 = item.querySelector('.news-item-thumb-img._02');
+    const c02 = item.querySelector('.news-item-thumb-img._03');
 
-  items.forEach((item) => {
-    const c01 = item.querySelector(".case-studies-list_img._02");
-    const c02 = item.querySelector(".case-studies-list_img._03");
-    const marquee = item.querySelector('.marquee');
-    const services = item.parentElement.querySelector('.case-studies-list_item-footer');
-
-    console.log(item.parentElement, services);
-
-    item.appendChild(services);
-    
-    gsap.set(marquee, { yPercent: 100 });
+    if (!c01 || !c02) return; // Skip if elements are missing
 
     const tl = gsap.timeline({ paused: true });
 
-    tl.to(marquee, {
-      yPercent: 0,
-      duration: 0.5,
-      ease: "power4.inOut",
-    }).to(c01, {
+    tl.to(c01, {
       scale: 0.8,
-      duration: 0.5,
-      ease: "power4.inOut",
-    }, 0,
-    ).to(
+      duration: 0.3,
+      ease: "expo.inOut",
+    }).to(
       c02,
       {
         scale: 0.6,
-        duration: 0.5,
-        ease: "power4.inOut",
+        duration: 0.3,
+        ease: "expo.inOut",
       },
-      0.1
+      "-=0.3"
     );
 
     item.addEventListener("mouseover", () => {
       tl.play();
     });
+
     item.addEventListener("mouseout", () => {
       tl.reverse();
     });
+
+    // Mark the item as initialized
+    item.dataset.gsapInitialized = "true";
   });
 }
 
-initCaseStudiesList();
+// Initialize GSAP animations for existing items on page load
+initCaseStudiesItems(document.querySelectorAll(".news-item_wrapper"));
+initCaseStudiesItems(document.querySelectorAll(".case-studies-list_item"));
+
+window.fsAttributes = window.fsAttributes || [];
+window.fsAttributes.push([
+  'cmsload',
+  (listInstances) => {
+    // The callback passes a `listInstances` array with all the `CMSList` instances on the page.
+    const [listInstance] = listInstances;
+
+    // The `renderitems` event runs whenever the list renders items after switching pages.
+    listInstance.on('renderitems', (renderedItems) => {
+    	const els = renderedItems.map((i) => i.element);
+      initCaseStudiesItems(els);
+    });
+  },
+]);

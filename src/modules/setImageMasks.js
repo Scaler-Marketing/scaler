@@ -45,7 +45,6 @@ function setMask(el, mask) {
 
   if (loading && loading === 'lazy') {
     el.addEventListener('load', () => {
-      console.log('load');
 
       gsap.fromTo(
         el,
