@@ -8,15 +8,15 @@ import { initFormSubmit, initContactFormUi } from "./modules/formSubmit";
 
 
 document.addEventListener("DOMContentLoaded", function () {
-  initMenu();
   playVideoOnScroll();
   setStaggerElements();
   setImageMasks();
+  setLoadingStates();
+  initMenu();
 });
 
 document.fonts.ready.then(() => {
   setStaggerText();
   initFormSubmit();
   initContactFormUi();
-  setLoadingStates();
 });
