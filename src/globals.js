@@ -6,6 +6,8 @@ import { initMenu } from "./modules/menu";
 import { setImageMasks } from "./modules/setImageMasks";
 import { initFormSubmit, initContactFormUi } from "./modules/formSubmit";
 
+console.log('loaded');
+
 window.addEventListener("beforeunload", () => {
   console.log('beforeunload');
   setLoadingStates();
