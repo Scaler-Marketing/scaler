@@ -47,25 +47,25 @@ function initNewsSlider() {
       },
     });
 
-    slides.forEach((slide) => {
-      const c01 = slide.querySelector('.news-item-thumb-img._02');
-      const c02 = slide.querySelector('.news-item-thumb-img._03');
+    // slides.forEach((slide) => {
+    //   const c01 = slide.querySelector('.news-item-thumb-img._01');
+    //   const c02 = slide.querySelector('.news-item-thumb-img._03');
 
-      const tl = gsap.timeline({ paused: true });
+    //   const tl = gsap.timeline({ paused: true });
 
-      tl.to(c01, {
-        scale: .8,
-        duration: .3,
-        ease: "expo.inOut"
-      }).to(c02, {
-        scale: .6,
-        duration: .3,
-        ease: "expo.inOut"
-      }, "-=0.3");
+    //   tl.to(c01, {
+    //     scale: .8,
+    //     duration: .3,
+    //     ease: "expo.inOut"
+    //   }).to(c02, {
+    //     scale: .6,
+    //     duration: .3,
+    //     ease: "expo.inOut"
+    //   }, "-=0.3");
 
-      slide.addEventListener('mouseover', () => { tl.play(); })
-      slide.addEventListener('mouseout', () => { tl.reverse(); })
-    });
+    //   slide.addEventListener('mouseover', () => { tl.play(); })
+    //   slide.addEventListener('mouseout', () => { tl.reverse(); })
+    // });
   });
 }
 
