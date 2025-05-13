@@ -39,47 +39,41 @@ function setMask(el, mask) {
   const start = el.dataset.startPos || "center bottom";
   const loading = el.getAttribute('loading');
 
-  gsap.set(el, {
-    clipPath: mask.start,
-  });
+  el.style.opacity = 0;
 
-  if (loading && loading === 'lazy') {
-    el.addEventListener('load', () => {
-
-      gsap.fromTo(
-        el,
-        {
-          clipPath: mask.start,
-        },
-        {
-          clipPath: mask.end,
-          duration: 1,
-          delay: 0.5,
-          ease: "expo.out",
+  const imageMaskObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          if (el.complete) {
+            animateImage(el);
+          } else {
+            el.addEventListener("load", () => animateImage(el));
+          }
+          imageMaskObserver.unobserve(el);
         }
-      );
-    });
-  } else {
-    gsap.timeline({
-      scrollTrigger: {
-        trigger: el,
-        scrub: true,
-        start,
-        once: true,
-        onEnter: () => {
-          gsap.fromTo(
-            el,
-            {
-              clipPath: mask.start,
-            },
-            {
-              clipPath: mask.end,
-              duration: 1,
-              ease: "expo.out",
-            }
-          );
-        },
+      });
+    },
+    { threshold: 0.1 }
+  );
+
+  imageMaskObserver.observe(el);
+
+  function animateImage(el) {
+    el.style.opacity = 1;
+    gsap.fromTo(
+      el,
+      {
+        // opacity: 0,
+        clipPath: mask.start,
       },
-    });
+      {
+        // opacity: 1,
+        clipPath: mask.end,
+        duration: 1,
+        ease: "expo.out",
+      }
+    );
   }
 }
