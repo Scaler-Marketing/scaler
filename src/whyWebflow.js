@@ -1,16 +1,23 @@
 function initIntroAnimation() {
-  const els =  new SplitType(document.querySelectorAll('.section.hero-internal .heading-span'), {
-    types: "lines, words",
-    tagName: "span",
+  const headingSpans = document.querySelectorAll(
+    ".section.hero-internal .heading-span"
+  );
+  gsap.set(headingSpans, { opacity: 0 });
+  const els = SplitText.create(headingSpans, {
+    type: "lines, words",
+    mask: "words",
+    autoSplit: true,
+    onSplit: (self) => {
+      gsap.set(headingSpans, { opacity: 1 });
+      gsap.set(self.words, { yPercent: 100 });
+    },
   });
-
-  gsap.set(els.words, { yPercent: 100 });
 
   gsap.to(els.words, {
     yPercent: 0,
     stagger: 0.05,
     delay: 0.5,
-    ease: "power4.out"
+    ease: "power4.out",
   });
 }
 
@@ -28,11 +35,11 @@ function initializeCountUpAnimations() {
     const targetText = el.textContent.trim();
 
     // Normalize the number by replacing commas with dots (if necessary) and parsing it
-    const normalizedValue = parseFloat(targetText.replace(/,/g, ''));
+    const normalizedValue = parseFloat(targetText.replace(/,/g, ""));
 
     // Determine the number of decimal places
-    const decimalPlaces = targetText.includes('.')
-      ? targetText.split('.')[1].length
+    const decimalPlaces = targetText.includes(".")
+      ? targetText.split(".")[1].length
       : 0;
 
     // Skip if the value is not a valid number

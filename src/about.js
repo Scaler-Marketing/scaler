@@ -1,14 +1,15 @@
-import { setLinesWrapper } from "./modules/setLinesWrapper";
-
 function initIntroAnimation() {
-  const els =  new SplitType(document.querySelectorAll('.section.hero-internal .heading-span'), {
-    types: "lines, words",
-    tagName: "span",
-  });
-
-  // setLinesWrapper(els.lines, () => {
-    gsap.set(els.words, { yPercent: 100 });
-  // });
+  const headingSpans = document.querySelectorAll(".section.hero-internal .heading-span") 
+  gsap.set(headingSpans, { opacity: 0 });
+  const els = SplitText.create(headingSpans, {
+    type: "lines, words",
+    mask: "words",
+    autoSplit: true,
+    onSplit: (self) => {
+      gsap.set(headingSpans, { opacity: 1 });
+      gsap.set(self.words, { yPercent: 100 });
+    },
+  });  
 
   gsap.to(els.words, {
     yPercent: 0,
