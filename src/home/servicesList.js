@@ -1,4 +1,4 @@
-import { setLinesWrapper } from "../modules/setLinesWrapper";
+// import { setLinesWrapper } from "../modules/setLinesWrapper";
 
 export function initServicesList() {
   const servicesItems = document.querySelectorAll(".services-list-item");
@@ -13,26 +13,46 @@ export function initServicesList() {
       description = item.querySelector(".services-list-item-description > p"),
       button = item.querySelector(".button");
 
-    const headingLines = new SplitType(heading, {
-      types: "lines, words",
-      tagName: "span",
-    });
-
-    const descriptionLines = new SplitType(description, {
-      types: "lines",
-      tagName: "span",
-    });
-
     let headingEls, descriptionEls;
 
-    setLinesWrapper(headingLines.lines, () => {
-      headingEls = heading.querySelectorAll(".word");
-      gsap.set(headingEls, { yPercent: 100 });
+    SplitText.create(heading, {
+      type: "lines, words",
+      mask: "lines",
+      wordsClass: "word",
+      linesClass: "line",
+      autoSplit: true,
+      onSplit: (self) => {
+        headingEls = heading.querySelectorAll(".word");
+        gsap.set(headingEls, { yPercent: 100 });
+      },
     });
-    setLinesWrapper(descriptionLines.lines, () => {
-      descriptionEls = description.querySelectorAll(".line");
-      gsap.set(descriptionEls, { yPercent: 100 });
+        
+    // const headingLines = new SplitType(heading, {
+    //   types: "lines, words",
+    //   tagName: "span",
+    // });
+
+    SplitText.create(description, {
+      type: "lines",
+      mask: "lines",
+      linesClass: "line",
+      autoSplit: true,
+      onSplit: (self) => {
+        descriptionEls = description.querySelectorAll(".line");
+        gsap.set(descriptionEls, { yPercent: 100 });
+      },
     });
+
+    // const descriptionLines = new SplitType(description, {
+    //   types: "lines",
+    //   tagName: "span",
+    // });
+
+
+    // setLinesWrapper(descriptionLines.lines, () => {
+    //   descriptionEls = description.querySelectorAll(".line");
+    //   gsap.set(descriptionEls, { yPercent: 100 });
+    // });
 
     gsap.set(line, { scaleX: 0 });
     gsap.set(button, { yPercent: 100 });

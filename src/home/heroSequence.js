@@ -1,19 +1,27 @@
 import { setLinesWrapper } from "../modules/setLinesWrapper";
 
 export function initHeroSection() {
-  const heroSubheadline = new SplitType(".hero-subheadline p", {
-    types: "lines",
-    tagName: "span",
-  });
+  SplitText.create(".hero-subheadline p", {
+    type: "lines",
+    mask: "lines",
+    linesClass: "line",
+    autoSplit: true,
+    onSplit: (self) => {
+      gsap.set(".hero-line._02, .hero-line._03", { height: 0 });
+      gsap.set(".header", { yPercent: -100 });
+      gsap.set(".hero-video-bg", { opacity: 0 });
+      gsap.set(".hero-subheadline .line", { yPercent: 100 });
+      gsap.set(".section-reels", { marginTop: "0rem" });
+    },
+  });  
+  // const heroSubheadline = new SplitType(".hero-subheadline p", {
+  //   types: "lines",
+  //   tagName: "span",
+  // });
 
-  setLinesWrapper(heroSubheadline.lines, () => {
-  });
+  // setLinesWrapper(heroSubheadline.lines, () => {
+  // });
 
-  gsap.set(".hero-line._02, .hero-line._03", { height: 0 });
-  gsap.set(".header", { yPercent: -100 });
-  gsap.set(".hero-video-bg", { opacity: 0 });
-  gsap.set(".hero-subheadline .line", { yPercent: 100 });
-  gsap.set(".section-reels", { marginTop: "0rem" });
   // gsap.set(".reels-video-container", { y: "12rem" });
 
   const tl = gsap.timeline();

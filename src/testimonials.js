@@ -1,11 +1,16 @@
 function initTestimonialsGradients() {
   // Variables
-  let sliderContent = document.querySelectorAll(".testimonial-item");
+  const sliderWrapper = document.querySelector(".section_testimonials");
+  if (!sliderWrapper) {
+    return;
+  }
+
+  const sliderContent = sliderWrapper.querySelectorAll(".testimonial-item");
   if (!sliderContent) {
     return;
   }
-  let nextButton = document.querySelector(".button.next");
-  let prevButton = document.querySelector(".button.prev");
+  const nextButton = sliderWrapper.querySelector(".button.next");
+  const prevButton = sliderWrapper.querySelector(".button.prev");
   let currentIndex = 0;
 
   const mm = gsap.matchMedia();

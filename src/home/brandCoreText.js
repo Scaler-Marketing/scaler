@@ -1,4 +1,4 @@
-import { setLinesWrapper } from "../modules/setLinesWrapper";
+// import { setLinesWrapper } from "../modules/setLinesWrapper";
 
 // Link timelines to scroll position
 function createBrandCoreTrigger(
@@ -109,16 +109,26 @@ function createBrandCoreTrigger(
   }
 }
 
-export function setBrandCoreText() {
+export function setBrandCoreText() { 
   // Split all words on the brand core section
-  const brandCoreText = new SplitType(".brand-core-text", {
-    types: "lines, words",
-    tagName: "span",
+  SplitText.create(".brand-core-text", {
+    type: "lines, words",
+    mask: "lines",
+    wordsClass: "word",
+    linesClass: "line",
+    autoSplit: true,
+    onSplit: (self) => {
+      gsap.set(".brand-core-text .word", { yPercent: 100 });
+    },
   });
+  // const brandCoreText = new SplitType(".brand-core-text", {
+  //   types: "lines, words",
+  //   tagName: "span",
+  // });
 
-  setLinesWrapper(brandCoreText.lines, () => {
-    gsap.set(".brand-core-text .word", { yPercent: 100 });
-  });
+  // setLinesWrapper(brandCoreText.lines, () => {
+  //   gsap.set(".brand-core-text .word", { yPercent: 100 });
+  // });
 
   const sections = document.querySelectorAll(".brand-core-step");
 
