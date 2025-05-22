@@ -39,30 +39,30 @@ export function initContactFormUi() {
     return;
   }
 
-  const formEl = formWrapper.querySelector(".contact-form"),
-    imgEl = formWrapper.querySelector(".contact-img_wrapper"),
+  const formBody = formWrapper.querySelector(".contact-form_body"),
+    formBackdrop = formWrapper.querySelector(".contact-form_backdrop"),
     closeBtn = formWrapper.querySelector('.button.is-modal-close');
 
   gsap.set(formWrapper, { display: "none" });
-  gsap.set(imgEl, { clipPath: "inset(0% 0% 100% 0%)" });
-  gsap.set(formEl, { clipPath: "inset(100% 0% 0% 0%)" });
+  gsap.set(formBody, { clipPath: "inset(50%)" });
+  gsap.set(formBackdrop, { opacity: 0 });
   gsap.set(closeBtn, { yPercent: -200 });
 
   const tl = gsap.timeline({ paused: true });
 
-  tl.to(formWrapper, { display: "flex", duration: 0 })
-    .to(formEl, {
-      clipPath: "inset(0% 0% 0% 0%)",
+  tl.set(formWrapper, { display: "flex" })
+    .to(formBackdrop, {
+      opacity: 1,
       ease: "power4.out",
       duration: 0.75,
     }, 0)
     .to(
-      imgEl,
+      formBody,
       {
-        clipPath: "inset(0% 0% 0% 0%)",
+        clipPath: "inset(0%)",
         ease: "power4.out",
         duration: 0.75,
-      }, 0)
+      }, 0.25)
     .to(
       closeBtn,
       {

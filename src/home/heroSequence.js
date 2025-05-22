@@ -1,7 +1,7 @@
 import { setLinesWrapper } from "../modules/setLinesWrapper";
 
 export function initHeroSection() {
-  SplitText.create(".hero-subheadline p", {
+  SplitText.create(".hero-subheadline", {
     type: "lines",
     mask: "lines",
     linesClass: "line",
