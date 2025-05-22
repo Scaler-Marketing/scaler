@@ -4,7 +4,7 @@ function initIntroAnimation() {
   );
   gsap.set(headingSpans, { opacity: 0 });
   const els = SplitText.create(headingSpans, {
-    type: "lines, words",
+    type: "words",
     mask: "words",
     autoSplit: true,
     onSplit: (self) => {
