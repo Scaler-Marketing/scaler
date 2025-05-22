@@ -17,5 +17,5 @@ document.addEventListener("DOMContentLoaded", function () {
     initCaseStudiesSlider();
     initCaseStudiesProgress();
     initServicesList();
-  }, 10);
+  }, 100);
 });
