@@ -7,7 +7,7 @@ import { initCaseStudiesProgress } from "./home/caseStudiesProgress";
 
 // set hero sequence
 initHeroSection();
-document.fonts.ready.then(() => {
+document.addEventListener("DOMContentLoaded", function () {
   // Brand Core section
   ScrollTrigger.refresh();
   setBrandCoreText();

@@ -7,7 +7,7 @@ function initIntroAnimation() {
     autoSplit: true,
     onSplit: (self) => {
       // gsap.set(headingSpans, { opacity: 1 });
-      gsap.set(self.words, { yPercent: 100 });
+      gsap.set(self.words, { yPercent: 102 });
     },
   });
 

@@ -61,7 +61,7 @@ export function setStaggerText() {
           mask: "lines",
           autoSplit: true,
           onSplit: (self) => {
-            gsap.set(self.lines, { yPercent: 100 });
+            gsap.set(self.lines, { yPercent: 102 });
             return createScrollTrigger(
               el,
               self.lines,
