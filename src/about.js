@@ -9,7 +9,7 @@ function initIntroAnimation() {
       gsap.set(headingSpans, { opacity: 1 });
       gsap.set(self.words, { yPercent: 100 });
     },
-  });  
+  });
 
   gsap.to(els.words, {
     yPercent: 0,
@@ -59,6 +59,7 @@ function initClientsCarousel() {
 }
 
 initClientsCarousel();
-document.fonts.ready.then(() => {
+// document.fonts.ready.then(() => {
+document.addEventListener("DOMContentLoaded", function () {
   initIntroAnimation();
 });
