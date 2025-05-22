@@ -1,22 +1,24 @@
 function initIntroAnimation() {
   const headingSpans = document.querySelectorAll(".section.hero-internal .heading-span") 
-  gsap.set(headingSpans, { opacity: 0 });
+  // gsap.set(headingSpans, { opacity: 0 });
   const els = SplitText.create(headingSpans, {
-    type: "lines, words",
+    type: "words",
     mask: "words",
     autoSplit: true,
     onSplit: (self) => {
-      gsap.set(headingSpans, { opacity: 1 });
+      // gsap.set(headingSpans, { opacity: 1 });
       gsap.set(self.words, { yPercent: 100 });
     },
   });
 
-  gsap.to(els.words, {
-    yPercent: 0,
-    stagger: 0.05,
-    delay: 0.5,
-    ease: "power4.out"
-  });
+  setTimeout(() => {
+    gsap.to(els.words, {
+      yPercent: 0,
+      stagger: 0.05,
+      // delay: 0.5,
+      ease: "power4.out"
+    });
+  }, 500);
 }
 
 function initClientsCarousel() {

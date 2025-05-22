@@ -1,2 +1,1284 @@
-var e,t,r,s,o;t={},r={},null==(s=(e=globalThis).parcelRequire5d03)&&((s=function(e){if(e in t)return t[e].exports;if(e in r){var s=r[e];delete r[e];var o={id:e,exports:{}};return t[e]=o,s.call(o.exports,o,o.exports),o.exports}var a=Error("Cannot find module '"+e+"'");throw a.code="MODULE_NOT_FOUND",a}).register=function(e,t){r[e]=t},e.parcelRequire5d03=s),(0,s.register)("71MPf",function(e,t){function r(){let e=document.querySelectorAll(".services-list-item");e&&e.forEach(e=>{let t,r;let s=e.querySelector(".services-list-item-line"),o=e.querySelector("h3"),a=e.querySelector(".services-list-item-description > p"),i=e.querySelector(".button");SplitText.create(o,{type:"lines, words",mask:"lines",wordsClass:"word",linesClass:"line",autoSplit:!0,onSplit:e=>{t=o.querySelectorAll(".word"),gsap.set(t,{yPercent:100})}}),SplitText.create(a,{type:"lines",mask:"lines",linesClass:"line",autoSplit:!0,onSplit:e=>{r=a.querySelectorAll(".line"),gsap.set(r,{yPercent:100})}}),gsap.set(s,{scaleX:0}),gsap.set(i,{yPercent:100}),gsap.timeline({scrollTrigger:{trigger:e,start:"top bottom-=20%",onEnter:()=>{gsap.timeline().to(s,{scaleX:1,duration:.5,ease:"expo.out"}).to(t,{yPercent:0,stagger:.1,duration:.5,ease:"expo.out"},"-=0.25").to(r,{yPercent:0,stagger:.05,ease:"expo.out"},"-=0.25").to(i,{yPercent:0,duration:.3,ease:"expo.out"},"-=0.25")}}})})}Object.defineProperty(e.exports,"initServicesList",{get:()=>r,set:void 0,enumerable:!0,configurable:!0})}),o=s("71MPf"),function(){SplitText.create(".hero-subheadline",{type:"lines",mask:"lines",linesClass:"line",autoSplit:!0,onSplit:e=>{gsap.set(".hero-line._02, .hero-line._03",{height:0}),gsap.set(".header",{yPercent:-100}),gsap.set(".hero-video-bg",{opacity:0}),gsap.set(".hero-subheadline .line",{yPercent:100}),gsap.set(".section-reels",{marginTop:"0rem"})}});let e=gsap.timeline(),t=document.querySelector(".hero-video-bg video");e.to(".hero-words-wrapper",{y:"-33.33%",duration:1,delay:.5,ease:"expo.inOut"}).to(".hero-words-wrapper",{y:"-66.66%",duration:1,ease:"expo.inOut"}).to(".hero-line",{height:"25vh",duration:1,ease:"power4.inOut"},2.1).to(".hero-line-spacer",{width:"100%",duration:1,ease:"power4.inOut"}).to(".header",{yPercent:0,duration:1,ease:"power4.inOut"},"-=1").to(".hero-subheadline .line",{yPercent:0,duration:.5,ease:"power4.Out",stagger:.05},"-=0.5").to(".hero-video-bg",{opacity:"100%",duration:.5,ease:"power4.Out",onStart:()=>{t.play()}},"-=1.5"),e.to(".section-reels",{marginTop:"-12rem",duration:.5,ease:"power4.Out",onStart:()=>{}},"-=0.5")}(),document.fonts.ready.then(()=>{ScrollTrigger.refresh(),function(){SplitText.create(".brand-core-text",{type:"lines, words",mask:"lines",wordsClass:"word",linesClass:"line",autoSplit:!0,onSplit:e=>{gsap.set(".brand-core-text .word",{yPercent:100})}});let e=document.querySelectorAll(".brand-core-step");e.forEach((t,r)=>{let s=t.classList.contains("_03"),o=t.querySelectorAll(".word");!function(e,t,r,s,o){if(s?(e.getBoundingClientRect().height,window.outerHeight,t.forEach((t,r)=>{let s=20*r;gsap.fromTo(t,{yPercent:105},{yPercent:0,ease:"none",scrollTrigger:{trigger:e,scrub:!0,start:`${s}% top`,end:`${s+5}% top`,markers:!1,pin:!1}})})):gsap.fromTo(t,{yPercent:105},{yPercent:0,stagger:.1,ease:"none",scrollTrigger:{trigger:e,scrub:!0,start:"top top",end:"25% top",markers:!1,pin:!1}}),!r){let r,o;s?(e.getBoundingClientRect().height,window.outerHeight,r="70% top",o="75% top"):(r="40% top",o="50% top"),gsap.fromTo(t,{yPercent:0},{yPercent:-105,stagger:.1,ease:"none",immediateRender:!1,scrollTrigger:{trigger:e,scrub:!0,start:r,end:o,markers:!1,pin:!1}})}if(r){let t=e.querySelector(".button");gsap.set(t,{yPercent:101}),gsap.to(t,{yPercent:0,ease:"none",immediateRender:!1,scrollTrigger:{trigger:e,scrub:!0,start:"top top",end:"25% top",markers:!1,pin:!1}})}}(t,o,r===e.length-1,s,0)})}(),function(){let e=document.querySelectorAll(".case-study-item"),t=document.querySelector(".case-studies-wrapper");e&&e.forEach((e,r)=>{let s=gsap.timeline();if(e.dataset.project,e.querySelector(".case-study-item-inner"),e.querySelector(".case-study-item-img"),0===r){if(gsap.set(document.querySelector(".case-studies-overlay"),{opacity:1}),gsap.set(document.querySelector(".hero-video-bg-wrapper"),{opacity:1}),gsap.set(document.querySelector(".case-studies-overlay-text"),{y:"0rem"}),gsap.set(document.querySelectorAll(".case-study-item-footer"),{opacity:0}),window.outerWidth>767){let e=document.querySelector(".portfolio-sticky-wrapper");gsap.set(e,{y:"0rem",width:"30%"}),s.to(e,{ease:"none",width:"100%",scrollTrigger:{trigger:t,scrub:!0,start:"top bottom",end:"top top"}})}gsap.to(document.querySelectorAll(".case-study-item-footer"),{ease:"none",opacity:1,scrollTrigger:{trigger:t,scrub:!0,start:"top bottom",end:"top top"}}),gsap.to(document.querySelector(".case-studies-overlay"),{ease:"none",opacity:0,scrollTrigger:{trigger:t,scrub:!0,start:"top bottom",end:"top center",onLeave:()=>{gsap.set(document.querySelector(".case-studies-overlay"),{display:"none"})},onEnterBack:()=>{gsap.set(document.querySelector(".case-studies-overlay"),{display:"block"})}}}),gsap.to(document.querySelector(".case-studies-overlay-text"),{ease:"none",y:"-10rem",scrollTrigger:{trigger:t,scrub:!0,start:"top bottom",end:"top center"}}),gsap.to(document.querySelector(".hero-video-bg-wrapper"),{ease:"none",opacity:0,scrollTrigger:{trigger:document.querySelector(".section-hero"),scrub:!0,start:"top top",end:"bottom top"}});return}})}(),function(){let e=[...document.querySelector(".case-studies-wrapper").querySelectorAll(".case-study-item")],t=document.querySelector(".case-studies-controls .next"),r=document.querySelector(".case-studies-controls .prev"),s=document.querySelector(".case-studies-pagination"),o=gsap.matchMedia(),a="0vw 0vw",i="200vw 200vw";o.add("(min-width: 768px)",()=>{a="0vw 0vw",i="200vw 200vw"}),o.add("(max-width: 767px)",()=>{a="0vh 0vh",i="200vh 200vh"});let n=0,l=e.map((e,t)=>{let r=document.createElement("div");return r.classList.add("case-studies_bullet"),0===t&&r.classList.add("is-active"),r.addEventListener("click",()=>{u(t)}),s?.appendChild(r),r});function c(e){let t=e.querySelectorAll("[data-slider-stagger] .word");gsap.to(t,{yPercent:0,duration:.5,ease:"power2.out",stagger:.06})}function u(t){if(t===n||gsap.isTweening(e[n]))return;let r=e[n],s=r.querySelector(".case-study-item-inner"),o=e[t],u=o.querySelector(".case-study-item-inner"),d=o.querySelector(".case-study-item-img");gsap.killTweensOf([r,o]),e.forEach(e=>e.classList.remove("is-current")),gsap.set(o,{zIndex:2}),gsap.set(r,{zIndex:1}),gsap.set(u,{display:"block",maskSize:a}),gsap.to(u,{maskSize:i,duration:.6,onStart:()=>{o.classList.add("is-current"),l.forEach((e,r)=>{e.classList.toggle("is-active",r===t)})},onComplete:()=>{gsap.set(r,{zIndex:1}),gsap.set(s,{display:"none"}),function(e){let t=e.querySelectorAll("[data-slider-stagger] .word");gsap.set(t,{yPercent:100})}(r),c(o),n=t}}),gsap.to(d,{scale:1,duration:.6,ease:"power2.out"})}e.forEach((e,t)=>{let r=e.querySelector(".case-study-item-inner"),s=e.querySelector(".case-study-item-img");e.querySelectorAll("[data-slider-stagger]").forEach(e=>{SplitText.create(e,{type:"words",mask:"words",wordsClass:"word",autoSplit:!0,onSplit:e=>{t>0&&gsap.set(e.words,{yPercent:100})}})}),gsap.set(r,{maskImage:"radial-gradient(circle at 50% 50%, black 50%, rgba(0, 0, 0, 0) 65%)",maskRepeat:"no-repeat",maskPosition:"center",maskSize:0===t?i:a}),t>0&&(gsap.set(r,{display:"none"}),gsap.set(s,{scale:1.2}))}),t?.addEventListener("click",()=>{u((n+1)%e.length)}),r?.addEventListener("click",()=>{u((n-1+e.length)%e.length)}),gsap.set(e,{zIndex:1}),gsap.set(e[0],{zIndex:2}),e[0].classList.add("is-current"),c(e[0]),u(0)}(),function(){document.querySelector(".case-studies-progress-inner");let e=document.querySelector(".case-studies-progress"),t=document.querySelectorAll(".case-study-item-link").length,r=document.querySelector(".case-studies-spacer");e&&t&&gsap.fromTo(e,{scaleY:0},{scaleY:1,scrollTrigger:{trigger:r,start:"top top",end:"bottom bottom",scrub:!0}})}(),(0,o.initServicesList)()});
+// modules are defined as an array
+// [ module function, map of requires ]
+//
+// map of requires is short require name -> numeric require
+//
+// anything defined in a previous bundle is accessed via the
+// orig method which is the require for previous bundles
+
+(function (modules, entry, mainEntry, parcelRequireName, globalName) {
+  /* eslint-disable no-undef */
+  var globalObject =
+    typeof globalThis !== 'undefined'
+      ? globalThis
+      : typeof self !== 'undefined'
+      ? self
+      : typeof window !== 'undefined'
+      ? window
+      : typeof global !== 'undefined'
+      ? global
+      : {};
+  /* eslint-enable no-undef */
+
+  // Save the require from previous bundle to this closure if any
+  var previousRequire =
+    typeof globalObject[parcelRequireName] === 'function' &&
+    globalObject[parcelRequireName];
+
+  var cache = previousRequire.cache || {};
+  // Do not use `require` to prevent Webpack from trying to bundle this call
+  var nodeRequire =
+    typeof module !== 'undefined' &&
+    typeof module.require === 'function' &&
+    module.require.bind(module);
+
+  function newRequire(name, jumped) {
+    if (!cache[name]) {
+      if (!modules[name]) {
+        // if we cannot find the module within our internal map or
+        // cache jump to the current global require ie. the last bundle
+        // that was added to the page.
+        var currentRequire =
+          typeof globalObject[parcelRequireName] === 'function' &&
+          globalObject[parcelRequireName];
+        if (!jumped && currentRequire) {
+          return currentRequire(name, true);
+        }
+
+        // If there are other bundles on this page the require from the
+        // previous one is saved to 'previousRequire'. Repeat this as
+        // many times as there are bundles until the module is found or
+        // we exhaust the require chain.
+        if (previousRequire) {
+          return previousRequire(name, true);
+        }
+
+        // Try the node require function if it exists.
+        if (nodeRequire && typeof name === 'string') {
+          return nodeRequire(name);
+        }
+
+        var err = new Error("Cannot find module '" + name + "'");
+        err.code = 'MODULE_NOT_FOUND';
+        throw err;
+      }
+
+      localRequire.resolve = resolve;
+      localRequire.cache = {};
+
+      var module = (cache[name] = new newRequire.Module(name));
+
+      modules[name][0].call(
+        module.exports,
+        localRequire,
+        module,
+        module.exports,
+        this
+      );
+    }
+
+    return cache[name].exports;
+
+    function localRequire(x) {
+      var res = localRequire.resolve(x);
+      return res === false ? {} : newRequire(res);
+    }
+
+    function resolve(x) {
+      var id = modules[name][1][x];
+      return id != null ? id : x;
+    }
+  }
+
+  function Module(moduleName) {
+    this.id = moduleName;
+    this.bundle = newRequire;
+    this.exports = {};
+  }
+
+  newRequire.isParcelRequire = true;
+  newRequire.Module = Module;
+  newRequire.modules = modules;
+  newRequire.cache = cache;
+  newRequire.parent = previousRequire;
+  newRequire.register = function (id, exports) {
+    modules[id] = [
+      function (require, module) {
+        module.exports = exports;
+      },
+      {},
+    ];
+  };
+
+  Object.defineProperty(newRequire, 'root', {
+    get: function () {
+      return globalObject[parcelRequireName];
+    },
+  });
+
+  globalObject[parcelRequireName] = newRequire;
+
+  for (var i = 0; i < entry.length; i++) {
+    newRequire(entry[i]);
+  }
+
+  if (mainEntry) {
+    // Expose entry point to Node, AMD or browser globals
+    // Based on https://github.com/ForbesLindesay/umd/blob/master/template.js
+    var mainExports = newRequire(mainEntry);
+
+    // CommonJS
+    if (typeof exports === 'object' && typeof module !== 'undefined') {
+      module.exports = mainExports;
+
+      // RequireJS
+    } else if (typeof define === 'function' && define.amd) {
+      define(function () {
+        return mainExports;
+      });
+
+      // <script>
+    } else if (globalName) {
+      this[globalName] = mainExports;
+    }
+  }
+})({"kL51u":[function(require,module,exports) {
+var global = arguments[3];
+var HMR_HOST = null;
+var HMR_PORT = 50619;
+var HMR_SECURE = false;
+var HMR_ENV_HASH = "d6ea1d42532a7575";
+var HMR_USE_SSE = false;
+module.bundle.HMR_BUNDLE_ID = "ddd31eb10e79d6dd";
+"use strict";
+/* global HMR_HOST, HMR_PORT, HMR_ENV_HASH, HMR_SECURE, HMR_USE_SSE, chrome, browser, __parcel__import__, __parcel__importScripts__, ServiceWorkerGlobalScope */ /*::
+import type {
+  HMRAsset,
+  HMRMessage,
+} from '@parcel/reporter-dev-server/src/HMRServer.js';
+interface ParcelRequire {
+  (string): mixed;
+  cache: {|[string]: ParcelModule|};
+  hotData: {|[string]: mixed|};
+  Module: any;
+  parent: ?ParcelRequire;
+  isParcelRequire: true;
+  modules: {|[string]: [Function, {|[string]: string|}]|};
+  HMR_BUNDLE_ID: string;
+  root: ParcelRequire;
+}
+interface ParcelModule {
+  hot: {|
+    data: mixed,
+    accept(cb: (Function) => void): void,
+    dispose(cb: (mixed) => void): void,
+    // accept(deps: Array<string> | string, cb: (Function) => void): void,
+    // decline(): void,
+    _acceptCallbacks: Array<(Function) => void>,
+    _disposeCallbacks: Array<(mixed) => void>,
+  |};
+}
+interface ExtensionContext {
+  runtime: {|
+    reload(): void,
+    getURL(url: string): string;
+    getManifest(): {manifest_version: number, ...};
+  |};
+}
+declare var module: {bundle: ParcelRequire, ...};
+declare var HMR_HOST: string;
+declare var HMR_PORT: string;
+declare var HMR_ENV_HASH: string;
+declare var HMR_SECURE: boolean;
+declare var HMR_USE_SSE: boolean;
+declare var chrome: ExtensionContext;
+declare var browser: ExtensionContext;
+declare var __parcel__import__: (string) => Promise<void>;
+declare var __parcel__importScripts__: (string) => Promise<void>;
+declare var globalThis: typeof self;
+declare var ServiceWorkerGlobalScope: Object;
+*/ var OVERLAY_ID = "__parcel__error__overlay__";
+var OldModule = module.bundle.Module;
+function Module(moduleName) {
+    OldModule.call(this, moduleName);
+    this.hot = {
+        data: module.bundle.hotData[moduleName],
+        _acceptCallbacks: [],
+        _disposeCallbacks: [],
+        accept: function(fn) {
+            this._acceptCallbacks.push(fn || function() {});
+        },
+        dispose: function(fn) {
+            this._disposeCallbacks.push(fn);
+        }
+    };
+    module.bundle.hotData[moduleName] = undefined;
+}
+module.bundle.Module = Module;
+module.bundle.hotData = {};
+var checkedAssets /*: {|[string]: boolean|} */ , assetsToDispose /*: Array<[ParcelRequire, string]> */ , assetsToAccept /*: Array<[ParcelRequire, string]> */ ;
+function getHostname() {
+    return HMR_HOST || (location.protocol.indexOf("http") === 0 ? location.hostname : "localhost");
+}
+function getPort() {
+    return HMR_PORT || location.port;
+}
+// eslint-disable-next-line no-redeclare
+var parent = module.bundle.parent;
+if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== "undefined") {
+    var hostname = getHostname();
+    var port = getPort();
+    var protocol = HMR_SECURE || location.protocol == "https:" && ![
+        "localhost",
+        "127.0.0.1",
+        "0.0.0.0"
+    ].includes(hostname) ? "wss" : "ws";
+    var ws;
+    if (HMR_USE_SSE) ws = new EventSource("/__parcel_hmr");
+    else try {
+        ws = new WebSocket(protocol + "://" + hostname + (port ? ":" + port : "") + "/");
+    } catch (err) {
+        if (err.message) console.error(err.message);
+        ws = {};
+    }
+    // Web extension context
+    var extCtx = typeof browser === "undefined" ? typeof chrome === "undefined" ? null : chrome : browser;
+    // Safari doesn't support sourceURL in error stacks.
+    // eval may also be disabled via CSP, so do a quick check.
+    var supportsSourceURL = false;
+    try {
+        (0, eval)('throw new Error("test"); //# sourceURL=test.js');
+    } catch (err) {
+        supportsSourceURL = err.stack.includes("test.js");
+    }
+    // $FlowFixMe
+    ws.onmessage = async function(event /*: {data: string, ...} */ ) {
+        checkedAssets = {} /*: {|[string]: boolean|} */ ;
+        assetsToAccept = [];
+        assetsToDispose = [];
+        var data /*: HMRMessage */  = JSON.parse(event.data);
+        if (data.type === "update") {
+            // Remove error overlay if there is one
+            if (typeof document !== "undefined") removeErrorOverlay();
+            let assets = data.assets.filter((asset)=>asset.envHash === HMR_ENV_HASH);
+            // Handle HMR Update
+            let handled = assets.every((asset)=>{
+                return asset.type === "css" || asset.type === "js" && hmrAcceptCheck(module.bundle.root, asset.id, asset.depsByBundle);
+            });
+            if (handled) {
+                console.clear();
+                // Dispatch custom event so other runtimes (e.g React Refresh) are aware.
+                if (typeof window !== "undefined" && typeof CustomEvent !== "undefined") window.dispatchEvent(new CustomEvent("parcelhmraccept"));
+                await hmrApplyUpdates(assets);
+                // Dispose all old assets.
+                let processedAssets = {} /*: {|[string]: boolean|} */ ;
+                for(let i = 0; i < assetsToDispose.length; i++){
+                    let id = assetsToDispose[i][1];
+                    if (!processedAssets[id]) {
+                        hmrDispose(assetsToDispose[i][0], id);
+                        processedAssets[id] = true;
+                    }
+                }
+                // Run accept callbacks. This will also re-execute other disposed assets in topological order.
+                processedAssets = {};
+                for(let i = 0; i < assetsToAccept.length; i++){
+                    let id = assetsToAccept[i][1];
+                    if (!processedAssets[id]) {
+                        hmrAccept(assetsToAccept[i][0], id);
+                        processedAssets[id] = true;
+                    }
+                }
+            } else fullReload();
+        }
+        if (data.type === "error") {
+            // Log parcel errors to console
+            for (let ansiDiagnostic of data.diagnostics.ansi){
+                let stack = ansiDiagnostic.codeframe ? ansiDiagnostic.codeframe : ansiDiagnostic.stack;
+                console.error("\uD83D\uDEA8 [parcel]: " + ansiDiagnostic.message + "\n" + stack + "\n\n" + ansiDiagnostic.hints.join("\n"));
+            }
+            if (typeof document !== "undefined") {
+                // Render the fancy html overlay
+                removeErrorOverlay();
+                var overlay = createErrorOverlay(data.diagnostics.html);
+                // $FlowFixMe
+                document.body.appendChild(overlay);
+            }
+        }
+    };
+    if (ws instanceof WebSocket) {
+        ws.onerror = function(e) {
+            if (e.message) console.error(e.message);
+        };
+        ws.onclose = function() {
+            console.warn("[parcel] \uD83D\uDEA8 Connection to the HMR server was lost");
+        };
+    }
+}
+function removeErrorOverlay() {
+    var overlay = document.getElementById(OVERLAY_ID);
+    if (overlay) {
+        overlay.remove();
+        console.log("[parcel] \u2728 Error resolved");
+    }
+}
+function createErrorOverlay(diagnostics) {
+    var overlay = document.createElement("div");
+    overlay.id = OVERLAY_ID;
+    let errorHTML = '<div style="background: black; opacity: 0.85; font-size: 16px; color: white; position: fixed; height: 100%; width: 100%; top: 0px; left: 0px; padding: 30px; font-family: Menlo, Consolas, monospace; z-index: 9999;">';
+    for (let diagnostic of diagnostics){
+        let stack = diagnostic.frames.length ? diagnostic.frames.reduce((p, frame)=>{
+            return `${p}
+<a href="/__parcel_launch_editor?file=${encodeURIComponent(frame.location)}" style="text-decoration: underline; color: #888" onclick="fetch(this.href); return false">${frame.location}</a>
+${frame.code}`;
+        }, "") : diagnostic.stack;
+        errorHTML += `
+      <div>
+        <div style="font-size: 18px; font-weight: bold; margin-top: 20px;">
+          \u{1F6A8} ${diagnostic.message}
+        </div>
+        <pre>${stack}</pre>
+        <div>
+          ${diagnostic.hints.map((hint)=>"<div>\uD83D\uDCA1 " + hint + "</div>").join("")}
+        </div>
+        ${diagnostic.documentation ? `<div>\u{1F4DD} <a style="color: violet" href="${diagnostic.documentation}" target="_blank">Learn more</a></div>` : ""}
+      </div>
+    `;
+    }
+    errorHTML += "</div>";
+    overlay.innerHTML = errorHTML;
+    return overlay;
+}
+function fullReload() {
+    if ("reload" in location) location.reload();
+    else if (extCtx && extCtx.runtime && extCtx.runtime.reload) extCtx.runtime.reload();
+}
+function getParents(bundle, id) /*: Array<[ParcelRequire, string]> */ {
+    var modules = bundle.modules;
+    if (!modules) return [];
+    var parents = [];
+    var k, d, dep;
+    for(k in modules)for(d in modules[k][1]){
+        dep = modules[k][1][d];
+        if (dep === id || Array.isArray(dep) && dep[dep.length - 1] === id) parents.push([
+            bundle,
+            k
+        ]);
+    }
+    if (bundle.parent) parents = parents.concat(getParents(bundle.parent, id));
+    return parents;
+}
+function updateLink(link) {
+    var href = link.getAttribute("href");
+    if (!href) return;
+    var newLink = link.cloneNode();
+    newLink.onload = function() {
+        if (link.parentNode !== null) // $FlowFixMe
+        link.parentNode.removeChild(link);
+    };
+    newLink.setAttribute("href", // $FlowFixMe
+    href.split("?")[0] + "?" + Date.now());
+    // $FlowFixMe
+    link.parentNode.insertBefore(newLink, link.nextSibling);
+}
+var cssTimeout = null;
+function reloadCSS() {
+    if (cssTimeout) return;
+    cssTimeout = setTimeout(function() {
+        var links = document.querySelectorAll('link[rel="stylesheet"]');
+        for(var i = 0; i < links.length; i++){
+            // $FlowFixMe[incompatible-type]
+            var href /*: string */  = links[i].getAttribute("href");
+            var hostname = getHostname();
+            var servedFromHMRServer = hostname === "localhost" ? new RegExp("^(https?:\\/\\/(0.0.0.0|127.0.0.1)|localhost):" + getPort()).test(href) : href.indexOf(hostname + ":" + getPort());
+            var absolute = /^https?:\/\//i.test(href) && href.indexOf(location.origin) !== 0 && !servedFromHMRServer;
+            if (!absolute) updateLink(links[i]);
+        }
+        cssTimeout = null;
+    }, 50);
+}
+function hmrDownload(asset) {
+    if (asset.type === "js") {
+        if (typeof document !== "undefined") {
+            let script = document.createElement("script");
+            script.src = asset.url + "?t=" + Date.now();
+            if (asset.outputFormat === "esmodule") script.type = "module";
+            return new Promise((resolve, reject)=>{
+                var _document$head;
+                script.onload = ()=>resolve(script);
+                script.onerror = reject;
+                (_document$head = document.head) === null || _document$head === void 0 || _document$head.appendChild(script);
+            });
+        } else if (typeof importScripts === "function") {
+            // Worker scripts
+            if (asset.outputFormat === "esmodule") return import(asset.url + "?t=" + Date.now());
+            else return new Promise((resolve, reject)=>{
+                try {
+                    importScripts(asset.url + "?t=" + Date.now());
+                    resolve();
+                } catch (err) {
+                    reject(err);
+                }
+            });
+        }
+    }
+}
+async function hmrApplyUpdates(assets) {
+    global.parcelHotUpdate = Object.create(null);
+    let scriptsToRemove;
+    try {
+        // If sourceURL comments aren't supported in eval, we need to load
+        // the update from the dev server over HTTP so that stack traces
+        // are correct in errors/logs. This is much slower than eval, so
+        // we only do it if needed (currently just Safari).
+        // https://bugs.webkit.org/show_bug.cgi?id=137297
+        // This path is also taken if a CSP disallows eval.
+        if (!supportsSourceURL) {
+            let promises = assets.map((asset)=>{
+                var _hmrDownload;
+                return (_hmrDownload = hmrDownload(asset)) === null || _hmrDownload === void 0 ? void 0 : _hmrDownload.catch((err)=>{
+                    // Web extension fix
+                    if (extCtx && extCtx.runtime && extCtx.runtime.getManifest().manifest_version == 3 && typeof ServiceWorkerGlobalScope != "undefined" && global instanceof ServiceWorkerGlobalScope) {
+                        extCtx.runtime.reload();
+                        return;
+                    }
+                    throw err;
+                });
+            });
+            scriptsToRemove = await Promise.all(promises);
+        }
+        assets.forEach(function(asset) {
+            hmrApply(module.bundle.root, asset);
+        });
+    } finally{
+        delete global.parcelHotUpdate;
+        if (scriptsToRemove) scriptsToRemove.forEach((script)=>{
+            if (script) {
+                var _document$head2;
+                (_document$head2 = document.head) === null || _document$head2 === void 0 || _document$head2.removeChild(script);
+            }
+        });
+    }
+}
+function hmrApply(bundle /*: ParcelRequire */ , asset /*:  HMRAsset */ ) {
+    var modules = bundle.modules;
+    if (!modules) return;
+    if (asset.type === "css") reloadCSS();
+    else if (asset.type === "js") {
+        let deps = asset.depsByBundle[bundle.HMR_BUNDLE_ID];
+        if (deps) {
+            if (modules[asset.id]) {
+                // Remove dependencies that are removed and will become orphaned.
+                // This is necessary so that if the asset is added back again, the cache is gone, and we prevent a full page reload.
+                let oldDeps = modules[asset.id][1];
+                for(let dep in oldDeps)if (!deps[dep] || deps[dep] !== oldDeps[dep]) {
+                    let id = oldDeps[dep];
+                    let parents = getParents(module.bundle.root, id);
+                    if (parents.length === 1) hmrDelete(module.bundle.root, id);
+                }
+            }
+            if (supportsSourceURL) // Global eval. We would use `new Function` here but browser
+            // support for source maps is better with eval.
+            (0, eval)(asset.output);
+            // $FlowFixMe
+            let fn = global.parcelHotUpdate[asset.id];
+            modules[asset.id] = [
+                fn,
+                deps
+            ];
+        } else if (bundle.parent) hmrApply(bundle.parent, asset);
+    }
+}
+function hmrDelete(bundle, id) {
+    let modules = bundle.modules;
+    if (!modules) return;
+    if (modules[id]) {
+        // Collect dependencies that will become orphaned when this module is deleted.
+        let deps = modules[id][1];
+        let orphans = [];
+        for(let dep in deps){
+            let parents = getParents(module.bundle.root, deps[dep]);
+            if (parents.length === 1) orphans.push(deps[dep]);
+        }
+        // Delete the module. This must be done before deleting dependencies in case of circular dependencies.
+        delete modules[id];
+        delete bundle.cache[id];
+        // Now delete the orphans.
+        orphans.forEach((id)=>{
+            hmrDelete(module.bundle.root, id);
+        });
+    } else if (bundle.parent) hmrDelete(bundle.parent, id);
+}
+function hmrAcceptCheck(bundle /*: ParcelRequire */ , id /*: string */ , depsByBundle /*: ?{ [string]: { [string]: string } }*/ ) {
+    if (hmrAcceptCheckOne(bundle, id, depsByBundle)) return true;
+    // Traverse parents breadth first. All possible ancestries must accept the HMR update, or we'll reload.
+    let parents = getParents(module.bundle.root, id);
+    let accepted = false;
+    while(parents.length > 0){
+        let v = parents.shift();
+        let a = hmrAcceptCheckOne(v[0], v[1], null);
+        if (a) // If this parent accepts, stop traversing upward, but still consider siblings.
+        accepted = true;
+        else {
+            // Otherwise, queue the parents in the next level upward.
+            let p = getParents(module.bundle.root, v[1]);
+            if (p.length === 0) {
+                // If there are no parents, then we've reached an entry without accepting. Reload.
+                accepted = false;
+                break;
+            }
+            parents.push(...p);
+        }
+    }
+    return accepted;
+}
+function hmrAcceptCheckOne(bundle /*: ParcelRequire */ , id /*: string */ , depsByBundle /*: ?{ [string]: { [string]: string } }*/ ) {
+    var modules = bundle.modules;
+    if (!modules) return;
+    if (depsByBundle && !depsByBundle[bundle.HMR_BUNDLE_ID]) {
+        // If we reached the root bundle without finding where the asset should go,
+        // there's nothing to do. Mark as "accepted" so we don't reload the page.
+        if (!bundle.parent) return true;
+        return hmrAcceptCheck(bundle.parent, id, depsByBundle);
+    }
+    if (checkedAssets[id]) return true;
+    checkedAssets[id] = true;
+    var cached = bundle.cache[id];
+    assetsToDispose.push([
+        bundle,
+        id
+    ]);
+    if (!cached || cached.hot && cached.hot._acceptCallbacks.length) {
+        assetsToAccept.push([
+            bundle,
+            id
+        ]);
+        return true;
+    }
+}
+function hmrDispose(bundle /*: ParcelRequire */ , id /*: string */ ) {
+    var cached = bundle.cache[id];
+    bundle.hotData[id] = {};
+    if (cached && cached.hot) cached.hot.data = bundle.hotData[id];
+    if (cached && cached.hot && cached.hot._disposeCallbacks.length) cached.hot._disposeCallbacks.forEach(function(cb) {
+        cb(bundle.hotData[id]);
+    });
+    delete bundle.cache[id];
+}
+function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
+    // Execute the module.
+    bundle(id);
+    // Run the accept callbacks in the new version of the module.
+    var cached = bundle.cache[id];
+    if (cached && cached.hot && cached.hot._acceptCallbacks.length) cached.hot._acceptCallbacks.forEach(function(cb) {
+        var assetsToAlsoAccept = cb(function() {
+            return getParents(module.bundle.root, id);
+        });
+        if (assetsToAlsoAccept && assetsToAccept.length) {
+            assetsToAlsoAccept.forEach(function(a) {
+                hmrDispose(a[0], a[1]);
+            });
+            // $FlowFixMe[method-unbinding]
+            assetsToAccept.push.apply(assetsToAccept, assetsToAlsoAccept);
+        }
+    });
+}
+
+},{}],"dVZgU":[function(require,module,exports) {
+var _brandCoreText = require("./home/brandCoreText");
+var _heroSequence = require("./home/heroSequence");
+var _caseStudies = require("./home/caseStudies");
+var _caseStudiesSlider = require("./home/caseStudiesSlider");
+var _servicesList = require("./home/servicesList");
+var _caseStudiesProgress = require("./home/caseStudiesProgress");
+// set hero sequence
+(0, _heroSequence.initHeroSection)();
+document.fonts.ready.then(()=>{
+    // Brand Core section
+    ScrollTrigger.refresh();
+    (0, _brandCoreText.setBrandCoreText)();
+    // Set case studies logic
+    (0, _caseStudies.initCaseStudies)();
+    (0, _caseStudiesSlider.initCaseStudiesSlider)();
+    (0, _caseStudiesProgress.initCaseStudiesProgress)();
+    (0, _servicesList.initServicesList)();
+});
+
+},{"./home/brandCoreText":"8LoIf","./home/heroSequence":"dKVxY","./home/caseStudies":"lk9YL","./home/caseStudiesSlider":"9x67S","./home/servicesList":"4WFhN","./home/caseStudiesProgress":"aPQay"}],"8LoIf":[function(require,module,exports) {
+// import { setLinesWrapper } from "../modules/setLinesWrapper";
+// Link timelines to scroll position
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "setBrandCoreText", ()=>setBrandCoreText);
+function createBrandCoreTrigger(triggerElement, words, isLast, isDelayedStagger, index) {
+    if (isDelayedStagger) {
+        const height = triggerElement.getBoundingClientRect().height / window.outerHeight;
+        words.forEach((word, i)=>{
+            const start = i * 20;
+            const end = start + 5;
+            gsap.fromTo(word, {
+                yPercent: 105
+            }, {
+                yPercent: 0,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: triggerElement,
+                    scrub: true,
+                    start: `${start}% top`,
+                    end: `${end}% top`,
+                    markers: false,
+                    pin: false
+                }
+            });
+        });
+    } else gsap.fromTo(words, {
+        yPercent: 105
+    }, {
+        yPercent: 0,
+        stagger: 0.1,
+        ease: "none",
+        scrollTrigger: {
+            trigger: triggerElement,
+            scrub: true,
+            start: "top top",
+            end: "25% top",
+            markers: false,
+            pin: false
+        }
+    });
+    if (!isLast) {
+        let start, end;
+        if (isDelayedStagger) {
+            const height = triggerElement.getBoundingClientRect().height / window.outerHeight;
+            start = "70% top";
+            end = "75% top";
+        } else {
+            start = "40% top";
+            end = "50% top";
+        }
+        gsap.fromTo(words, {
+            yPercent: 0
+        }, {
+            yPercent: -105,
+            stagger: 0.1,
+            ease: "none",
+            immediateRender: false,
+            scrollTrigger: {
+                trigger: triggerElement,
+                scrub: true,
+                start,
+                end,
+                markers: false,
+                pin: false
+            }
+        });
+    }
+    if (isLast) {
+        const button = triggerElement.querySelector(".button");
+        gsap.set(button, {
+            yPercent: 101
+        });
+        gsap.to(button, {
+            yPercent: 0,
+            ease: "none",
+            immediateRender: false,
+            scrollTrigger: {
+                trigger: triggerElement,
+                scrub: true,
+                start: "top top",
+                end: "25% top",
+                markers: false,
+                pin: false
+            }
+        });
+    }
+}
+function setBrandCoreText() {
+    // Split all words on the brand core section
+    SplitText.create(".brand-core-text", {
+        type: "lines, words",
+        mask: "lines",
+        wordsClass: "word",
+        linesClass: "line",
+        autoSplit: true,
+        onSplit: (self)=>{
+            gsap.set(".brand-core-text .word", {
+                yPercent: 100
+            });
+        }
+    });
+    // const brandCoreText = new SplitType(".brand-core-text", {
+    //   types: "lines, words",
+    //   tagName: "span",
+    // });
+    // setLinesWrapper(brandCoreText.lines, () => {
+    //   gsap.set(".brand-core-text .word", { yPercent: 100 });
+    // });
+    const sections = document.querySelectorAll(".brand-core-step");
+    sections.forEach((section, i)=>{
+        const isDelayedStagger = section.classList.contains("_03");
+        const words = section.querySelectorAll(".word");
+        const isLast = i === sections.length - 1;
+        createBrandCoreTrigger(section, words, isLast, isDelayedStagger, i);
+    });
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, "__esModule", {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === "default" || key === "__esModule" || Object.prototype.hasOwnProperty.call(dest, key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
+
+},{}],"dKVxY":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "initHeroSection", ()=>initHeroSection);
+var _setLinesWrapper = require("../modules/setLinesWrapper");
+function initHeroSection() {
+    SplitText.create(".hero-subheadline", {
+        type: "lines",
+        mask: "lines",
+        linesClass: "line",
+        autoSplit: true,
+        onSplit: (self)=>{
+            gsap.set(".hero-line._02, .hero-line._03", {
+                height: 0
+            });
+            gsap.set(".header", {
+                yPercent: -100
+            });
+            gsap.set(".hero-video-bg", {
+                opacity: 0
+            });
+            gsap.set(".hero-subheadline .line", {
+                yPercent: 100
+            });
+            gsap.set(".section-reels", {
+                marginTop: "0rem"
+            });
+        }
+    });
+    // const heroSubheadline = new SplitType(".hero-subheadline p", {
+    //   types: "lines",
+    //   tagName: "span",
+    // });
+    // setLinesWrapper(heroSubheadline.lines, () => {
+    // });
+    // gsap.set(".reels-video-container", { y: "12rem" });
+    const tl = gsap.timeline();
+    const heroVideo = document.querySelector(".hero-video-bg video");
+    // const reelsThumb = document.querySelector(".reels-video-thumb");
+    // reelsThumb.muted = true;
+    // reelsThumb.loop = true;
+    // reelsThumb.playsinline = true;
+    tl.to(".hero-words-wrapper", {
+        y: "-33.33%",
+        duration: 1,
+        delay: 0.5,
+        ease: "expo.inOut"
+    }).to(".hero-words-wrapper", {
+        y: "-66.66%",
+        duration: 1,
+        ease: "expo.inOut"
+    }).to(".hero-line", {
+        height: "25vh",
+        duration: 1,
+        ease: "power4.inOut"
+    }, 2.1).to(".hero-line-spacer", {
+        width: "100%",
+        duration: 1,
+        ease: "power4.inOut"
+    }).to(".header", {
+        yPercent: 0,
+        duration: 1,
+        ease: "power4.inOut"
+    }, "-=1").to(".hero-subheadline .line", {
+        yPercent: 0,
+        duration: 0.5,
+        ease: "power4.Out",
+        stagger: 0.05
+    }, "-=0.5").to(".hero-video-bg", {
+        opacity: "100%",
+        duration: 0.5,
+        ease: "power4.Out",
+        onStart: ()=>{
+            heroVideo.play();
+        }
+    }, "-=1.5");
+    tl.to(".section-reels", {
+        marginTop: "-12rem",
+        duration: 0.5,
+        ease: "power4.Out",
+        onStart: ()=>{
+        // reelsThumb.play();
+        }
+    }, "-=0.5");
+}
+
+},{"../modules/setLinesWrapper":"hPUmk","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hPUmk":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "setLinesWrapper", ()=>setLinesWrapper);
+function setLinesWrapper(lines, callback) {
+    // Wrap each line in a .line-wrapper span
+    lines.forEach((line)=>{
+        const wrapper = document.createElement("span");
+        wrapper.classList.add("line-wrapper");
+        line.parentNode.insertBefore(wrapper, line);
+        wrapper.appendChild(line);
+    });
+    if (typeof callback === "function") callback();
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lk9YL":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "initCaseStudies", ()=>initCaseStudies);
+function initCaseStudies() {
+    const caseStudies = document.querySelectorAll(".case-study-item");
+    const trigger = document.querySelector(".case-studies-wrapper");
+    if (!caseStudies) return;
+    // const mm = gsap.matchMedia();
+    // let maskSizeStart = "0vw 0vw";
+    // let maskSizeEnd = "200vw 200vw";
+    // mm.add("(min-width: 768px)", () => {
+    //   // desktop
+    //   maskSizeStart = "0vw 0vw";
+    //   maskSizeEnd = "200vw 200vw";
+    // });
+    // mm.add("(max-width: 767px)", () => {
+    //   // mobile
+    //   maskSizeStart = "0vh 0vh";
+    //   maskSizeEnd = "200vh 200vh";
+    // });
+    // Case Studies animations ======================================== //
+    caseStudies.forEach((el, i)=>{
+        const tl = gsap.timeline();
+        const projectId = el.dataset.project;
+        // const trigger = document.querySelector(
+        //   `.case-study-spacer[data-project="${projectId}"]`
+        // );
+        const mask = el.querySelector(".case-study-item-inner");
+        const img = el.querySelector(".case-study-item-img");
+        if (i === 0) {
+            gsap.set(document.querySelector(".case-studies-overlay"), {
+                opacity: 1
+            });
+            gsap.set(document.querySelector(".hero-video-bg-wrapper"), {
+                opacity: 1
+            });
+            gsap.set(document.querySelector(".case-studies-overlay-text"), {
+                y: "0rem"
+            });
+            gsap.set(document.querySelectorAll(".case-study-item-footer"), {
+                opacity: 0
+            });
+            if (window.outerWidth > 767) {
+                const wrapper = document.querySelector(".portfolio-sticky-wrapper");
+                gsap.set(wrapper, {
+                    y: "0rem",
+                    width: "30%"
+                });
+                tl.to(wrapper, {
+                    ease: "none",
+                    // y: "12rem",
+                    width: "100%",
+                    scrollTrigger: {
+                        trigger: trigger,
+                        scrub: true,
+                        start: "top bottom",
+                        end: "top top"
+                    }
+                });
+            }
+            gsap.to(document.querySelectorAll(".case-study-item-footer"), {
+                ease: "none",
+                opacity: 1,
+                scrollTrigger: {
+                    trigger: trigger,
+                    scrub: true,
+                    start: "top bottom",
+                    end: "top top"
+                }
+            });
+            gsap.to(document.querySelector(".case-studies-overlay"), {
+                ease: "none",
+                opacity: 0,
+                scrollTrigger: {
+                    trigger: trigger,
+                    scrub: true,
+                    start: "top bottom",
+                    end: "top center",
+                    onLeave: ()=>{
+                        gsap.set(document.querySelector(".case-studies-overlay"), {
+                            display: "none"
+                        });
+                    },
+                    onEnterBack: ()=>{
+                        gsap.set(document.querySelector(".case-studies-overlay"), {
+                            display: "block"
+                        });
+                    }
+                }
+            });
+            gsap.to(document.querySelector(".case-studies-overlay-text"), {
+                ease: "none",
+                y: "-10rem",
+                scrollTrigger: {
+                    trigger: trigger,
+                    scrub: true,
+                    start: "top bottom",
+                    end: "top center"
+                }
+            });
+            gsap.to(document.querySelector(".hero-video-bg-wrapper"), {
+                ease: "none",
+                opacity: 0,
+                scrollTrigger: {
+                    trigger: document.querySelector(".section-hero"),
+                    scrub: true,
+                    start: "top top",
+                    end: "bottom top"
+                }
+            });
+            return;
+        }
+    // gsap.set(mask, {
+    //   maskImage:
+    //     "radial-gradient(circle at 50% 50%, black 50%, rgba(0, 0, 0, 0) 65%)",
+    //   maskRepeat: "no-repeat",
+    //   maskPosition: "center",
+    //   maskSize: maskSizeStart,
+    // });
+    // gsap.set(mask, { display: "none" });
+    // tl.to(mask, {
+    //   ease: "none",
+    //   maskSize: maskSizeEnd,
+    //   scrollTrigger: {
+    //     trigger: trigger,
+    //     scrub: true,
+    //     start: "top bottom",
+    //     end: "100vh top",
+    //   },
+    // });
+    // gsap.to(mask, {
+    //   scrollTrigger: {
+    //     trigger: trigger,
+    //     scrub: true,
+    //     start: "top bottom",
+    //     end: "bottom top",
+    //     onEnter: () => {
+    //       gsap.set(mask, { display: "block" });
+    //     },
+    //     onEnterBack: () => {
+    //       gsap.set(mask, { display: "block" });
+    //     },
+    //     onLeave: () => {
+    //       gsap.set(mask, { display: "none" });
+    //     },
+    //     onLeaveBack: () => {
+    //       gsap.set(mask, { display: "none" });
+    //     },
+    //   },
+    // });
+    // tl.from(img, {
+    //   scale: 1.2,
+    //   opacity: 0.5,
+    //   ease: "none",
+    //   scrollTrigger: {
+    //     trigger: trigger,
+    //     scrub: true,
+    //     start: "top bottom",
+    //     end: "bottom center",
+    //   },
+    // });
+    });
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"9x67S":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "initCaseStudiesSlider", ()=>initCaseStudiesSlider);
+function initCaseStudiesSlider() {
+    const slider = document.querySelector(".case-studies-wrapper");
+    const slides = [
+        ...slider.querySelectorAll(".case-study-item")
+    ];
+    const nextBtn = document.querySelector(".case-studies-controls .next");
+    const prevBtn = document.querySelector(".case-studies-controls .prev");
+    const pagination = document.querySelector(".case-studies-pagination");
+    const mm = gsap.matchMedia();
+    let maskSizeStart = "0vw 0vw";
+    let maskSizeEnd = "200vw 200vw";
+    mm.add("(min-width: 768px)", ()=>{
+        maskSizeStart = "0vw 0vw";
+        maskSizeEnd = "200vw 200vw";
+    });
+    mm.add("(max-width: 767px)", ()=>{
+        maskSizeStart = "0vh 0vh";
+        maskSizeEnd = "200vh 200vh";
+    });
+    let current = 0;
+    // Create bullets
+    const bullets = slides.map((_, index)=>{
+        const bullet = document.createElement("div");
+        bullet.classList.add("case-studies_bullet");
+        if (index === 0) bullet.classList.add("is-active");
+        bullet.addEventListener("click", ()=>{
+            goToSlide(index);
+        });
+        pagination?.appendChild(bullet);
+        return bullet;
+    });
+    slides.forEach((slide, i)=>{
+        const mask = slide.querySelector(".case-study-item-inner");
+        const img = slide.querySelector(".case-study-item-img");
+        const targets = slide.querySelectorAll("[data-slider-stagger]");
+        targets.forEach((el)=>{
+            SplitText.create(el, {
+                type: "words",
+                mask: "words",
+                wordsClass: "word",
+                autoSplit: true,
+                onSplit: (self)=>{
+                    if (i > 0) gsap.set(self.words, {
+                        yPercent: 100
+                    });
+                }
+            });
+        });
+        gsap.set(mask, {
+            maskImage: "radial-gradient(circle at 50% 50%, black 50%, rgba(0, 0, 0, 0) 65%)",
+            maskRepeat: "no-repeat",
+            maskPosition: "center",
+            maskSize: i === 0 ? maskSizeEnd : maskSizeStart
+        });
+        if (i > 0) {
+            gsap.set(mask, {
+                display: "none"
+            });
+            gsap.set(img, {
+                scale: 1.2
+            });
+        }
+    });
+    function updateBullets(index) {
+        bullets.forEach((b, i)=>{
+            b.classList.toggle("is-active", i === index);
+        });
+    }
+    function animateTextIn(slide) {
+        const targets = slide.querySelectorAll("[data-slider-stagger] .word");
+        gsap.to(targets, {
+            yPercent: 0,
+            duration: 0.5,
+            ease: "power2.out",
+            stagger: 0.06
+        });
+    }
+    function resetText(slide) {
+        const targets = slide.querySelectorAll("[data-slider-stagger] .word");
+        gsap.set(targets, {
+            yPercent: 100
+        });
+    }
+    function goToSlide(index) {
+        if (index === current || gsap.isTweening(slides[current])) return;
+        const currentSlide = slides[current];
+        const currentMask = currentSlide.querySelector(".case-study-item-inner");
+        const nextSlide = slides[index];
+        const nextMask = nextSlide.querySelector(".case-study-item-inner");
+        const img = nextSlide.querySelector(".case-study-item-img");
+        gsap.killTweensOf([
+            currentSlide,
+            nextSlide
+        ]);
+        slides.forEach((slide)=>slide.classList.remove("is-current"));
+        gsap.set(nextSlide, {
+            zIndex: 2
+        });
+        gsap.set(currentSlide, {
+            zIndex: 1
+        });
+        gsap.set(nextMask, {
+            display: "block",
+            maskSize: maskSizeStart
+        });
+        gsap.to(nextMask, {
+            maskSize: maskSizeEnd,
+            duration: 0.6,
+            onStart: ()=>{
+                nextSlide.classList.add("is-current");
+                updateBullets(index);
+            },
+            onComplete: ()=>{
+                gsap.set(currentSlide, {
+                    zIndex: 1
+                });
+                gsap.set(currentMask, {
+                    display: "none"
+                });
+                resetText(currentSlide);
+                animateTextIn(nextSlide);
+                current = index;
+            }
+        });
+        gsap.to(img, {
+            scale: 1,
+            duration: 0.6,
+            ease: "power2.out"
+        });
+    }
+    function nextSlide() {
+        goToSlide((current + 1) % slides.length);
+    }
+    function prevSlide() {
+        goToSlide((current - 1 + slides.length) % slides.length);
+    }
+    nextBtn?.addEventListener("click", ()=>{
+        nextSlide();
+    });
+    prevBtn?.addEventListener("click", ()=>{
+        prevSlide();
+    });
+    gsap.set(slides, {
+        zIndex: 1
+    });
+    gsap.set(slides[0], {
+        zIndex: 2
+    });
+    slides[0].classList.add("is-current");
+    animateTextIn(slides[0]);
+    goToSlide(0);
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"4WFhN":[function(require,module,exports) {
+// import { setLinesWrapper } from "../modules/setLinesWrapper";
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "initServicesList", ()=>initServicesList);
+function initServicesList() {
+    const servicesItems = document.querySelectorAll(".services-list-item");
+    if (!servicesItems) return;
+    servicesItems.forEach((item)=>{
+        const line = item.querySelector(".services-list-item-line"), heading = item.querySelector("h3"), description = item.querySelector(".services-list-item-description > p"), button = item.querySelector(".button");
+        let headingEls, descriptionEls;
+        SplitText.create(heading, {
+            type: "lines, words",
+            mask: "lines",
+            wordsClass: "word",
+            linesClass: "line",
+            autoSplit: true,
+            onSplit: (self)=>{
+                headingEls = heading.querySelectorAll(".word");
+                gsap.set(headingEls, {
+                    yPercent: 100
+                });
+            }
+        });
+        // const headingLines = new SplitType(heading, {
+        //   types: "lines, words",
+        //   tagName: "span",
+        // });
+        SplitText.create(description, {
+            type: "lines",
+            mask: "lines",
+            linesClass: "line",
+            autoSplit: true,
+            onSplit: (self)=>{
+                descriptionEls = description.querySelectorAll(".line");
+                gsap.set(descriptionEls, {
+                    yPercent: 100
+                });
+            }
+        });
+        // const descriptionLines = new SplitType(description, {
+        //   types: "lines",
+        //   tagName: "span",
+        // });
+        // setLinesWrapper(descriptionLines.lines, () => {
+        //   descriptionEls = description.querySelectorAll(".line");
+        //   gsap.set(descriptionEls, { yPercent: 100 });
+        // });
+        gsap.set(line, {
+            scaleX: 0
+        });
+        gsap.set(button, {
+            yPercent: 100
+        });
+        gsap.timeline({
+            scrollTrigger: {
+                trigger: item,
+                start: "top bottom-=20%",
+                onEnter: ()=>{
+                    const tl = gsap.timeline();
+                    tl.to(line, {
+                        scaleX: 1,
+                        duration: 0.5,
+                        ease: "expo.out"
+                    }).to(headingEls, {
+                        yPercent: 0,
+                        stagger: 0.1,
+                        duration: 0.5,
+                        ease: "expo.out"
+                    }, "-=0.25").to(descriptionEls, {
+                        yPercent: 0,
+                        stagger: 0.05,
+                        ease: "expo.out"
+                    }, "-=0.25").to(button, {
+                        yPercent: 0,
+                        duration: 0.3,
+                        ease: "expo.out"
+                    }, "-=0.25");
+                }
+            }
+        });
+    });
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"aPQay":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "initCaseStudiesProgress", ()=>initCaseStudiesProgress);
+function initCaseStudiesProgress() {
+    const wrapper = document.querySelector(".case-studies-progress-inner"), progressBar = document.querySelector(".case-studies-progress"), totalCaseStudies = document.querySelectorAll(".case-study-item-link").length, scroller = document.querySelector(".case-studies-spacer");
+    if (!progressBar || !totalCaseStudies) return;
+    gsap.fromTo(progressBar, {
+        scaleY: 0
+    }, {
+        scaleY: 1,
+        scrollTrigger: {
+            trigger: scroller,
+            start: "top top",
+            end: "bottom bottom",
+            scrub: true
+        }
+    });
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["kL51u","dVZgU"], "dVZgU", "parcelRequire5d03")
+
 //# sourceMappingURL=home.js.map
