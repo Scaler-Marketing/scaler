@@ -6,10 +6,10 @@ import { initServicesList } from "./home/servicesList";
 import { initCaseStudiesProgress } from "./home/caseStudiesProgress";
 
 // set hero sequence
-initHeroSection();
 document.addEventListener("DOMContentLoaded", function () {
   // Brand Core section
   ScrollTrigger.refresh();
+  initHeroSection();
   setBrandCoreText();
   // Set case studies logic
   initCaseStudies();
