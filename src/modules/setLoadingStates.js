@@ -14,6 +14,7 @@ export function setLoadingStates() {
     yPercent: -100,
     duration: 1,
     stagger: 0.2,
+    delay: 0.5,
     ease: "expo.out",
     immediateRender: true,
     onComplete: () => {
