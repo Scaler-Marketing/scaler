@@ -27,7 +27,7 @@ export function initHeroSection() {
       // Marca que a intro já foi vista
       if (canUseDOM) {
         try {
-          window.localStorage.setItem("heroIntroPlayed", "true");
+          window.sessionStorage.setItem("heroIntroPlayed", "true");
         } catch (e) {
           // se der erro, só ignora
         }
