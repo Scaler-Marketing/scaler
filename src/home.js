@@ -7,15 +7,15 @@ import { initCaseStudiesProgress } from "./home/caseStudiesProgress";
 
 // set hero sequence
 document.addEventListener("DOMContentLoaded", function () {
-  setTimeout(() => {
+  // setTimeout(() => {
     // Brand Core section
     ScrollTrigger.refresh();
     initHeroSection();
     setBrandCoreText();
     // Set case studies logic
-    initCaseStudies();
-    initCaseStudiesSlider();
-    initCaseStudiesProgress();
+    // initCaseStudies();
+    // initCaseStudiesSlider();
+    // initCaseStudiesProgress();
     initServicesList();
-  }, 1000);
+  // }, 1000);
 });

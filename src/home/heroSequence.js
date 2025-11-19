@@ -1,40 +1,44 @@
-import { setLinesWrapper } from "../modules/setLinesWrapper";
-
 export function initHeroSection() {
+  // Safety guard for SSR
+  const canUseDOM =
+    typeof window !== "undefined" && typeof document !== "undefined";
+
+  // SplitText + estados iniciais
   SplitText.create(".hero-subheadline", {
     type: "lines",
     mask: "lines",
     linesClass: "line",
     autoSplit: true,
     onSplit: (self) => {
-      gsap.set(".hero-line._02, .hero-line._03", { height: 0 });
-      gsap.set(".header", { yPercent: -100 });
-      gsap.set(".hero-video-bg", { opacity: 0 });
-      gsap.set(".hero-subheadline .line", { yPercent: 100 });
-      gsap.set(".section-reels", { marginTop: "0rem" });
     },
-  });  
-  // const heroSubheadline = new SplitType(".hero-subheadline p", {
-  //   types: "lines",
-  //   tagName: "span",
-  // });
+  });
 
-  // setLinesWrapper(heroSubheadline.lines, () => {
-  // });
-
-  // gsap.set(".reels-video-container", { y: "12rem" });
-
-  const tl = gsap.timeline();
   const heroVideo = document.querySelector(".hero-video-bg video");
-  // const reelsThumb = document.querySelector(".reels-video-thumb");
-  // reelsThumb.muted = true;
-  // reelsThumb.loop = true;
-  // reelsThumb.playsinline = true;
+  gsap.set(".hero-line._02, .hero-line._03", { height: 0 });
+  gsap.set(".header", { yPercent: -100 });
+  gsap.set(".hero-video-bg", { opacity: 0 });
+  gsap.set(".hero-subheadline .line", { yPercent: 100 });
+  gsap.set(".section-reels", { marginTop: "0rem" });
 
+  // Timeline começa pausado; decidimos depois se damos play ou pulamos pro final
+  const tl = gsap.timeline({
+    paused: true,
+    onComplete: () => {
+      // Marca que a intro já foi vista
+      if (canUseDOM) {
+        try {
+          window.localStorage.setItem("heroIntroPlayed", "true");
+        } catch (e) {
+          // se der erro, só ignora
+        }
+      }
+    },
+  });
+
+  // -- Definição da animação original --
   tl.to(".hero-words-wrapper", {
     y: "-33.33%",
     duration: 1,
-    // delay: 0.5,
     ease: "expo.inOut",
   })
     .to(".hero-words-wrapper", {
@@ -82,22 +86,42 @@ export function initHeroSection() {
         duration: 0.5,
         ease: "power4.Out",
         onStart: () => {
-          heroVideo.play();
+          if (heroVideo) {
+            heroVideo.play();
+          }
         },
       },
       "-=1.5"
-  );
-  
-  tl.to(
-    ".section-reels",
-    {
-      marginTop: "-12rem",
-      duration: 0.5,
-      ease: "power4.Out",
-      onStart: () => {
-        // reelsThumb.play();
+    )
+    .to(
+      ".section-reels",
+      {
+        marginTop: "-12rem",
+        duration: 0.5,
+        ease: "power4.Out",
+        onStart: () => {
+          // reelsThumb.play();
+        },
       },
-    },
-    "-=0.5"
-  );
+      "-=0.5"
+    );
+
+  // -- Lógica de primeira vs. próxima visita --
+  let hasSeenIntro = false;
+
+  if (canUseDOM) {
+    try {
+      hasSeenIntro = window.localStorage.getItem("heroIntroPlayed") === "true";
+    } catch (e) {
+      hasSeenIntro = false;
+    }
+  }
+
+  if (hasSeenIntro) {
+    // Pula direto pro final da timeline (estado final da página)
+    tl.progress(1);
+  } else {
+    // Primeira vez: toca a animação normalmente
+    tl.play();
+  }
 }
