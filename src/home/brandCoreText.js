@@ -109,7 +109,10 @@ function createBrandCoreTrigger(
   }
 }
 
-export function setBrandCoreText() { 
+export function setBrandCoreText() {
+  // Prevent onSplit initialization logic from running multiple times
+  let hasRunSplitInit = false;
+
   // Split all words on the brand core section
   SplitText.create(".brand-core-text", {
     type: "lines, words",
@@ -118,24 +121,18 @@ export function setBrandCoreText() {
     linesClass: "line",
     autoSplit: true,
     onSplit: (self) => {
+      if (hasRunSplitInit) return; // <-- only runs once per page load
+      hasRunSplitInit = true;
+
       gsap.set(".brand-core-text .word", { yPercent: 100 });
+      const sections = document.querySelectorAll(".brand-core-step");
+
+      sections.forEach((section, i) => {
+        const isDelayedStagger = section.classList.contains("_03");
+        const words = section.querySelectorAll(".word");
+        const isLast = i === sections.length - 1;
+        createBrandCoreTrigger(section, words, isLast, isDelayedStagger, i);
+      });
     },
-  });
-  // const brandCoreText = new SplitType(".brand-core-text", {
-  //   types: "lines, words",
-  //   tagName: "span",
-  // });
-
-  // setLinesWrapper(brandCoreText.lines, () => {
-  //   gsap.set(".brand-core-text .word", { yPercent: 100 });
-  // });
-
-  const sections = document.querySelectorAll(".brand-core-step");
-
-  sections.forEach((section, i) => {
-    const isDelayedStagger = section.classList.contains("_03");
-    const words = section.querySelectorAll(".word");
-    const isLast = i === sections.length - 1;
-    createBrandCoreTrigger(section, words, isLast, isDelayedStagger, i);
   });
 }
