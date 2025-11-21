@@ -1,41 +1,44 @@
 export function initHeroSection() {
-  // Safety guard for SSR
   const canUseDOM =
     typeof window !== "undefined" && typeof document !== "undefined";
 
-  // SplitText + estados iniciais
+  // Prevent onSplit initialization logic from running multiple times
+  let hasRunSplitInit = false;
+
+  // Prevent flash: always hide lines as early as possible
+  gsap.set(".hero-subheadline .line", { yPercent: 100 });
+
+  // Split headline
   SplitText.create(".hero-subheadline", {
     type: "lines",
     mask: "lines",
     linesClass: "line",
     autoSplit: true,
-    onSplit: (self) => {
+    onSplit: () => {
+      if (hasRunSplitInit) return; // <-- only runs once per page load
+      hasRunSplitInit = true;
+
+      gsap.set(".hero-line._02, .hero-line._03", { height: 0 });
+      gsap.set(".header", { yPercent: -100 });
+      gsap.set(".hero-video-bg", { opacity: 0 });
+      gsap.set(".hero-subheadline .line", { yPercent: 100 });
+      gsap.set(".section-reels", { marginTop: "0rem" });
     },
   });
 
   const heroVideo = document.querySelector(".hero-video-bg video");
-  gsap.set(".hero-line._02, .hero-line._03", { height: 0 });
-  gsap.set(".header", { yPercent: -100 });
-  gsap.set(".hero-video-bg", { opacity: 0 });
-  gsap.set(".hero-subheadline .line", { yPercent: 100 });
-  gsap.set(".section-reels", { marginTop: "0rem" });
 
-  // Timeline começa pausado; decidimos depois se damos play ou pulamos pro final
+  // Intro timeline (starts paused)
   const tl = gsap.timeline({
     paused: true,
     onComplete: () => {
-      // Marca que a intro já foi vista
       if (canUseDOM) {
-        try {
-          window.sessionStorage.setItem("heroIntroPlayed", "true");
-        } catch (e) {
-          // se der erro, só ignora
-        }
+        window.sessionStorage.setItem("heroIntroPlayed", "true");
       }
     },
   });
 
-  // -- Definição da animação original --
+  // Animation sequence --------------------------------------------
   tl.to(".hero-words-wrapper", {
     y: "-33.33%",
     duration: 1,
@@ -86,9 +89,7 @@ export function initHeroSection() {
         duration: 0.5,
         ease: "power4.Out",
         onStart: () => {
-          if (heroVideo) {
-            heroVideo.play();
-          }
+          heroVideo?.play();
         },
       },
       "-=1.5"
@@ -99,29 +100,20 @@ export function initHeroSection() {
         marginTop: "-12rem",
         duration: 0.5,
         ease: "power4.Out",
-        onStart: () => {
-          // reelsThumb.play();
-        },
       },
       "-=0.5"
     );
 
-  // -- Lógica de primeira vs. próxima visita --
-  let hasSeenIntro = false;
+  // Check if intro was already played this session
+  const hasSeenIntro =
+    canUseDOM && window.sessionStorage.getItem("heroIntroPlayed") === "true";
 
-  if (canUseDOM) {
-    try {
-      hasSeenIntro = window.sessionStorage.getItem("heroIntroPlayed") === "true";
-    } catch (e) {
-      hasSeenIntro = false;
-    }
-  }
-
+  // Play or skip
   if (hasSeenIntro) {
-    // Pula direto pro final da timeline (estado final da página)
+    // Jump straight to end state
     tl.progress(1);
   } else {
-    // Primeira vez: toca a animação normalmente
-    tl.play();
+    // First visit: delay then play
+    setTimeout(() => tl.play(), 1000);
   }
 }
