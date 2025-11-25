@@ -124,7 +124,7 @@ export function setBrandCoreText() {
       if (hasRunSplitInit) return; // <-- only runs once per page load
       hasRunSplitInit = true;
 
-      gsap.set(".brand-core-text .word", { yPercent: 100 });
+      // gsap.set(".brand-core-text .word", { yPercent: 100 });
       const sections = document.querySelectorAll(".brand-core-step");
 
       sections.forEach((section, i) => {
