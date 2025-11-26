@@ -11,11 +11,11 @@ document.addEventListener("DOMContentLoaded", function () {
     // Brand Core section
     ScrollTrigger.refresh();
     initHeroSection();
-    setBrandCoreText();
+    // setBrandCoreText();
     // Set case studies logic
     // initCaseStudies();
     // initCaseStudiesSlider();
     // initCaseStudiesProgress();
-    initServicesList();
+    // initServicesList();
   // }, 1000);
 });
