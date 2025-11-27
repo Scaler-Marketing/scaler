@@ -2,25 +2,26 @@ export function initHeroSection() {
   const canUseDOM =
     typeof window !== "undefined" && typeof document !== "undefined";
 
-  // Prevent onSplit initialization logic from running multiple times
-  let hasRunSplitInit = false;
+  // // Prevent onSplit initialization logic from running multiple times
+  // let hasRunSplitInit = false;
 
-  // Split headline
-  SplitText.create(".hero-subheadline", {
-    type: "lines",
-    mask: "lines",
-    linesClass: "line",
-    autoSplit: true,
-    onSplit: (self) => {
-      if (hasRunSplitInit) return; // <-- only runs once per page load
-      hasRunSplitInit = true;
-      gsap.set(self.lines, { yPercent: 100 });
+  // // Split headline
+  // SplitText.create(".hero-subheadline", {
+  //   type: "lines",
+  //   mask: "lines",
+  //   linesClass: "line",
+  //   autoSplit: true,
+  //   onSplit: (self) => {
+  //     if (hasRunSplitInit) return; // <-- only runs once per page load
+  //     hasRunSplitInit = true;
+  //     gsap.set(self.lines, { yPercent: 100 });
 
-      setTimeout(() => {
-        playHeroIntro();
-      }, 50);
-    },
-  });
+  //     setTimeout(() => {
+  //       playHeroIntro();
+  //     }, 50);
+  //   },
+  // });
+  playHeroIntro();
 
   function playHeroIntro() {
     const heroVideo = document.querySelector(".hero-video-bg video");
@@ -89,10 +90,11 @@ export function initHeroSection() {
         "-=1"
       )
       .fromTo(
-        ".hero-subheadline .line",
-        { yPercent: 105 },
+        ".hero-subheadline",
+        { yPercent: 105, opacity: 0 },
         {
           yPercent: 0,
+          opacity: 1,
           duration: 0.5,
           ease: "power4.Out",
           stagger: 0.05,
