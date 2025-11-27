@@ -27,7 +27,7 @@ export function initHeroSection() {
     // gsap.set(".hero-line._02, .hero-line._03", { height: 0 });
     // gsap.set(".header", { yPercent: -100 });
     // gsap.set(".hero-video-bg", { opacity: 0 });
-    gsap.set(".hero-subheadline .line", { yPercent: 100 });
+    // gsap.set(".hero-subheadline .line", { yPercent: 100 });
     // gsap.set(".section-reels", { marginTop: "0rem" });
 
     // Intro timeline (starts paused)
