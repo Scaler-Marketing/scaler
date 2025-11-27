@@ -11,9 +11,10 @@ export function initHeroSection() {
     mask: "lines",
     linesClass: "line",
     autoSplit: true,
-    onSplit: () => {
+    onSplit: (self) => {
       if (hasRunSplitInit) return; // <-- only runs once per page load
       hasRunSplitInit = true;
+      gsap.set(self.lines, { yPercent: 100 });
 
       setTimeout(() => {
         playHeroIntro();
@@ -26,7 +27,7 @@ export function initHeroSection() {
     // gsap.set(".hero-line._02, .hero-line._03", { height: 0 });
     // gsap.set(".header", { yPercent: -100 });
     // gsap.set(".hero-video-bg", { opacity: 0 });
-    // gsap.set(".hero-subheadline .line", { yPercent: 100 });
+    gsap.set(".hero-subheadline .line", { yPercent: 100 });
     // gsap.set(".section-reels", { marginTop: "0rem" });
 
     // Intro timeline (starts paused)
