@@ -5,117 +5,94 @@ const height = window.innerHeight;
 
 var mm = gsap.matchMedia();
 
-// Image sequence play on scroll =====================================//
-
-var allImagesCount = 0;
-var totalCount = 0;
+// Image sequence progressive loading system ======================= //
 
 // Initialize for each section
 function initSections() {
   sections.forEach(function (section) {
     var prefix = section.dataset.prefix || null;
     var suffix = section.dataset.suffix || null;
-    var frames = section.dataset.framecount || 0;
+    var frames = Number(section.dataset.framecount || 0);
     var canvas = section.querySelector("canvas");
-    if (!canvas || !prefix || !suffix || !frames) {
-      return;
-    }
+
+    if (!canvas || !prefix || !suffix || !frames) return;
 
     var device = width >= 768 ? "desktop" : "mobile";
 
-    allImagesCount += Number(frames);
-    totalCount += Number(frames);
     initCanvas(section, canvas, prefix, suffix, frames, device);
   });
 }
 
-mm.add("(min-width: 768px)", () => {
-  // desktop
-  initSections();
-});
+mm.add("(min-width: 768px)", () => initSections());
+mm.add("(max-width: 767px)", () => initSections());
 
-mm.add("(max-width: 767px)", () => {
-  // mobile
-  initSections();
-});
-
-//var $loadingNum = $('.loading-number');
-//var $loadingProgress = $('.loading-number-progress');
-function updateImageSequenceCount(file) {
-  allImagesCount--;
-
-  var updatedPercent = 100 - Math.round((allImagesCount * 100) / totalCount);
-  //$loadingNum.text(updatedPercent + '%');
-  //$loadingProgress.css('transform', 'translate3d(' + updatedPercent +'%, 0,0)');
-  // console.log(updatedPercent);
-
-  if (allImagesCount === 0) {
-    //$('.loading-disable').click();
-    setTimeout(function () {
-      lenis.resize();
-    }, 500);
-  }
-}
-
-// Initialize animation on canvas for each section. This loads
-// the image sequence and make sure to load the right image based
-// on scroll position.
+// Initialize animation on canvas for each section. Progressive load.
 function initCanvas(section, canvas, prefix, suffix, frames, device) {
-  var context = canvas.getContext("2d");
+  const context = canvas.getContext("2d");
   canvas.width = width;
   canvas.height = height;
 
-  var frameCount = frames;
-  var currentFrame = function (index) {
-    return `${prefix}${device}/${(index + 1)
-      .toString()
-      .padStart(3, "0")}${suffix}`;
-  };
+  const frameCount = frames;
+  const images = new Array(frameCount).fill(null);
 
-  var images = [];
-  // loads all images for this sequence and checks if we loaded everything
-  // for this page.
-  for (var i = 0; i < frameCount; i++) {
-    var img = new Image();
-    var imgSrc = currentFrame(i);
+  // Build file source
+  const getSrc = (i) =>
+    `${prefix}${device}/${(i + 1).toString().padStart(3, "0")}${suffix}`;
 
-    img.onload = function () {
-      updateImageSequenceCount(imgSrc);
-      if (allImagesCount === 0) {
-        initCanvasAnimations(section, images, context, canvas);
-      }
-    };
-    img.onerror = function () {
-      updateImageSequenceCount(imgSrc);
-    };
-    img.src = imgSrc;
-    images.push(img);
+  // Progressive quad-pass loader (pass 0 → 1 → 2 → 3)
+  function loadPass(pass = 0) {
+    let loadedInPass = 0;
+
+    for (let i = pass; i < frameCount; i += 4) {
+      if (images[i]) continue; // Already loaded
+
+      const img = new Image();
+      img.src = getSrc(i);
+
+      img.onload = () => {
+        images[i] = img;
+        loadedInPass++;
+
+        // First frame of first pass initializes animation immediately
+        if (pass === 0 && loadedInPass === 1) {
+          initCanvasAnimations(section, images, context, canvas);
+        }
+
+        // Check if all frames of this pass are loaded
+        const allLoadedInPass = images
+          .map((img, idx) => (idx % 4 === pass ? !!img : true))
+          .every(Boolean);
+
+        if (allLoadedInPass && pass < 3) {
+          loadPass(pass + 1); // Load next pass
+        }
+      };
+
+      img.onerror = () => {
+        images[i] = "error";
+      };
+    }
   }
+
+  // Start progressive loading
+  loadPass(0);
 }
 
+// Create ScrollTrigger animations once first frame is ready
 function initCanvasAnimations(section, images, context, canvas) {
-  var sequence = {
-    frame: 0,
-  };
-
   var blocks = section.querySelectorAll("[frames-play]");
 
   blocks.forEach(function (block) {
-    var start = Number(block.dataset.start),
-      end = Number(block.dataset.end),
-      posStart = block.dataset.startPos || "top top",
-      posEnd = block.dataset.endPos || "bottom bottom";
+    var start = Number(block.dataset.start);
+    var end = Number(block.dataset.end);
+    var posStart = block.dataset.startPos || "top top";
+    var posEnd = block.dataset.endPos || "bottom bottom";
 
-    var blockSequence = {
-      frame: 0,
-    };
+    var blockSequence = { frame: start - 1 };
 
-    // Initializes timeline for scroll animation.
     gsap
       .timeline({
-        onUpdate: function () {
-          render(images, blockSequence, context, canvas);
-        },
+        onUpdate: () => render(images, blockSequence, context, canvas),
         scrollTrigger: {
           trigger: block,
           pin: false,
@@ -127,9 +104,7 @@ function initCanvasAnimations(section, images, context, canvas) {
       })
       .fromTo(
         blockSequence,
-        {
-          frame: start - 1,
-        },
+        { frame: start - 1 },
         {
           frame: end - 1,
           snap: "frame",
@@ -140,44 +115,58 @@ function initCanvasAnimations(section, images, context, canvas) {
       );
   });
 
-  render(images, sequence, context, canvas);
+  // First render
+  render(images, { frame: 0 }, context, canvas);
 
+  // Responsive resize
   window.addEventListener("resize", function () {
     canvas.width = document.documentElement.clientWidth;
     canvas.height = window.innerHeight;
-    render(images, sequence, context, canvas);
+    render(images, { frame: 0 }, context, canvas);
   });
 }
 
-// Makes sure that the canvas is responsive, and updates the current
-// painted image depending on the scroll position.
+// Render function with fallback for not-yet-loaded frames
 function render(images, sequence, context, canvas) {
-  var img = images[sequence.frame];
-  // console.log(sequence.frame);
+  let frameIndex = sequence.frame;
+  let img = images[frameIndex];
+
+  // Look backward for nearest loaded frame
+  if (!img || img === "error") {
+    for (let i = frameIndex - 1; i >= 0; i--) {
+      if (images[i] && images[i] !== "error") {
+        img = images[i];
+        break;
+      }
+    }
+  }
+
+  // Look forward if still missing
+  if (!img || img === "error") {
+    for (let i = frameIndex + 1; i < images.length; i++) {
+      if (images[i] && images[i] !== "error") {
+        img = images[i];
+        break;
+      }
+    }
+  }
+
+  // If no valid images yet, skip drawing
+  if (!img || img === "error") return;
+
   context.clearRect(0, 0, canvas.width, canvas.height);
 
-  var loadedImageWidth = img.width;
-  var loadedImageHeight = img.height;
-
-  // get the scale
-  // it is the min of the 2 ratios
-  var scaleFactor = Math.max(
+  // Scale image to cover canvas
+  const scaleFactor = Math.max(
     canvas.width / img.width,
     canvas.height / img.height
   );
 
-  // Finding the new width and height based on the scale factor
-  var newWidth = img.width * scaleFactor;
-  var newHeight = img.height * scaleFactor;
+  const newWidth = img.width * scaleFactor;
+  const newHeight = img.height * scaleFactor;
 
-  //console.log(img.width, img.height, scaleFactor, newWidth, newHeight);
+  const x = (canvas.width - newWidth) / 2;
+  const y = (canvas.height - newHeight) / 2;
 
-  // get the top left position of the image
-  // in order to center the image within the canvas
-  var x = canvas.width / 2 - newWidth / 2;
-  var y = canvas.height / 2 - newHeight / 2;
-
-  // When drawing the image, we have to scale down the image
-  // width and height in order to fit within the canvas
   context.drawImage(img, x, y, newWidth, newHeight);
 }
