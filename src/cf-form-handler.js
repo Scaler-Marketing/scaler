@@ -51,6 +51,7 @@ const FORM_CONFIG = {
     subjectAttribute: "cf-email-subject", // e.g., cf-email-subject="New Helix Contact Form: {{First-Name}} {{Last-Name}}"
     fromAttribute: "cf-email-from", // e.g., cf-email-from="{{Company}} Contact Form"
     titleAttribute: "cf-email-title", // e.g., cf-email-title="Contact from {{First-Name}}"
+    replyToAttribute: "cf-email-reply-to", // e.g., cf-email-reply-to="email-field-id"
   },
 
   // Page URL Field
@@ -852,6 +853,22 @@ class CloudflareFormHandler {
       }
     }
 
+    // Handle Reply-To (if configured)
+    if (FORM_CONFIG.emailConfig.enabled) {
+      const replyToId = config.formElement.getAttribute(
+        FORM_CONFIG.emailConfig.replyToAttribute
+      );
+      if (replyToId) {
+        // Try to find the element by ID
+        const replyToElement = document.getElementById(replyToId);
+        if (replyToElement && replyToElement.value) {
+          formData["_email.replyto"] = replyToElement.value;
+          // Also set _replyto as a fallback for broad compatibility
+          formData["_replyto"] = replyToElement.value;
+        }
+      }
+    }
+
     // Convert Formspark email fields to nested object format
     this.convertEmailFieldsToNestedFormat(formData, config);
 
@@ -936,6 +953,8 @@ class CloudflareFormHandler {
             formData,
             config
           );
+        } else if (key === "_email.replyto") {
+          emailConfig.replyto = value;
         } else if (key === "_email.template.title") {
           templateConfig.title =
             value === "false"
@@ -1068,3 +1087,4 @@ if (FORM_CONFIG.debug) {
     "Form Security Handler initialized. Webflow submissions will be intercepted and forwarded to the Cloudflare Worker."
   );
 }
+
