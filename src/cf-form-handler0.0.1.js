@@ -9,7 +9,7 @@ const FORM_CONFIG = {
   workerUrl: "https://scaler-marketing-forms.revolv3.workers.dev/",
 
   // Debug Mode
-  debug: false,
+  debug: true,
 
   // Form Selectors & Attributes
   formSelector: "form[cf-form]",
@@ -793,6 +793,16 @@ class CloudflareFormHandler {
         turnstileToken,
       };
 
+      // Log payload for debugging (especially reply-to)
+      this.log("Submitting payload to worker:", {
+        ...payload,
+        formData: {
+          ...payload.formData,
+          _email: payload.formData._email,
+          _replyto: payload.formData._replyto,
+        },
+      });
+
       // Submit to Cloudflare Worker
       const response = await fetch(this.workerUrl, {
         method: "POST",
@@ -853,24 +863,53 @@ class CloudflareFormHandler {
       }
     }
 
-    // Handle Reply-To (if configured)
+    // Convert Formspark email fields to nested object format FIRST
+    this.convertEmailFieldsToNestedFormat(formData, config);
+
+    // Handle Reply-To (if configured) - do this AFTER conversion to ensure proper structure
     if (FORM_CONFIG.emailConfig.enabled) {
       const replyToId = config.formElement.getAttribute(
         FORM_CONFIG.emailConfig.replyToAttribute
       );
       if (replyToId) {
-        // Try to find the element by ID
-        const replyToElement = document.getElementById(replyToId);
+        // Try to find the element by ID first, then by name as fallback
+        let replyToElement = document.getElementById(replyToId);
+
+        // If not found by ID, try searching within the form by ID selector
+        if (!replyToElement) {
+          replyToElement = config.formElement.querySelector(`#${replyToId}`);
+        }
+
+        // If still not found, try by name attribute
+        if (!replyToElement) {
+          replyToElement = config.formElement.querySelector(
+            `[name="${replyToId}"]`
+          );
+        }
+
         if (replyToElement && replyToElement.value) {
-          formData["_email.replyto"] = replyToElement.value;
-          // Also set _replyto as a fallback for broad compatibility
-          formData["_replyto"] = replyToElement.value;
+          const emailValue = replyToElement.value.trim();
+
+          // Ensure _email object exists
+          if (!formData._email) {
+            formData._email = {};
+          }
+
+          // Set nested format (preferred by Formspark)
+          formData._email.replyto = emailValue;
+
+          // Also set root-level _replyto as a fallback
+          formData._replyto = emailValue;
+
+          this.log(`Reply-To email captured and set: ${emailValue}`);
+          this.log(`_email object:`, formData._email);
+        } else {
+          this.warn(
+            `Reply-To element not found or empty. ID/Name: ${replyToId}`
+          );
         }
       }
     }
-
-    // Convert Formspark email fields to nested object format
-    this.convertEmailFieldsToNestedFormat(formData, config);
 
     return formData;
   }
@@ -973,6 +1012,12 @@ class CloudflareFormHandler {
 
       if (Object.keys(templateConfig).length > 0) {
         formData._email.template = templateConfig;
+      }
+
+      // Log email configuration for debugging
+      this.log("Email configuration:", formData._email);
+      if (formData._replyto) {
+        this.log("Root-level _replyto:", formData._replyto);
       }
     }
   }
