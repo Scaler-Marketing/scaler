@@ -9,7 +9,7 @@ const FORM_CONFIG = {
   workerUrl: "https://scaler-marketing-forms.revolv3.workers.dev/",
 
   // Debug Mode
-  debug: true,
+  debug: false,
 
   // Form Selectors & Attributes
   formSelector: "form[cf-form]",
@@ -579,8 +579,10 @@ class CloudflareFormHandler {
         const turnstileResponse = config.formElement.querySelector(
           '[name="cf-turnstile-response"]'
         );
-        if (turnstileResponse && !turnstileResponse.value) {
-          this.log("Turnstile not completed, showing error");
+
+        // UPDATED: Fail if element is missing OR empty
+        if (!turnstileResponse || !turnstileResponse.value) {
+          this.log("Turnstile not completed or not loaded, showing error");
           this.showError(config, "Please complete the captcha verification.");
           return false;
         }
@@ -636,9 +638,11 @@ class CloudflareFormHandler {
               const turnstileResponse = config.formElement.querySelector(
                 '[name="cf-turnstile-response"]'
               );
-              if (turnstileResponse && !turnstileResponse.value) {
+
+              // UPDATED: Fail if element is missing OR empty
+              if (!turnstileResponse || !turnstileResponse.value) {
                 isCaptchaValid = false;
-                this.log("Button click: Turnstile not completed");
+                this.log("Button click: Turnstile not completed or not loaded");
                 this.showError(
                   config,
                   "Please complete the captcha verification."
