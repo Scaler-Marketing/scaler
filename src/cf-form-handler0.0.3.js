@@ -1,4 +1,4 @@
-// Cloudflare Worker Form Handler (Webflow Intercept) - Production Version
+// Cloudflare Worker Form Handler (Webflow Intercept) - DEBUG Version
 // Automatically detects forms with cf-form attribute and processes them
 
 // ========================================
@@ -264,6 +264,7 @@ class CloudflareFormHandler {
       submitLabel: formElement.querySelector(FORM_CONFIG.submitLabelSelector),
       errorElement: formElement.querySelector(FORM_CONFIG.errorElementSelector),
       errorText: formElement.querySelector(FORM_CONFIG.errorTextSelector),
+      turnstileContainer: null, // Will be set in setupTurnstile
     };
 
     // Validate required attributes
@@ -450,23 +451,81 @@ class CloudflareFormHandler {
 
     this.log(`Setting up Turnstile for form ${config.formId}`);
 
-    // Create container
-    const container = document.createElement("div");
-    container.className = "cf-turnstile";
-    container.setAttribute("data-sitekey", config.turnstileSiteKey);
-    container.style.marginBottom = "15px";
+    // FIX: Check for existing container first to avoid duplication
+    // and ensuring we target the correct one
+    let container = config.formElement.querySelector(
+      `.cf-turnstile[data-sitekey="${config.turnstileSiteKey}"]`
+    );
 
-    // Insert before submit button or append to form
-    if (config.submitButton) {
-      // Check if the button is inside a wrapper, insert before the wrapper if possible, or just before button
-      // Usually just before button is fine
-      config.submitButton.parentNode.insertBefore(
-        container,
-        config.submitButton
-      );
+    if (container) {
+      this.log("Found existing Turnstile container", container);
     } else {
-      config.formElement.appendChild(container);
+      this.log("Creating new Turnstile container");
+      // Create container
+      container = document.createElement("div");
+      container.className = "cf-turnstile";
+      container.setAttribute("data-sitekey", config.turnstileSiteKey);
+      container.style.marginBottom = "15px";
+
+      // Insert before submit button or append to form
+      if (config.submitButton) {
+        // Check if the button is inside a wrapper, insert before the wrapper if possible
+        config.submitButton.parentNode.insertBefore(
+          container,
+          config.submitButton
+        );
+      } else {
+        config.formElement.appendChild(container);
+      }
     }
+
+    // Store container reference in config for scoped querying
+    config.turnstileContainer = container;
+
+    // Define render function
+    const ensureRender = () => {
+      if (
+        window.turnstile &&
+        config.turnstileContainer &&
+        !config.turnstileWidgetId
+      ) {
+        // Check if already has iframe (auto-rendered)
+        if (config.turnstileContainer.querySelector("iframe")) {
+          this.log("Turnstile seems to have auto-rendered");
+          return;
+        }
+
+        try {
+          config.turnstileWidgetId = window.turnstile.render(
+            config.turnstileContainer,
+            {
+              sitekey: config.turnstileSiteKey,
+              callback: (token) => {
+                this.log(
+                  `Turnstile challenge success: ${token.substring(0, 10)}...`
+                );
+                // Clear errors if any
+                this.hideError(config);
+              },
+              "expired-callback": () => {
+                this.log("Turnstile token expired");
+                // Optional: Auto-reset?
+                // window.turnstile.reset(config.turnstileWidgetId);
+              },
+              "error-callback": () => {
+                this.warn("Turnstile encountered an error");
+              },
+            }
+          );
+          this.log(
+            "Explicitly rendered Turnstile, ID:",
+            config.turnstileWidgetId
+          );
+        } catch (e) {
+          this.warn("Failed to render Turnstile:", e);
+        }
+      }
+    };
 
     // Load Turnstile script if not present
     if (
@@ -475,10 +534,28 @@ class CloudflareFormHandler {
       )
     ) {
       const script = document.createElement("script");
-      script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
+      script.src =
+        "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
       script.async = true;
       script.defer = true;
+      script.onload = ensureRender;
       document.head.appendChild(script);
+    } else {
+      // Script already exists (likely Webflow's), wait for it to be ready
+      if (window.turnstile) {
+        ensureRender();
+      } else {
+        // Poll for window.turnstile
+        const checkInterval = setInterval(() => {
+          if (window.turnstile) {
+            clearInterval(checkInterval);
+            ensureRender();
+          }
+        }, 100);
+
+        // Safety timeout (stop polling after 10s)
+        setTimeout(() => clearInterval(checkInterval), 10000);
+      }
     }
   }
 
@@ -576,9 +653,12 @@ class CloudflareFormHandler {
 
       // Check Turnstile or reCAPTCHA
       if (config.turnstileSiteKey) {
-        const turnstileResponse = config.formElement.querySelector(
-          '[name="cf-turnstile-response"]'
-        );
+        // FIX: Scope query to our specific container
+        const turnstileResponse = config.turnstileContainer
+          ? config.turnstileContainer.querySelector(
+              '[name="cf-turnstile-response"]'
+            )
+          : null;
 
         // UPDATED: Fail if element is missing OR empty
         if (!turnstileResponse || !turnstileResponse.value) {
@@ -635,9 +715,12 @@ class CloudflareFormHandler {
             let isCaptchaValid = true;
 
             if (config.turnstileSiteKey) {
-              const turnstileResponse = config.formElement.querySelector(
-                '[name="cf-turnstile-response"]'
-              );
+              // FIX: Scope query to our specific container
+              const turnstileResponse = config.turnstileContainer
+                ? config.turnstileContainer.querySelector(
+                    '[name="cf-turnstile-response"]'
+                  )
+                : null;
 
               // UPDATED: Fail if element is missing OR empty
               if (!turnstileResponse || !turnstileResponse.value) {
@@ -757,9 +840,12 @@ class CloudflareFormHandler {
       // Capture Turnstile token
       let turnstileToken = null;
       if (config.turnstileSiteKey) {
-        const turnstileField = config.formElement.querySelector(
-          '[name="cf-turnstile-response"]'
-        );
+        // FIX: Scope query to our specific container
+        const turnstileField = config.turnstileContainer
+          ? config.turnstileContainer.querySelector(
+              '[name="cf-turnstile-response"]'
+            )
+          : null;
         turnstileToken = turnstileField?.value?.trim();
       }
 
@@ -825,6 +911,11 @@ class CloudflareFormHandler {
           config,
           result.error?.message || "Something went wrong. Please try again."
         );
+        // Reset Turnstile on error so user can try again with a fresh token
+        if (window.turnstile && config.turnstileWidgetId) {
+          this.log("Resetting Turnstile widget due to submission error");
+          window.turnstile.reset(config.turnstileWidgetId);
+        }
       }
     } catch (error) {
       this.showError(
@@ -1133,7 +1224,7 @@ window.turnstileHandler = formSecurityHandler; // Backwards compatibility
 // Log helper message for developers
 if (FORM_CONFIG.debug) {
   console.log(
-    "Form Security Handler initialized. Webflow submissions will be intercepted and forwarded to the Cloudflare Worker."
+    "Form Security Handler initialized (DEBUG). Webflow submissions will be intercepted and forwarded to the Cloudflare Worker."
   );
 }
 
