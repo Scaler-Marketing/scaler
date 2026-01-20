@@ -21,15 +21,32 @@ export function initHeroSection() {
   //     }, 50);
   //   },
   // });
+
   playHeroIntro();
 
   function playHeroIntro() {
-    const heroVideo = document.querySelector(".hero-video-bg video");
-    // gsap.set(".hero-line._02, .hero-line._03", { height: 0 });
-    // gsap.set(".header", { yPercent: -100 });
-    // gsap.set(".hero-video-bg", { opacity: 0 });
-    // gsap.set(".hero-subheadline .line", { yPercent: 100 });
-    // gsap.set(".section-reels", { marginTop: "0rem" });
+    const header = document.querySelector(".header");
+    const heroSection = document.querySelector(".section_home-hero");
+    const heroVideo = heroSection.querySelector(".hero-video-bg video");
+    const heroHeadline = heroSection.querySelector("[data-hero-headline]");
+    const heroSubheadline = heroSection.querySelector(
+      "[data-hero-subheadline]"
+    );
+    const heroCta = heroSection.querySelector(".button");
+
+    const headlineSplit = SplitText.create(heroHeadline, {
+      type: "words",
+      mask: "words",
+    });
+    const subheadlineSplit = SplitText.create(heroSubheadline, {
+      type: "words",
+      mask: "words",
+    });
+
+    gsap.set(header, { yPercent: -100 });
+    gsap.set(headlineSplit.words, { yPercent: 100 });
+    gsap.set(subheadlineSplit.words, { yPercent: 100 });
+    gsap.set(heroCta, { yPercent: 110 });
 
     // Intro timeline (starts paused)
     const tl = gsap.timeline({
@@ -58,49 +75,48 @@ export function initHeroSection() {
         duration: 1,
         ease: "expo.inOut",
       })
-      .fromTo(
-        ".hero-line._02, .hero-line._03",
-        { height: 0 },
+      .to(
+        ".hero-line._01",
         {
-          height: "25vh",
+          height: 0,
           duration: 1,
-          ease: "power4.inOut",
+          ease: "expo.inOut",
         },
-        2.1
       )
-      .fromTo(
-        ".hero-line-spacer",
-        {
-          width: "0%",
-        },
-        {
-          width: "100%",
-          duration: 1,
-          ease: "power4.inOut",
-        }
-      )
-      .fromTo(
-        ".header",
-        { yPercent: -100 },
+      .to(
+        headlineSplit.words,
         {
           yPercent: 0,
           duration: 1,
-          ease: "power4.inOut",
-        },
-        "-=1"
-      )
-      .fromTo(
-        ".hero-subheadline",
-        { yPercent: 105, opacity: 0 },
-        {
-          yPercent: 0,
-          opacity: 1,
-          duration: 0.5,
-          ease: "power4.Out",
-          stagger: 0.05,
+          ease: "expo.inOut",
         },
         "-=0.5"
       )
+      .to(
+        subheadlineSplit.words,
+        {
+          yPercent: 0,
+          duration: 1,
+          ease: "expo.inOut",
+        },
+        "-=1"
+    )
+      .to(
+        heroCta,
+        {
+          yPercent: 0,
+          duration: 1,
+          ease: "expo.inOut",
+        },
+        "-=0.5"
+    )
+      .to(header, {
+        yPercent: 0,
+        duration: 1,
+        ease: "expo.inOut",
+      },
+        "-=1.5"
+    )
       .fromTo(
         ".hero-video-bg",
         { opacity: 0 },
