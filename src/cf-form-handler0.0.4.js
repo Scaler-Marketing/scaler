@@ -701,6 +701,24 @@ class CloudflareFormHandler {
       );
       config.submitButton = newButton;
 
+      // Webflow can temporarily set the submit button into a loading/disabled state
+      // during initialization; cloning during that window can "freeze" the disabled state.
+      // Normalize the button to an interactive baseline (and re-apply shortly after init).
+      const normalizeSubmitButton = () => {
+        try {
+          config.submitButton.disabled = false;
+          config.submitButton.removeAttribute("disabled");
+          config.submitButton.classList.remove("w-form-loading");
+        } catch (e) {
+          // Ignore (defensive): some environments may not allow changing attributes.
+        }
+      };
+
+      normalizeSubmitButton();
+      // Self-heal if Webflow re-toggles state right after init.
+      setTimeout(normalizeSubmitButton, 250);
+      setTimeout(normalizeSubmitButton, 1000);
+
       config.submitButton.addEventListener(
         "click",
         (event) => {
@@ -1227,4 +1245,5 @@ if (FORM_CONFIG.debug) {
     "Form Security Handler initialized (DEBUG). Webflow submissions will be intercepted and forwarded to the Cloudflare Worker."
   );
 }
+
 
