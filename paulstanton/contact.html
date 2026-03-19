@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact | Law Offices of Paul B. Stanton</title>
+  <meta name="description" content="Contact Attorney Paul B. Stanton for a free initial consultation. Offices in Quincy, Braintree, and Mansfield, Massachusetts.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header class="header scrolled" id="header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-name">Paul B. Stanton</span>
+        <span class="logo-title">Attorney at Law</span>
+      </a>
+      <nav class="nav" id="nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="index.html#practice-areas" class="nav-link">Practice Areas</a>
+        <a href="index.html#testimonials" class="nav-link">Testimonials</a>
+        <a href="contact.html" class="nav-link active">Contact</a>
+        <a href="contact.html" class="nav-cta">Free Consultation</a>
+      </nav>
+      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Page Hero -->
+  <section class="page-hero">
+    <div class="container page-hero-content">
+      <p class="section-label fade-up">Get in Touch</p>
+      <h1 class="section-title fade-up">Contact <em>Our Office</em></h1>
+      <p class="section-subtitle fade-up">Reach out for a free initial consultation. Attorney Stanton is here to discuss your case and answer your questions.</p>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="contact-section">
+    <div class="container contact-grid">
+      <div class="contact-form-wrapper fade-up">
+        <h2 style="font-family: var(--font-serif); font-size: 1.75rem; font-weight: 500; color: var(--navy); margin-bottom: 0.5rem;">Request a Consultation</h2>
+        <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 2rem; line-height: 1.7;">Fill out the form below and we will get back to you as soon as possible. All consultations are confidential.</p>
+
+        <form id="contact-form" action="#" method="POST">
+          <div class="contact-form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" required placeholder="Your full name">
+          </div>
+          <div class="contact-form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" required placeholder="your@email.com">
+          </div>
+          <div class="contact-form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="(555) 555-5555">
+          </div>
+          <div class="contact-form-group">
+            <label for="case-type">Case Type</label>
+            <select id="case-type" name="case-type">
+              <option value="">Select a case type</option>
+              <option value="criminal-defense">Criminal Defense</option>
+              <option value="dui-dwi">DUI / DWI</option>
+              <option value="traffic">Speeding / Traffic Violations</option>
+              <option value="personal-injury">Personal Injury</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="contact-form-group">
+            <label for="message">Tell Us About Your Case</label>
+            <textarea id="message" name="message" required placeholder="Briefly describe your situation and how we can help..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; text-align: center;">Send Message</button>
+        </form>
+      </div>
+
+      <div class="contact-info-section fade-up">
+        <div class="contact-info-block">
+          <h3>Call Us Directly</h3>
+          <p>For immediate assistance, call our office. We always provide a free initial consultation.</p>
+          <p style="margin-top: 0.5rem;"><a href="tel:5083599977" style="font-size: 1.5rem; font-family: var(--font-serif); font-weight: 600; color: var(--navy);">(508) 359-9977</a></p>
+        </div>
+
+        <div class="contact-info-block">
+          <h3>Email</h3>
+          <a href="mailto:info@paulstantonlaw.com">info@paulstantonlaw.com</a>
+        </div>
+
+        <div class="contact-info-block">
+          <h3>Quincy Office</h3>
+          <p>500 Victory Road, Suite 400<br>Quincy, MA 02171</p>
+        </div>
+
+        <div class="contact-info-block">
+          <h3>Braintree Office</h3>
+          <p>25 Braintree Hill Office Park, Suite 200<br>Braintree, MA 02184</p>
+        </div>
+
+        <div class="contact-info-block">
+          <h3>Mansfield Office</h3>
+          <p>20 Cabot Boulevard, Suite 300<br>Mansfield, MA 02048</p>
+        </div>
+
+        <div class="contact-info-block">
+          <h3>Mailing Address</h3>
+          <p>120 North Meadows Road<br>Medfield, MA 02052</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <span class="logo-name">Paul B. Stanton</span>
+          <span class="logo-title">Attorney at Law</span>
+          <p class="footer-desc">Providing dedicated criminal defense representation to the people of Massachusetts since 2000.</p>
+        </div>
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="index.html#practice-areas">Practice Areas</a>
+          <a href="contact.html">Contact</a>
+        </div>
+        <div class="footer-links">
+          <h4>Practice Areas</h4>
+          <a href="index.html#practice-areas">Criminal Defense</a>
+          <a href="index.html#practice-areas">DUI &amp; DWI</a>
+          <a href="index.html#practice-areas">Traffic Violations</a>
+          <a href="index.html#practice-areas">Personal Injury</a>
+        </div>
+        <div class="footer-contact">
+          <h4>Contact</h4>
+          <a href="tel:5083599977">(508) 359-9977</a>
+          <a href="mailto:info@paulstantonlaw.com">info@paulstantonlaw.com</a>
+          <p>120 North Meadows Road<br>Medfield, MA 02052</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Law Offices of Paul B. Stanton. All rights reserved.</p>
+        <p class="footer-disclaimer">The information on this website is for general informational purposes only. Nothing on this site should be taken as legal advice. Viewing this website does not establish an attorney-client relationship.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="scripts.js"></script>
+</body>
+</html>
