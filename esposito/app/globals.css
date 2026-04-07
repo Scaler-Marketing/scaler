@@ -1,0 +1,450 @@
+/* ============================================
+   CLIENT FIRST V2 — REM PROPERTIES
+   Esposito Property Maintenance
+   ============================================ */
+
+/* --- Reset & Base --- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 100%; /* 16px base — Client First default */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: var(--text--medium);
+  line-height: 1.6;
+  color: var(--color--text-primary);
+  background-color: var(--color--background);
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* ============================================
+   CLIENT FIRST V2 — CUSTOM PROPERTIES (REM)
+   ============================================ */
+:root {
+  /* --- Colors --- */
+  --color--primary: #1a3a2a;
+  --color--primary-light: #2d5a3f;
+  --color--primary-dark: #0d1b12;
+  --color--secondary: #4a7c59;
+  --color--accent: #c8a24d;
+  --color--accent-light: #dbb963;
+  --color--accent-dark: #a8842e;
+  --color--background: #faf8f4;
+  --color--background-alt: #f0ece4;
+  --color--background-dark: #111a14;
+  --color--text-primary: #1a1a1a;
+  --color--text-secondary: #555555;
+  --color--text-tertiary: #888888;
+  --color--text-inverse: #faf8f4;
+  --color--border: #e0dcd4;
+  --color--border-dark: #333d36;
+  --color--white: #ffffff;
+  --color--black: #000000;
+
+  /* --- Client First V2 Spacing (rem) --- */
+  --space--0: 0rem;
+  --space--1: 0.125rem;   /* 2px — tiny */
+  --space--2: 0.25rem;    /* 4px — xxsmall */
+  --space--3: 0.5rem;     /* 8px — xsmall */
+  --space--4: 0.75rem;    /* 12px */
+  --space--5: 1rem;       /* 16px — small */
+  --space--6: 1.25rem;    /* 20px */
+  --space--7: 1.5rem;     /* 24px */
+  --space--8: 2rem;       /* 32px — medium */
+  --space--9: 2.5rem;     /* 40px */
+  --space--10: 3rem;      /* 48px — large */
+  --space--11: 3.5rem;    /* 56px */
+  --space--12: 4rem;      /* 64px — xlarge */
+  --space--13: 5rem;      /* 80px */
+  --space--14: 6rem;      /* 96px — xxlarge */
+  --space--15: 8rem;      /* 128px — huge */
+  --space--16: 10rem;     /* 160px */
+  --space--17: 12rem;     /* 192px */
+
+  /* --- Client First V2 Typography (rem) --- */
+  --text--tiny: 0.75rem;      /* 12px */
+  --text--small: 0.875rem;    /* 14px */
+  --text--medium: 1rem;       /* 16px */
+  --text--large: 1.125rem;    /* 18px */
+  --text--xlarge: 1.25rem;    /* 20px */
+
+  --heading--display: 5rem;    /* 80px */
+  --heading--xxlarge: 4rem;    /* 64px */
+  --heading--xlarge: 3rem;     /* 48px */
+  --heading--large: 2.5rem;    /* 40px */
+  --heading--medium: 2rem;     /* 32px */
+  --heading--small: 1.5rem;    /* 24px */
+  --heading--xsmall: 1.25rem;  /* 20px */
+
+  /* --- Line Heights --- */
+  --line-height--tight: 1.1;
+  --line-height--snug: 1.25;
+  --line-height--normal: 1.5;
+  --line-height--relaxed: 1.75;
+
+  /* --- Font Weights --- */
+  --font-weight--light: 300;
+  --font-weight--regular: 400;
+  --font-weight--medium: 500;
+  --font-weight--semibold: 600;
+  --font-weight--bold: 700;
+  --font-weight--black: 900;
+
+  /* --- Letter Spacing --- */
+  --letter-spacing--tight: -0.04em;
+  --letter-spacing--snug: -0.02em;
+  --letter-spacing--normal: 0em;
+  --letter-spacing--wide: 0.05em;
+  --letter-spacing--wider: 0.1em;
+
+  /* --- Container Widths (rem) --- */
+  --container--large: 80rem;     /* 1280px */
+  --container--medium: 64rem;    /* 1024px */
+  --container--small: 48rem;     /* 768px */
+  --container--xsmall: 36rem;    /* 576px */
+
+  /* --- Section Padding (rem) --- */
+  --section-padding--large: 8rem;
+  --section-padding--medium: 5rem;
+  --section-padding--small: 3rem;
+
+  /* --- Border Radius (rem) --- */
+  --radius--small: 0.25rem;     /* 4px */
+  --radius--medium: 0.5rem;     /* 8px */
+  --radius--large: 1rem;        /* 16px */
+  --radius--xlarge: 1.5rem;     /* 24px */
+  --radius--full: 62.5rem;      /* 1000px — pill */
+
+  /* --- Shadows --- */
+  --shadow--small: 0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.06);
+  --shadow--medium: 0 0.25rem 1rem rgba(0, 0, 0, 0.08);
+  --shadow--large: 0 0.5rem 2rem rgba(0, 0, 0, 0.1);
+  --shadow--xlarge: 0 1rem 3rem rgba(0, 0, 0, 0.12);
+
+  /* --- Transitions --- */
+  --transition--fast: 150ms ease;
+  --transition--base: 300ms ease;
+  --transition--slow: 500ms ease;
+  --transition--smooth: 600ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* --- Navbar --- */
+  --navbar-height: 5rem;         /* 80px */
+}
+
+/* ============================================
+   CLIENT FIRST V2 — UTILITY CLASSES
+   ============================================ */
+
+/* --- Padding Global --- */
+.padding-global {
+  padding-left: var(--space--8);
+  padding-right: var(--space--8);
+}
+
+/* --- Container Sizes --- */
+.container-large {
+  width: 100%;
+  max-width: var(--container--large);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.container-medium {
+  width: 100%;
+  max-width: var(--container--medium);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.container-small {
+  width: 100%;
+  max-width: var(--container--small);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* --- Section Padding --- */
+.padding-section-large {
+  padding-top: var(--section-padding--large);
+  padding-bottom: var(--section-padding--large);
+}
+
+.padding-section-medium {
+  padding-top: var(--section-padding--medium);
+  padding-bottom: var(--section-padding--medium);
+}
+
+.padding-section-small {
+  padding-top: var(--section-padding--small);
+  padding-bottom: var(--section-padding--small);
+}
+
+/* --- Spacer Utility Classes (Client First V2) --- */
+.spacer-tiny { height: var(--space--1); }
+.spacer-xxsmall { height: var(--space--2); }
+.spacer-xsmall { height: var(--space--3); }
+.spacer-small { height: var(--space--5); }
+.spacer-medium { height: var(--space--8); }
+.spacer-large { height: var(--space--10); }
+.spacer-xlarge { height: var(--space--12); }
+.spacer-xxlarge { height: var(--space--14); }
+.spacer-huge { height: var(--space--15); }
+
+/* --- Text Utility Classes --- */
+.text-size-tiny { font-size: var(--text--tiny); }
+.text-size-small { font-size: var(--text--small); }
+.text-size-medium { font-size: var(--text--medium); }
+.text-size-large { font-size: var(--text--large); }
+.text-size-xlarge { font-size: var(--text--xlarge); }
+
+.heading-style-h1 {
+  font-size: var(--heading--xxlarge);
+  font-weight: var(--font-weight--bold);
+  line-height: var(--line-height--tight);
+  letter-spacing: var(--letter-spacing--tight);
+}
+
+.heading-style-h2 {
+  font-size: var(--heading--xlarge);
+  font-weight: var(--font-weight--bold);
+  line-height: var(--line-height--tight);
+  letter-spacing: var(--letter-spacing--snug);
+}
+
+.heading-style-h3 {
+  font-size: var(--heading--large);
+  font-weight: var(--font-weight--semibold);
+  line-height: var(--line-height--snug);
+  letter-spacing: var(--letter-spacing--snug);
+}
+
+.heading-style-h4 {
+  font-size: var(--heading--medium);
+  font-weight: var(--font-weight--semibold);
+  line-height: var(--line-height--snug);
+}
+
+.heading-style-h5 {
+  font-size: var(--heading--small);
+  font-weight: var(--font-weight--semibold);
+  line-height: var(--line-height--snug);
+}
+
+.heading-style-h6 {
+  font-size: var(--heading--xsmall);
+  font-weight: var(--font-weight--semibold);
+  line-height: var(--line-height--normal);
+}
+
+/* --- Text Colors --- */
+.text-color-primary { color: var(--color--text-primary); }
+.text-color-secondary { color: var(--color--text-secondary); }
+.text-color-tertiary { color: var(--color--text-tertiary); }
+.text-color-inverse { color: var(--color--text-inverse); }
+.text-color-accent { color: var(--color--accent); }
+
+/* --- Font Weights --- */
+.text-weight-light { font-weight: var(--font-weight--light); }
+.text-weight-regular { font-weight: var(--font-weight--regular); }
+.text-weight-medium { font-weight: var(--font-weight--medium); }
+.text-weight-semibold { font-weight: var(--font-weight--semibold); }
+.text-weight-bold { font-weight: var(--font-weight--bold); }
+
+/* --- Text Styles --- */
+.text-style-uppercase {
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing--wider);
+}
+
+.text-style-label {
+  font-size: var(--text--small);
+  font-weight: var(--font-weight--semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing--wider);
+}
+
+/* --- Max Width Utility --- */
+.max-width-full { max-width: 100%; }
+.max-width-large { max-width: var(--container--large); }
+.max-width-medium { max-width: var(--container--medium); }
+.max-width-small { max-width: var(--container--small); }
+.max-width-xsmall { max-width: var(--container--xsmall); }
+
+/* --- Background Colors --- */
+.background-color-primary { background-color: var(--color--primary); }
+.background-color-dark { background-color: var(--color--background-dark); }
+.background-color-light { background-color: var(--color--background); }
+.background-color-alt { background-color: var(--color--background-alt); }
+.background-color-white { background-color: var(--color--white); }
+
+/* --- Button Base --- */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space--3);
+  padding: var(--space--4) var(--space--8);
+  font-size: var(--text--medium);
+  font-weight: var(--font-weight--semibold);
+  border-radius: var(--radius--small);
+  transition: all var(--transition--base);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.button.is-primary {
+  background-color: var(--color--primary);
+  color: var(--color--text-inverse);
+}
+
+.button.is-primary:hover {
+  background-color: var(--color--primary-light);
+}
+
+.button.is-secondary {
+  background-color: transparent;
+  color: var(--color--primary);
+  border: 1px solid var(--color--primary);
+}
+
+.button.is-secondary:hover {
+  background-color: var(--color--primary);
+  color: var(--color--text-inverse);
+}
+
+.button.is-accent {
+  background-color: var(--color--accent);
+  color: var(--color--primary-dark);
+}
+
+.button.is-accent:hover {
+  background-color: var(--color--accent-light);
+}
+
+.button.is-white {
+  background-color: var(--color--white);
+  color: var(--color--primary);
+}
+
+.button.is-white:hover {
+  background-color: var(--color--background);
+}
+
+.button.is-large {
+  padding: var(--space--5) var(--space--9);
+  font-size: var(--text--large);
+}
+
+.button.is-small {
+  padding: var(--space--3) var(--space--5);
+  font-size: var(--text--small);
+}
+
+/* --- Tag/Badge --- */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space--2) var(--space--4);
+  font-size: var(--text--tiny);
+  font-weight: var(--font-weight--semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing--wider);
+  border-radius: var(--radius--full);
+  background-color: var(--color--accent);
+  color: var(--color--primary-dark);
+}
+
+/* ============================================
+   RESPONSIVE — CLIENT FIRST APPROACH
+   ============================================ */
+
+/* Tablet */
+@media screen and (max-width: 991px) {
+  :root {
+    --heading--display: 3.5rem;
+    --heading--xxlarge: 3rem;
+    --heading--xlarge: 2.5rem;
+    --heading--large: 2rem;
+    --heading--medium: 1.75rem;
+    --heading--small: 1.25rem;
+
+    --section-padding--large: 5rem;
+    --section-padding--medium: 3.5rem;
+    --section-padding--small: 2.5rem;
+  }
+}
+
+/* Mobile Landscape */
+@media screen and (max-width: 767px) {
+  :root {
+    --heading--display: 2.75rem;
+    --heading--xxlarge: 2.5rem;
+    --heading--xlarge: 2rem;
+    --heading--large: 1.75rem;
+    --heading--medium: 1.5rem;
+    --heading--small: 1.25rem;
+
+    --section-padding--large: 4rem;
+    --section-padding--medium: 3rem;
+    --section-padding--small: 2rem;
+  }
+
+  .padding-global {
+    padding-left: var(--space--5);
+    padding-right: var(--space--5);
+  }
+}
+
+/* Mobile Portrait */
+@media screen and (max-width: 479px) {
+  :root {
+    --heading--display: 2.25rem;
+    --heading--xxlarge: 2rem;
+    --heading--xlarge: 1.75rem;
+    --heading--large: 1.5rem;
+    --heading--medium: 1.25rem;
+    --heading--small: 1.125rem;
+
+    --section-padding--large: 3rem;
+    --section-padding--medium: 2.5rem;
+    --section-padding--small: 1.5rem;
+  }
+}
+
+/* ============================================
+   GOOGLE FONTS IMPORT
+   ============================================ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
