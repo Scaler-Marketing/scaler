@@ -1,0 +1,1284 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0a0e27">
+<title>USA Quest · 50 State Adventure</title>
+<style>
+  :root {
+    --bg-0: #0a0e27;
+    --bg-1: #1a1147;
+    --bg-2: #2d1b69;
+    --neon-1: #00f5d4;
+    --neon-2: #f72585;
+    --neon-3: #ffd60a;
+    --neon-4: #7209b7;
+    --neon-5: #4cc9f0;
+    --artboard: #f6f5f3;
+    --dot: #cfccc6;
+    --frame: #ffffff;
+    --frame-shadow: rgba(15, 13, 50, 0.28);
+    --text: #f8fafc;
+    --muted: #a8b1c8;
+    --state-empty: #e6e2d8;
+    --state-stroke: #ffffff;
+    --frame-blue: #2d6cdf;
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, 'Segoe UI', Roboto, sans-serif;
+    color: var(--text);
+    background:
+      radial-gradient(ellipse at 20% 0%, #401b8c 0%, transparent 55%),
+      radial-gradient(ellipse at 80% 100%, #6d28d9 0%, transparent 55%),
+      linear-gradient(180deg, #1a1147 0%, #0a0e27 100%);
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+    overscroll-behavior: none;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* ============ HUD ============ */
+  .hud {
+    flex: 0 0 auto;
+    padding: 10px 12px 10px;
+    background: linear-gradient(180deg, rgba(10,14,39,0.94), rgba(10,14,39,0.7));
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    backdrop-filter: blur(20px) saturate(140%);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    position: relative;
+    z-index: 5;
+  }
+  .hud-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .player {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 10px 4px 4px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 100px;
+    cursor: pointer;
+    flex: 0 0 auto;
+  }
+  .player:active { transform: scale(0.96); }
+  .avatar {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, var(--neon-1), var(--neon-4));
+    border-radius: 50%;
+    font-size: 18px;
+    box-shadow: 0 0 16px rgba(0,245,212,0.55);
+  }
+  .player-meta { display: flex; flex-direction: column; line-height: 1; }
+  .player-name { font-size: 11px; font-weight: 800; letter-spacing: 0.6px; }
+  .player-level {
+    font-size: 9px;
+    color: var(--neon-3);
+    margin-top: 3px;
+    letter-spacing: 1.2px;
+    font-weight: 800;
+  }
+
+  .score-pill {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 12px;
+    background: linear-gradient(135deg, var(--neon-2), var(--neon-4));
+    border-radius: 14px;
+    box-shadow:
+      0 0 24px rgba(247,37,133,0.45),
+      inset 0 1px 0 rgba(255,255,255,0.35),
+      inset 0 -2px 0 rgba(0,0,0,0.18);
+    font-weight: 900;
+    position: relative;
+    overflow: hidden;
+    min-width: 0;
+  }
+  .score-pill::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.45) 50%, transparent 70%);
+    transform: translateX(-100%);
+    animation: shine 3.5s ease-in-out infinite;
+  }
+  @keyframes shine { 30%, 100% { transform: translateX(100%); } }
+  .score-icon {
+    font-size: 18px;
+    filter: drop-shadow(0 0 6px rgba(255,214,10,0.8));
+    animation: starSpin 6s linear infinite;
+  }
+  @keyframes starSpin {
+    0%,40% { transform: rotate(0); }
+    50% { transform: rotate(360deg); }
+    100% { transform: rotate(360deg); }
+  }
+  .score-num {
+    font-size: 22px;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.25);
+  }
+  .score-num.bump { animation: bump 0.5s cubic-bezier(.34,1.56,.64,1); }
+  @keyframes bump {
+    0% { transform: scale(1); }
+    35% { transform: scale(1.5) rotate(-6deg); }
+    65% { transform: scale(0.9) rotate(3deg); }
+    100% { transform: scale(1); }
+  }
+  .score-num.bumpdown { animation: bumpdown 0.45s ease; }
+  @keyframes bumpdown {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.7); }
+    100% { transform: scale(1); }
+  }
+  .score-total { font-size: 13px; opacity: 0.85; font-weight: 800; }
+
+  .icon-btn {
+    width: 38px; height: 38px;
+    display: grid; place-items: center;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    color: var(--text);
+    flex: 0 0 auto;
+    -webkit-appearance: none;
+    appearance: none;
+    padding: 0;
+    font-family: inherit;
+  }
+  .icon-btn:active { transform: scale(0.92); }
+
+  /* Progress bar */
+  .progress {
+    margin-top: 8px;
+    height: 9px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 100px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--neon-1), var(--neon-3) 50%, var(--neon-2));
+    border-radius: 100px;
+    box-shadow: 0 0 12px rgba(0,245,212,0.7);
+    transition: width 0.7s cubic-bezier(.34,1.56,.64,1);
+    position: relative;
+  }
+  .progress-fill::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, transparent 40%, rgba(255,255,255,0.55) 50%, transparent 60%);
+    animation: shine 2.2s linear infinite;
+  }
+
+  .level-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+  .level-row .next-badge {
+    color: var(--neon-3);
+    font-weight: 900;
+  }
+
+  /* ============ ARTBOARD ============ */
+  .artboard-wrap {
+    flex: 1;
+    position: relative;
+    background:
+      radial-gradient(circle, var(--dot) 1px, transparent 1.4px) 0 0 / 16px 16px,
+      var(--artboard);
+    overflow: hidden;
+    touch-action: none;
+  }
+
+  .frame-stage {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 28px 14px 78px;
+  }
+  .frame {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    background: var(--frame);
+    border-radius: 16px;
+    box-shadow:
+      0 12px 40px var(--frame-shadow),
+      0 1px 0 rgba(255,255,255,0.5) inset,
+      0 0 0 1px rgba(0,0,0,0.04);
+    transition: box-shadow 0.3s ease;
+  }
+  .frame.celebrate {
+    box-shadow:
+      0 12px 40px var(--frame-shadow),
+      0 0 0 3px var(--neon-3),
+      0 0 60px rgba(255,214,10,0.6);
+  }
+  .frame-label {
+    position: absolute;
+    top: -22px;
+    left: 2px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #4a4d59;
+    letter-spacing: 0.3px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+  }
+  .frame-label .swatch {
+    width: 11px; height: 11px; border-radius: 3px;
+    background: linear-gradient(135deg, var(--neon-1), var(--neon-2));
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
+  }
+  .frame-label .frame-count {
+    color: var(--frame-blue);
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+  }
+  .frame-corner {
+    position: absolute; width: 9px; height: 9px;
+    border: 2px solid var(--frame-blue);
+    background: white;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .frame-corner.tl { top: -5px; left: -5px; }
+  .frame-corner.tr { top: -5px; right: -5px; }
+  .frame-corner.bl { bottom: -5px; left: -5px; }
+  .frame-corner.br { bottom: -5px; right: -5px; }
+  .frame-edge {
+    position: absolute;
+    background: var(--frame-blue);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+  }
+  .frame.selected .frame-edge { opacity: 0.4; }
+
+  .map-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    touch-action: none;
+    border-radius: 14px;
+  }
+  .state {
+    fill: var(--state-empty);
+    stroke: var(--state-stroke);
+    stroke-width: 0.9;
+    stroke-linejoin: round;
+    cursor: pointer;
+    transition: fill 0.35s ease, filter 0.25s ease;
+    transform-origin: center;
+    transform-box: fill-box;
+  }
+  .state.visited {
+    filter: drop-shadow(0 0 5px currentColor) saturate(115%);
+  }
+  .state.pop { animation: statePop 0.5s cubic-bezier(.34,1.56,.64,1); }
+  @keyframes statePop {
+    0% { transform: scale(1); }
+    45% { transform: scale(1.22); }
+    100% { transform: scale(1); }
+  }
+  .state.shake { animation: stateShake 0.35s; }
+  @keyframes stateShake {
+    0%,100% { transform: translateX(0); }
+    25% { transform: translateX(-3px); }
+    75% { transform: translateX(3px); }
+  }
+  .hit-circle {
+    fill: transparent;
+    cursor: pointer;
+  }
+
+  /* ============ CONTROLS ============ */
+  .controls {
+    position: absolute;
+    bottom: 14px;
+    right: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 4;
+  }
+  .controls .icon-btn {
+    background: rgba(15, 23, 42, 0.92);
+    border: 1px solid rgba(255,255,255,0.14);
+    color: var(--text);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+    width: 42px; height: 42px;
+    font-size: 18px;
+  }
+
+  .hint {
+    position: absolute;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(15, 23, 42, 0.92);
+    color: var(--text);
+    padding: 9px 16px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 700;
+    pointer-events: none;
+    border: 1px solid rgba(255,255,255,0.14);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+    transition: opacity 0.5s, transform 0.5s;
+    z-index: 3;
+    white-space: nowrap;
+  }
+  .hint.gone { opacity: 0; transform: translateX(-50%) translateY(20px); }
+
+  /* ============ STATE NAME LABEL ============ */
+  .state-name {
+    position: absolute;
+    pointer-events: none;
+    font-weight: 900;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    color: #1a1147;
+    background: white;
+    padding: 6px 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    transform: translate(-50%, -130%);
+    border: 2px solid var(--neon-2);
+    z-index: 50;
+    opacity: 0;
+    transition: opacity 0.2s;
+    white-space: nowrap;
+  }
+  .state-name.show { opacity: 1; }
+
+  /* ============ FLOATERS ============ */
+  .floater {
+    position: fixed;
+    pointer-events: none;
+    font-weight: 900;
+    font-size: 22px;
+    color: var(--neon-3);
+    text-shadow: 0 2px 0 rgba(0,0,0,0.4), 0 0 20px currentColor;
+    animation: floatUp 1.2s ease-out forwards;
+    z-index: 100;
+    transform: translate(-50%, 0);
+    white-space: nowrap;
+  }
+  .floater.minus { color: #94a3b8; font-size: 18px; }
+  @keyframes floatUp {
+    0% { transform: translate(-50%, 0) scale(0.4); opacity: 0; }
+    20% { transform: translate(-50%, -10px) scale(1.25); opacity: 1; }
+    100% { transform: translate(-50%, -90px) scale(1); opacity: 0; }
+  }
+
+  /* ============ ACHIEVEMENT TOAST ============ */
+  #toast {
+    position: fixed;
+    top: 90px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-260%);
+    width: min(340px, 90vw);
+    z-index: 200;
+    transition: transform 0.55s cubic-bezier(.34,1.56,.64,1);
+  }
+  #toast.show { transform: translateX(-50%) translateY(0); }
+  .toast-card {
+    background: linear-gradient(135deg, #1e1b4b, #312e81);
+    border: 2px solid var(--rarity-color, var(--neon-3));
+    border-radius: 18px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow:
+      0 0 40px var(--rarity-glow, rgba(255,214,10,0.5)),
+      0 10px 30px rgba(0,0,0,0.5);
+    position: relative;
+    overflow: hidden;
+  }
+  .toast-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.22) 50%, transparent 70%);
+    transform: translateX(-100%);
+    animation: toastShine 1.8s ease-in-out 0.3s 2;
+  }
+  @keyframes toastShine { to { transform: translateX(100%); } }
+  .toast-icon {
+    width: 52px; height: 52px;
+    display: grid; place-items: center;
+    background: var(--rarity-color, var(--neon-3));
+    border-radius: 14px;
+    font-size: 28px;
+    flex: 0 0 52px;
+    box-shadow: 0 0 22px var(--rarity-color, var(--neon-3));
+    animation: badgeBounce 0.6s cubic-bezier(.34,1.56,.64,1);
+  }
+  @keyframes badgeBounce {
+    0% { transform: scale(0) rotate(-180deg); }
+    100% { transform: scale(1) rotate(0); }
+  }
+  .toast-meta { flex: 1; min-width: 0; }
+  .toast-rarity {
+    font-size: 10px;
+    font-weight: 900;
+    color: var(--rarity-color, var(--neon-3));
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px var(--rarity-glow, rgba(255,214,10,0.5));
+  }
+  .toast-title {
+    font-size: 17px;
+    font-weight: 900;
+    color: white;
+    margin-top: 2px;
+  }
+  .toast-desc {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  #fx {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 150;
+  }
+
+  /* ============ MODAL ============ */
+  .modal-bg {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.7);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 300;
+    padding: 20px;
+  }
+  .modal-bg.open { display: flex; }
+  .modal {
+    background: linear-gradient(135deg, #1e1b4b, #312e81);
+    border: 2px solid var(--neon-1);
+    border-radius: 22px;
+    padding: 22px;
+    width: min(340px, 100%);
+    box-shadow: 0 0 40px rgba(0,245,212,0.45);
+    animation: modalIn 0.4s cubic-bezier(.34,1.56,.64,1);
+  }
+  @keyframes modalIn {
+    from { transform: scale(0.7); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  .modal h2 { margin: 0 0 6px; font-size: 18px; font-weight: 900; }
+  .modal p { margin: 0 0 14px; font-size: 13px; color: var(--muted); }
+  .modal input {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 16px;
+    font-weight: 700;
+    border: 2px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    background: rgba(0,0,0,0.3);
+    color: white;
+    outline: none;
+    font-family: inherit;
+  }
+  .modal input:focus { border-color: var(--neon-1); }
+  .avatar-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 6px;
+    margin: 10px 0 4px;
+  }
+  .avatar-grid button {
+    aspect-ratio: 1;
+    border: 2px solid transparent;
+    background: rgba(255,255,255,0.06);
+    border-radius: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0;
+    color: white;
+  }
+  .avatar-grid button.active {
+    border-color: var(--neon-1);
+    background: rgba(0,245,212,0.15);
+    box-shadow: 0 0 12px rgba(0,245,212,0.4);
+  }
+  .modal-row { display: flex; gap: 8px; margin-top: 14px; }
+  .modal-row button {
+    flex: 1;
+    padding: 12px;
+    font-weight: 800;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: inherit;
+    color: white;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--neon-1), var(--neon-4));
+    box-shadow: 0 4px 14px rgba(0,245,212,0.35);
+  }
+  .btn-secondary {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.14) !important;
+  }
+  .btn-danger {
+    background: linear-gradient(135deg, #ef4444, #b91c1c);
+  }
+
+  /* Loader */
+  .loader {
+    position: absolute; inset: 0;
+    display: grid; place-items: center;
+    color: #6b6e7a;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+  }
+  .loader::after {
+    content: '';
+    display: block;
+    width: 30px; height: 30px;
+    border: 3px solid rgba(0,0,0,0.1);
+    border-top-color: var(--neon-2);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-top: 10px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loader.gone { display: none; }
+  .loader.error { color: #b91c1c; }
+  .loader.error::after { display: none; }
+
+  @media (min-width: 720px) {
+    .frame-stage { padding: 40px 32px 90px; }
+    .frame { max-width: 900px; }
+  }
+</style>
+</head>
+<body>
+  <header class="hud">
+    <div class="hud-row">
+      <button class="player" id="player-btn" aria-label="Edit player">
+        <div class="avatar" id="avatar">🦄</div>
+        <div class="player-meta">
+          <div class="player-name" id="player-name">EXPLORER</div>
+          <div class="player-level" id="player-level">LV 1</div>
+        </div>
+      </button>
+      <div class="score-pill">
+        <span class="score-icon">⭐</span>
+        <span class="score-num" id="score">0</span>
+        <span class="score-total">/ 50</span>
+      </div>
+      <button class="icon-btn" id="sound-btn" aria-label="Toggle sound">🔊</button>
+      <button class="icon-btn" id="reset-btn" aria-label="Reset progress">↺</button>
+    </div>
+    <div class="progress" aria-hidden="true">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+    <div class="level-row">
+      <span id="xp-label">0 XP</span>
+      <span class="next-badge" id="next-badge">NEXT: First Step ✨</span>
+    </div>
+  </header>
+
+  <main class="artboard-wrap" id="artboard">
+    <div class="frame-stage">
+      <div class="frame" id="frame">
+        <div class="frame-label">
+          <span class="swatch"></span>
+          <span>USA Quest · <span class="frame-count" id="frame-count">0/50</span></span>
+        </div>
+        <div class="frame-corner tl"></div>
+        <div class="frame-corner tr"></div>
+        <div class="frame-corner bl"></div>
+        <div class="frame-corner br"></div>
+        <svg class="map-svg" id="map" viewBox="0 0 975 610" preserveAspectRatio="xMidYMid meet">
+          <g id="states-layer"></g>
+          <g id="hits-layer"></g>
+        </svg>
+        <div class="loader" id="loader">Loading map</div>
+      </div>
+    </div>
+    <div class="state-name" id="state-name"></div>
+    <div class="hint" id="hint">👉 Tap any state you've visited!</div>
+    <div class="controls">
+      <button class="icon-btn" id="zoom-in" aria-label="Zoom in">＋</button>
+      <button class="icon-btn" id="zoom-out" aria-label="Zoom out">−</button>
+      <button class="icon-btn" id="zoom-reset" aria-label="Fit to screen">⤢</button>
+    </div>
+  </main>
+
+  <canvas id="fx"></canvas>
+
+  <div class="modal-bg" id="player-modal">
+    <div class="modal">
+      <h2>Hi explorer! 🌟</h2>
+      <p>Pick your name and avatar to start your USA Quest.</p>
+      <input id="name-input" type="text" maxlength="14" placeholder="Your name…" autocomplete="off">
+      <div class="avatar-grid" id="avatar-grid"></div>
+      <div class="modal-row">
+        <button class="btn-secondary" id="player-cancel">Skip</button>
+        <button class="btn-primary" id="player-save">Let's go! ✨</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-bg" id="reset-modal">
+    <div class="modal">
+      <h2>Reset all progress?</h2>
+      <p>This will clear every state you've marked as visited.</p>
+      <div class="modal-row">
+        <button class="btn-secondary" id="reset-cancel">Cancel</button>
+        <button class="btn-danger" id="reset-confirm">Reset</button>
+      </div>
+    </div>
+  </div>
+
+<script src="https://cdn.jsdelivr.net/npm/d3-geo@3"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3"></script>
+<script>
+(() => {
+  'use strict';
+
+  // -------- Data ---------
+  // 50 states only (FIPS code -> name, abbreviation)
+  const STATES = {
+    '01':['Alabama','AL'],'02':['Alaska','AK'],'04':['Arizona','AZ'],'05':['Arkansas','AR'],
+    '06':['California','CA'],'08':['Colorado','CO'],'09':['Connecticut','CT'],'10':['Delaware','DE'],
+    '12':['Florida','FL'],'13':['Georgia','GA'],'15':['Hawaii','HI'],'16':['Idaho','ID'],
+    '17':['Illinois','IL'],'18':['Indiana','IN'],'19':['Iowa','IA'],'20':['Kansas','KS'],
+    '21':['Kentucky','KY'],'22':['Louisiana','LA'],'23':['Maine','ME'],'24':['Maryland','MD'],
+    '25':['Massachusetts','MA'],'26':['Michigan','MI'],'27':['Minnesota','MN'],'28':['Mississippi','MS'],
+    '29':['Missouri','MO'],'30':['Montana','MT'],'31':['Nebraska','NE'],'32':['Nevada','NV'],
+    '33':['New Hampshire','NH'],'34':['New Jersey','NJ'],'35':['New Mexico','NM'],'36':['New York','NY'],
+    '37':['North Carolina','NC'],'38':['North Dakota','ND'],'39':['Ohio','OH'],'40':['Oklahoma','OK'],
+    '41':['Oregon','OR'],'42':['Pennsylvania','PA'],'44':['Rhode Island','RI'],'45':['South Carolina','SC'],
+    '46':['South Dakota','SD'],'47':['Tennessee','TN'],'48':['Texas','TX'],'49':['Utah','UT'],
+    '50':['Vermont','VT'],'51':['Virginia','VA'],'53':['Washington','WA'],'54':['West Virginia','WV'],
+    '55':['Wisconsin','WI'],'56':['Wyoming','WY']
+  };
+
+  // Stable color per state (rainbow by FIPS index)
+  const fipsList = Object.keys(STATES).sort();
+  const stateColor = {};
+  fipsList.forEach((id, i) => {
+    const hue = (i * 360 / fipsList.length + 25) % 360;
+    stateColor[id] = `hsl(${hue}, 78%, 58%)`;
+  });
+
+  const ACHIEVEMENTS = [
+    {at:1,  rarity:'Common',    color:'#10b981', glow:'rgba(16,185,129,0.55)', icon:'🌟', title:'First Step!',     desc:'Your adventure begins.'},
+    {at:5,  rarity:'Uncommon',  color:'#22d3ee', glow:'rgba(34,211,238,0.55)', icon:'🧭', title:'Explorer',        desc:'5 states unlocked'},
+    {at:10, rarity:'Rare',      color:'#3b82f6', glow:'rgba(59,130,246,0.6)',  icon:'🚀', title:'Wanderer',        desc:'10 states unlocked'},
+    {at:15, rarity:'Rare',      color:'#8b5cf6', glow:'rgba(139,92,246,0.6)',  icon:'🎒', title:'Globetrotter',    desc:'15 states unlocked'},
+    {at:25, rarity:'Epic',      color:'#ec4899', glow:'rgba(236,72,153,0.65)', icon:'🏆', title:'Halfway Hero',    desc:'Half of America!'},
+    {at:35, rarity:'Epic',      color:'#f59e0b', glow:'rgba(245,158,11,0.7)',  icon:'🔥', title:'Road Warrior',    desc:'35 states unlocked'},
+    {at:45, rarity:'Legendary', color:'#ffd60a', glow:'rgba(255,214,10,0.8)',  icon:'👑', title:'Almost There!',   desc:'Just 5 states to go!'},
+    {at:50, rarity:'Mythic',    color:'#ff006e', glow:'rgba(255,0,110,0.85)',  icon:'🏅', title:'USA CHAMPION!!!', desc:'You did it! All 50!'}
+  ];
+
+  const AVATARS = ['🦄','🐱','🐶','🐼','🦊','🐰','🐯','🦁','🐸','🐢','🦋','🐙','🦖','🦕','🐳','🦩','🦉','🐧','🐝','🐞','🌟','🚀','🌈','💎'];
+
+  // -------- State ---------
+  const KEY_VISITED = 'usa-quest:visited';
+  const KEY_PLAYER = 'usa-quest:player';
+  const KEY_MUTED = 'usa-quest:muted';
+  const KEY_AWARDED = 'usa-quest:awarded';
+
+  const visited = new Set(JSON.parse(localStorage.getItem(KEY_VISITED) || '[]'));
+  const awarded = new Set(JSON.parse(localStorage.getItem(KEY_AWARDED) || '[]'));
+  let player = JSON.parse(localStorage.getItem(KEY_PLAYER) || 'null') || { name: 'EXPLORER', avatar: '🦄' };
+  let muted = localStorage.getItem(KEY_MUTED) === '1';
+
+  const save = () => {
+    localStorage.setItem(KEY_VISITED, JSON.stringify([...visited]));
+    localStorage.setItem(KEY_AWARDED, JSON.stringify([...awarded]));
+    localStorage.setItem(KEY_PLAYER, JSON.stringify(player));
+    localStorage.setItem(KEY_MUTED, muted ? '1' : '0');
+  };
+
+  // -------- Audio ---------
+  let audioCtx;
+  const ensureAudio = () => {
+    if (muted) return null;
+    if (!audioCtx) {
+      try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) { return null; }
+    }
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    return audioCtx;
+  };
+  const tone = (freq, dur=0.18, type='triangle', vol=0.12, when=0) => {
+    const ctx = ensureAudio(); if (!ctx) return;
+    const t0 = ctx.currentTime + when;
+    const osc = ctx.createOscillator();
+    const g = ctx.createGain();
+    osc.connect(g).connect(ctx.destination);
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, t0);
+    g.gain.setValueAtTime(0, t0);
+    g.gain.linearRampToValueAtTime(vol, t0 + 0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    osc.start(t0); osc.stop(t0 + dur + 0.02);
+  };
+  const sfx = {
+    add: () => { tone(660, 0.13, 'triangle', 0.13); tone(880, 0.16, 'triangle', 0.13, 0.06); tone(1320, 0.22, 'triangle', 0.12, 0.13); },
+    remove: () => { tone(330, 0.1, 'sine', 0.08); tone(220, 0.14, 'sine', 0.08, 0.05); },
+    achieve: () => { [523, 659, 784, 1047, 1319].forEach((n,i) => tone(n, 0.32, 'triangle', 0.16, i*0.085)); },
+    epic: () => { [523, 659, 784, 1047, 1319, 1568].forEach((n,i) => tone(n, 0.4, 'triangle', 0.18, i*0.075)); tone(1047, 0.5, 'sawtooth', 0.08, 0.6); }
+  };
+  const haptic = (pattern) => { if (navigator.vibrate) navigator.vibrate(pattern); };
+
+  // -------- DOM ---------
+  const $ = (id) => document.getElementById(id);
+  const scoreEl = $('score');
+  const progressEl = $('progress-fill');
+  const xpLabel = $('xp-label');
+  const nextBadge = $('next-badge');
+  const playerNameEl = $('player-name');
+  const playerLevelEl = $('player-level');
+  const avatarEl = $('avatar');
+  const frameCountEl = $('frame-count');
+  const frame = $('frame');
+  const statesLayer = $('states-layer');
+  const hitsLayer = $('hits-layer');
+  const map = $('map');
+  const loader = $('loader');
+  const hint = $('hint');
+  const stateName = $('state-name');
+  const soundBtn = $('sound-btn');
+  const resetBtn = $('reset-btn');
+  const playerBtn = $('player-btn');
+  const playerModal = $('player-modal');
+  const resetModal = $('reset-modal');
+  const fx = $('fx');
+  const fxCtx = fx.getContext('2d');
+
+  // -------- HUD render ---------
+  const levelFromCount = (n) => Math.min(11, Math.floor(n / 5) + 1);
+  const updateHUD = (animDir) => {
+    const n = visited.size;
+    scoreEl.textContent = n;
+    if (animDir === 'up') { scoreEl.classList.remove('bump'); void scoreEl.offsetWidth; scoreEl.classList.add('bump'); }
+    else if (animDir === 'down') { scoreEl.classList.remove('bumpdown'); void scoreEl.offsetWidth; scoreEl.classList.add('bumpdown'); }
+    progressEl.style.width = (n / 50 * 100) + '%';
+    const lv = levelFromCount(n);
+    playerLevelEl.textContent = 'LV ' + lv;
+    xpLabel.textContent = (n * 100) + ' XP';
+    frameCountEl.textContent = n + '/50';
+    const next = ACHIEVEMENTS.find(a => a.at > n);
+    nextBadge.textContent = next ? `NEXT: ${next.title} ${next.icon}` : '★ MAXED ★';
+    playerNameEl.textContent = player.name.toUpperCase();
+    avatarEl.textContent = player.avatar;
+    soundBtn.textContent = muted ? '🔇' : '🔊';
+  };
+
+  // -------- Toast ---------
+  let toastEl = document.createElement('div');
+  toastEl.id = 'toast';
+  document.body.appendChild(toastEl);
+  const toastQueue = [];
+  let toastBusy = false;
+  const playToast = (a) => {
+    toastBusy = true;
+    toastEl.style.setProperty('--rarity-color', a.color);
+    toastEl.style.setProperty('--rarity-glow', a.glow);
+    toastEl.innerHTML = `
+      <div class="toast-card">
+        <div class="toast-icon">${a.icon}</div>
+        <div class="toast-meta">
+          <div class="toast-rarity">${a.rarity} · Achievement Unlocked</div>
+          <div class="toast-title">${a.title}</div>
+          <div class="toast-desc">${a.desc}</div>
+        </div>
+      </div>`;
+    void toastEl.offsetWidth;
+    toastEl.classList.add('show');
+    if (a.at >= 45) sfx.epic(); else sfx.achieve();
+    haptic([20, 30, 20, 30, 60]);
+    burst(window.innerWidth/2, 110, 60, ['#ffd60a','#f72585','#00f5d4','#7209b7','#4cc9f0']);
+    if (a.at === 50) {
+      frame.classList.add('celebrate');
+      setTimeout(() => frame.classList.remove('celebrate'), 4500);
+      megaBurst();
+    }
+    setTimeout(() => {
+      toastEl.classList.remove('show');
+      setTimeout(() => {
+        toastBusy = false;
+        if (toastQueue.length) playToast(toastQueue.shift());
+      }, 600);
+    }, 3200);
+  };
+  const showAchievement = (a) => {
+    if (toastBusy) toastQueue.push(a);
+    else playToast(a);
+  };
+
+  // -------- Confetti / particles ---------
+  let parts = [];
+  const resizeFx = () => {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    fx.width = innerWidth * dpr;
+    fx.height = innerHeight * dpr;
+    fx.style.width = innerWidth + 'px';
+    fx.style.height = innerHeight + 'px';
+    fxCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  };
+  resizeFx();
+  addEventListener('resize', resizeFx);
+
+  const burst = (x, y, count = 28, palette = null) => {
+    const colors = palette || ['#ffd60a','#f72585','#00f5d4','#4cc9f0','#7209b7','#10b981'];
+    for (let i = 0; i < count; i++) {
+      const a = Math.random() * Math.PI * 2;
+      const sp = 4 + Math.random() * 8;
+      parts.push({
+        x, y,
+        vx: Math.cos(a) * sp,
+        vy: Math.sin(a) * sp - 4,
+        g: 0.28,
+        size: 6 + Math.random() * 6,
+        color: colors[Math.floor(Math.random()*colors.length)],
+        rot: Math.random() * Math.PI,
+        vr: (Math.random() - 0.5) * 0.4,
+        life: 1,
+        decay: 0.012 + Math.random() * 0.012,
+        shape: Math.random() < 0.5 ? 'rect' : 'circle'
+      });
+    }
+    if (!rafId) tick();
+  };
+  const megaBurst = () => {
+    const cx = innerWidth/2, cy = innerHeight/2;
+    for (let i = 0; i < 6; i++) {
+      setTimeout(() => burst(
+        cx + (Math.random()-0.5)*200,
+        cy + (Math.random()-0.5)*150,
+        50,
+        ['#ffd60a','#f72585','#00f5d4','#4cc9f0','#7209b7','#ff006e','#10b981']
+      ), i * 180);
+    }
+  };
+  let rafId = null;
+  const tick = () => {
+    fxCtx.clearRect(0, 0, fx.width, fx.height);
+    parts = parts.filter(p => p.life > 0);
+    parts.forEach(p => {
+      p.vy += p.g;
+      p.x += p.vx;
+      p.y += p.vy;
+      p.rot += p.vr;
+      p.life -= p.decay;
+      fxCtx.save();
+      fxCtx.globalAlpha = Math.max(0, p.life);
+      fxCtx.translate(p.x, p.y);
+      fxCtx.rotate(p.rot);
+      fxCtx.fillStyle = p.color;
+      if (p.shape === 'rect') fxCtx.fillRect(-p.size/2, -p.size/2, p.size, p.size * 0.6);
+      else { fxCtx.beginPath(); fxCtx.arc(0, 0, p.size/2, 0, Math.PI*2); fxCtx.fill(); }
+      fxCtx.restore();
+    });
+    if (parts.length) rafId = requestAnimationFrame(tick);
+    else { rafId = null; fxCtx.clearRect(0, 0, fx.width, fx.height); }
+  };
+
+  // -------- Floaters ---------
+  const floater = (x, y, text, cls = '') => {
+    const el = document.createElement('div');
+    el.className = 'floater ' + cls;
+    el.textContent = text;
+    el.style.left = x + 'px';
+    el.style.top = y + 'px';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 1200);
+  };
+
+  // -------- State name tooltip ---------
+  let nameTimer;
+  const showStateName = (label, x, y) => {
+    stateName.textContent = label;
+    stateName.style.left = x + 'px';
+    stateName.style.top = y + 'px';
+    stateName.classList.add('show');
+    clearTimeout(nameTimer);
+    nameTimer = setTimeout(() => stateName.classList.remove('show'), 1100);
+  };
+
+  // -------- Map render ---------
+  const renderMap = (us) => {
+    if (!window.topojson || !window.d3) return;
+    const features = topojson.feature(us, us.objects.states).features
+      .filter(f => STATES[String(f.id).padStart(2, '0')]);
+    const path = d3.geoPath();
+    const NS = 'http://www.w3.org/2000/svg';
+
+    features.forEach(f => {
+      const id = String(f.id).padStart(2, '0');
+      const [name, abbr] = STATES[id];
+      const d = path(f);
+      const el = document.createElementNS(NS, 'path');
+      el.setAttribute('d', d);
+      el.setAttribute('class', 'state');
+      el.dataset.id = id;
+      el.dataset.name = name;
+      el.dataset.abbr = abbr;
+      el.style.color = stateColor[id];
+      if (visited.has(id)) {
+        el.classList.add('visited');
+        el.style.fill = stateColor[id];
+      }
+      statesLayer.appendChild(el);
+
+      // Slightly larger hit target for tiny states (kept small enough to not overlap neighbors badly)
+      const b = path.bounds(f);
+      const w = b[1][0] - b[0][0], h = b[1][1] - b[0][1];
+      const small = Math.min(w, h);
+      if (small < 14) {
+        const [cx, cy] = path.centroid(f);
+        const c = document.createElementNS(NS, 'circle');
+        c.setAttribute('cx', cx);
+        c.setAttribute('cy', cy);
+        c.setAttribute('r', Math.max(6, small * 0.55));
+        c.setAttribute('class', 'hit-circle');
+        c.dataset.id = id;
+        c.dataset.name = name;
+        c.dataset.abbr = abbr;
+        hitsLayer.appendChild(c);
+      }
+    });
+
+    loader.classList.add('gone');
+    bindMapInteractions();
+  };
+
+  const toggleState = (id, target, evt) => {
+    const data = STATES[id];
+    if (!data) return;
+    const [name, abbr] = data;
+    const path = statesLayer.querySelector(`path[data-id="${id}"]`);
+    if (!path) return;
+
+    const rect = path.getBoundingClientRect();
+    const cx = (evt && evt.clientX) ? evt.clientX : rect.left + rect.width/2;
+    const cy = (evt && evt.clientY) ? evt.clientY : rect.top + rect.height/2;
+
+    if (visited.has(id)) {
+      visited.delete(id);
+      path.classList.remove('visited');
+      path.style.fill = '';
+      path.classList.remove('shake'); void path.offsetWidth; path.classList.add('shake');
+      floater(cx, cy, '−1', 'minus');
+      sfx.remove();
+      haptic(15);
+      showStateName(`${name} removed`, cx, cy);
+      updateHUD('down');
+    } else {
+      visited.add(id);
+      path.classList.add('visited');
+      path.style.fill = stateColor[id];
+      path.classList.remove('pop'); void path.offsetWidth; path.classList.add('pop');
+      floater(cx, cy, `+1 ⭐ ${abbr}`);
+      sfx.add();
+      haptic([8, 20, 14]);
+      burst(cx, cy, 24, ['#ffd60a', stateColor[id], '#00f5d4', '#f72585']);
+      showStateName(`✨ ${name}`, cx, cy);
+      updateHUD('up');
+      checkAchievements();
+    }
+    save();
+  };
+
+  const checkAchievements = () => {
+    const n = visited.size;
+    ACHIEVEMENTS.forEach(a => {
+      if (n >= a.at && !awarded.has(a.at)) {
+        awarded.add(a.at);
+        setTimeout(() => showAchievement(a), 350);
+      }
+    });
+  };
+
+  // -------- Map interactions (tap + pan/zoom) ---------
+  let zoom = 1, panX = 0, panY = 0;
+  let lastTap = 0;
+  const applyTransform = () => {
+    statesLayer.setAttribute('transform', `translate(${panX} ${panY}) scale(${zoom})`);
+    hitsLayer.setAttribute('transform', `translate(${panX} ${panY}) scale(${zoom})`);
+  };
+  const setZoom = (z, cx = 487.5, cy = 305) => {
+    z = Math.max(1, Math.min(5, z));
+    // Zoom around point in viewBox coords
+    const k = z / zoom;
+    panX = cx - (cx - panX) * k;
+    panY = cy - (cy - panY) * k;
+    zoom = z;
+    clampPan();
+    applyTransform();
+  };
+  const clampPan = () => {
+    const vbW = 975, vbH = 610;
+    const minX = vbW - vbW * zoom;
+    const minY = vbH - vbH * zoom;
+    panX = Math.max(minX, Math.min(0, panX));
+    panY = Math.max(minY, Math.min(0, panY));
+  };
+  const resetZoom = () => { zoom = 1; panX = 0; panY = 0; applyTransform(); };
+
+  const svgPoint = (clientX, clientY) => {
+    const pt = map.createSVGPoint();
+    pt.x = clientX; pt.y = clientY;
+    const m = map.getScreenCTM();
+    if (!m) return { x: 0, y: 0 };
+    const inv = m.inverse();
+    const p = pt.matrixTransform(inv);
+    return { x: p.x, y: p.y };
+  };
+
+  const pointers = new Map();
+  let pinchStart = null;
+  let panStart = null;
+  let startedOnState = null;
+
+  const bindMapInteractions = () => {
+    map.addEventListener('pointerdown', onPointerDown);
+    map.addEventListener('pointermove', onPointerMove);
+    map.addEventListener('pointerup', onPointerUp);
+    map.addEventListener('pointercancel', onPointerUp);
+    map.addEventListener('pointerleave', (e) => { /* keep pointer in map for proper handling */ });
+  };
+
+  const onPointerDown = (e) => {
+    map.setPointerCapture(e.pointerId);
+    pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (pointers.size === 2) {
+      const pts = [...pointers.values()];
+      pinchStart = {
+        d: dist(pts[0], pts[1]),
+        cx: (pts[0].x + pts[1].x) / 2,
+        cy: (pts[0].y + pts[1].y) / 2,
+        zoom, panX, panY
+      };
+      panStart = null;
+      startedOnState = null;
+    } else if (pointers.size === 1) {
+      const target = e.target.closest('[data-id]');
+      startedOnState = target ? { id: target.dataset.id, x: e.clientX, y: e.clientY, t: Date.now() } : null;
+      panStart = { x: e.clientX, y: e.clientY, panX, panY, moved: false };
+    }
+  };
+  const onPointerMove = (e) => {
+    if (!pointers.has(e.pointerId)) return;
+    pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (pointers.size === 2 && pinchStart) {
+      const pts = [...pointers.values()];
+      const d = dist(pts[0], pts[1]);
+      const newZoom = Math.max(1, Math.min(5, pinchStart.zoom * (d / pinchStart.d)));
+      // Zoom around midpoint
+      const startSvg = svgPointFromClient(pinchStart.cx, pinchStart.cy);
+      // Convert to viewBox using pinchStart anchors:
+      // pre-zoom: panStart.{panX,panY,zoom}
+      const k = newZoom / pinchStart.zoom;
+      panX = startSvg.x - (startSvg.x - pinchStart.panX) * k;
+      panY = startSvg.y - (startSvg.y - pinchStart.panY) * k;
+      zoom = newZoom;
+      clampPan();
+      applyTransform();
+    } else if (pointers.size === 1 && panStart && zoom > 1) {
+      const dx = e.clientX - panStart.x;
+      const dy = e.clientY - panStart.y;
+      if (Math.abs(dx) + Math.abs(dy) > 6) panStart.moved = true;
+      // convert client delta -> viewBox delta
+      const m = map.getScreenCTM();
+      if (m) {
+        const sx = 1 / m.a, sy = 1 / m.d;
+        panX = panStart.panX + dx * sx;
+        panY = panStart.panY + dy * sy;
+        clampPan();
+        applyTransform();
+      }
+    } else if (pointers.size === 1 && panStart) {
+      const dx = e.clientX - panStart.x;
+      const dy = e.clientY - panStart.y;
+      if (Math.abs(dx) + Math.abs(dy) > 8) panStart.moved = true;
+    }
+  };
+  const onPointerUp = (e) => {
+    if (!pointers.has(e.pointerId)) return;
+    pointers.delete(e.pointerId);
+    if (pointers.size < 2) pinchStart = null;
+    if (pointers.size === 0) {
+      // Tap detection
+      if (panStart && !panStart.moved && startedOnState) {
+        const dt = Date.now() - startedOnState.t;
+        if (dt < 600) {
+          // Double-tap to zoom
+          const now = Date.now();
+          if (now - lastTap < 320 && zoom < 2.5) {
+            const sp = svgPointFromClient(e.clientX, e.clientY);
+            setZoom(zoom * 1.8, sp.x, sp.y);
+            lastTap = 0;
+          } else {
+            toggleState(startedOnState.id, e.target, e);
+            hint.classList.add('gone');
+            lastTap = now;
+          }
+        }
+      }
+      panStart = null;
+      startedOnState = null;
+    }
+  };
+
+  const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
+  const svgPointFromClient = (clientX, clientY) => {
+    const pt = map.createSVGPoint();
+    pt.x = clientX; pt.y = clientY;
+    const m = map.getScreenCTM();
+    if (!m) return { x: 0, y: 0 };
+    const p = pt.matrixTransform(m.inverse());
+    return p;
+  };
+
+  // -------- Buttons ---------
+  $('zoom-in').addEventListener('click', () => setZoom(zoom * 1.5));
+  $('zoom-out').addEventListener('click', () => setZoom(zoom / 1.5));
+  $('zoom-reset').addEventListener('click', resetZoom);
+
+  soundBtn.addEventListener('click', () => {
+    muted = !muted;
+    save();
+    updateHUD();
+    if (!muted) sfx.add();
+  });
+
+  resetBtn.addEventListener('click', () => resetModal.classList.add('open'));
+  $('reset-cancel').addEventListener('click', () => resetModal.classList.remove('open'));
+  $('reset-confirm').addEventListener('click', () => {
+    visited.clear();
+    awarded.clear();
+    save();
+    document.querySelectorAll('.state').forEach(p => {
+      p.classList.remove('visited');
+      p.style.fill = '';
+    });
+    updateHUD();
+    resetModal.classList.remove('open');
+    haptic(40);
+  });
+
+  // -------- Player modal ---------
+  const avatarGrid = $('avatar-grid');
+  AVATARS.forEach(a => {
+    const b = document.createElement('button');
+    b.textContent = a;
+    b.addEventListener('click', () => {
+      avatarGrid.querySelectorAll('button').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      avatarGrid.dataset.selected = a;
+    });
+    avatarGrid.appendChild(b);
+  });
+  const openPlayerModal = () => {
+    $('name-input').value = player.name === 'EXPLORER' ? '' : player.name;
+    avatarGrid.querySelectorAll('button').forEach(b => {
+      b.classList.toggle('active', b.textContent === player.avatar);
+    });
+    avatarGrid.dataset.selected = player.avatar;
+    playerModal.classList.add('open');
+    setTimeout(() => $('name-input').focus(), 200);
+  };
+  playerBtn.addEventListener('click', openPlayerModal);
+  $('player-cancel').addEventListener('click', () => playerModal.classList.remove('open'));
+  $('player-save').addEventListener('click', () => {
+    const name = ($('name-input').value || '').trim();
+    if (name) player.name = name.slice(0, 14);
+    if (avatarGrid.dataset.selected) player.avatar = avatarGrid.dataset.selected;
+    save();
+    updateHUD();
+    playerModal.classList.remove('open');
+    burst(innerWidth/2, 80, 30);
+    sfx.add();
+  });
+
+  // First-run welcome
+  if (!localStorage.getItem(KEY_PLAYER)) {
+    setTimeout(openPlayerModal, 600);
+  }
+
+  // -------- Boot ---------
+  updateHUD();
+  if (!window.topojson || !window.d3 || !d3.geoPath) {
+    loader.textContent = 'Map libraries failed to load. Check your connection and reload.';
+    loader.classList.add('error');
+  } else {
+    fetch('https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json')
+      .then(r => { if (!r.ok) throw new Error('http ' + r.status); return r.json(); })
+      .then(renderMap)
+      .catch(err => {
+        console.error(err);
+        loader.textContent = 'Could not load map. Check your connection and reload.';
+        loader.classList.add('error');
+      });
+  }
+
+  // Tap anywhere to dismiss state name
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.state-name')) {
+      // handled by timer
+    }
+  });
+})();
+</script>
+</body>
+</html>
